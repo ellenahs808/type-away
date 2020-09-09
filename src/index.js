@@ -1,6 +1,22 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const canvas = document.getElementById("game-canvas");
+console.log("Webpack is working!");
 
-  canvas.width = 500;
-  canvas.height = 500;
+import Game from './game';
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("game-canvas");
+    let ctx = canvas.getContext("2d");
+    let game = new Game(canvas);
+    game.draw(ctx);
+
+
+
+    // for testing
+    window.canvas = canvas;
+    window.ctx = ctx;
+    window.Game = Game;
+    //
+    
+
 });
