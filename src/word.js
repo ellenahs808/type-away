@@ -1,4 +1,9 @@
-// import helper from './helper';
+const WORD_CONSTANTS = {
+    SPEED: 8,
+    TERMINAL_VEL: 12,
+    WIDTH: 40,
+    HEIGHT: 30
+};
 
 
 class Word {
@@ -7,11 +12,12 @@ class Word {
 
         this.ctx = ctx;
         this.canvas = canvas;
-        this.x = this.canvas.width / 2;  //undefined
-        this.y = this.canvas.height / 2;  //undefined
+        this.x = this.canvas.width / 2;  
+        this.y = this.canvas.height / 2; 
         this.dX = 2.5;
         this.dY = 0;
-        this.shift = 0;
+    
+
 
     }
 
@@ -28,6 +34,42 @@ class Word {
     };
 
 
+    moveWord() {
+        this.y += this.vel;
+        
+        if (Math.abs(this.vel) > WORD_CONSTANTS.TERMINAL_VEL) {
+            if (this.vel > 0) {
+                this.vel = WORD_CONSTANTS.TERMINAL_VEL;
+            } else {
+                this.vel = WORD_CONSTANTS.TERMINAL_VEL * -1;
+            }
+        }
+    }
+
+
+    animate(ctx) {
+        this.moveWord();
+        this.drawWord()
+    }
+
+
+    bounds() {
+        return {
+            left: this.x,
+            right: this.x + WORD_CONSTANTS.WIDTH,
+            top: this.y,
+            bottom: this.y + WORD_CONSTANTS.HEIGHT
+        }
+    }
+
+
+    outOfBounds() {
+        const aboveTheTop = this.y < 0;
+        const belowTheBottom = this.y + WORD_CONSTANTS.HEIGHT > this.y
+        return aboveTheTop || belowTheBottom
+    }
+
+
     //doesnt do anything
     // floatWord() {
     //     this.x += this.dX;
@@ -39,35 +81,20 @@ class Word {
     // };
 
 
-    // floatWord() {
-    //     var elem = this.drawWord();
-    //     var pos = 0;
-    //     var id = setInterval(frame, 10);
-    //     function frame() {
-    //     if (pos == 350) {
-    //         clearInterval(id);
-    //     } else {
-    //         pos++;
-    //         elem.style.top = pos + "px";
-    //         elem.style.left = pos + "px";
-    //     }
-    //     }
-    // }
-
 
 
     //doesnt do anything
-    attackCenter() {
-        if (this.x > 300) {
-            if (this.y < this.canvas.height ) {
-                this.dY = 2;
-            } else if (this.y > this.canvas.height) {
-                this.dY = -2;
-            } else {
-                this.dY = 0;
-            }
-        }
-    };
+    // attackCenter() {
+    //     if (this.x > 300) {
+    //         if (this.y < this.canvas.height ) {
+    //             this.dY = 2;
+    //         } else if (this.y > this.canvas.height) {
+    //             this.dY = -2;
+    //         } else {
+    //             this.dY = 0;
+    //         }
+    //     }
+    // };
 
     
 };

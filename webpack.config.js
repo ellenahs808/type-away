@@ -3,7 +3,6 @@ module.exports = {
   context: __dirname,
   entry: "./src/index.js", 
   output: {
-    path: path.resolve(__dirname, "app", "assets", "javascripts"),
     filename: "bundle.js",
   },
   resolve: {
@@ -17,7 +16,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           query: {
-            presets: ["@babel/env", "@babel/react"],
+            presets: ["@babel/env"],
           },
         },
       },

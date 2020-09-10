@@ -1,4 +1,3 @@
-console.log("Webpack is working!");
 
 import Game from './game';
 
@@ -11,6 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     game.createWords();
     game.testThis();
     // game.render();
+    // game.loop(frames)
+    game.createWords()
+    game.play()
 
 
 
@@ -22,3 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
 });
+
+
+// const canvas = document.getElementById("game-canvas");
+
+// new Game(canvas);

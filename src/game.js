@@ -10,16 +10,22 @@ class Game {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
+        // this.registerEvents();
 
 
         this.word = new Word(ctx, canvas, x, y); //Word object
-        this.word.drawWord();
+        // this.word.drawWord();
+        // this.word.attack();
+        // this.word.animate(ctx);
         // this.word.floatWord();
+        // this.word.attackCenter();
+        
 
 
         this.startType = 0;
         this.endType = 0;
         this.round = 1;
+        this.lives = 10;
 
 
         this.text = [];
@@ -28,6 +34,31 @@ class Game {
         this.startTimer = this.startTimer.bind(this);
         this.render = this.render.bind(this);
     }
+
+    play(ctx) {
+        this.running = true;
+        this.word.animate(ctx);
+    }
+
+
+    restart() {
+        this.running = false;
+        this.score = 0;
+    }
+
+
+    registerEvents() {
+        this.boundClickHandler = this.boundClickHandler.bind(this);
+        this.ctx.canvas.addEventListener('mousedown', this.boundClickHandler);
+    }
+
+
+    click(e) {
+        if (!this.running) {
+            this.play();
+        }
+    }
+
 
     drawSquare(ctx) {
         ctx.fillStyle = "pink";
@@ -43,20 +74,63 @@ class Game {
 
 
 
+    handleKeydown() {
+        document.addEventListener('keydown', keyDownHandler)
+    };
 
 
-    animateMovement() {
+    handleKeyUp() {
+        document.addEventListener('keyup', keyUpHandler)
+    };
 
-    }
+
+    handleResizeHandler() {
+        window.addEventListener('resize', resizeHandler)
+    };
+
+
+    loop(frames) {
+        for (const t of text) {
+            ctx.fillText(String.fromCharCode(this.word.drawWord()), t.x, t.y);
+        }
+        ctx.font = label.font;
+        ctx.fillStyle = label.color;
+        ctx.fillText('Score: ' + score, label.left, label.margin);
+        ctx.fillText('Lives: ' + lives, label.right, label.margin);
+        processParticles(frames);
+        // createLetters();
+        // removeLetters(frames);
+    };
+
+
+
+    // removeLetters(frames) {
+    //     for (const t of text) {
+    //         if (isIntersectingRectangleWithRectangle(l, letter.size, letter.size, center, center.radius, center.radius)) {
+    //         if (--lives === 0) {
+    //             window.alert('GAME OVER!');
+    //             window.location.reload(false);
+    //         } else if (lives > 0) {
+    //             window.alert('START AGAIN!');
+    //             letters = [];
+    //         }
+    //         break;
+    //         } else {
+    //         l.x += l.speedX * frames;
+    //         l.y += l.speedY * frames;
+    //         }
+    //     }
+    // }
+
+
+  
 
     startTimer() {
         if (this.startType === 0) {
             this.startType = Date.now();
         }
     }
-
-
-    // document.addEventListener
+         
 
 
 
