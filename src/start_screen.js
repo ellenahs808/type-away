@@ -2,27 +2,27 @@ class StartScreen {
     constructor(ctx, canvas) {
         this.ctx = ctx;
         this.canvas = canvas;
-        this.titlePos = -60;
+        this.titlePosition = 200;
         this.startCounter = 0;
     }
 
 
-    drawTitle(titlePos) {
+    drawTitle(titlePosition) {
         this.ctx.beginPath();
-            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            this.ctx.fillStyle = 'aqua';
             this.ctx.font = '80px "Grandstander"';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText("Typing Game", 900, titlePos);
+            this.ctx.fillText("Type Away", 410, titlePosition);
             this.ctx.fill();
         this.ctx.closePath();
     }
 
     drawStartClick() {
         this.ctx.beginPath();
-            this.ctx.fillStyle = 'blue';
+            this.ctx.fillStyle = "aqua";
             this.ctx.font = '38px "Grandstander"';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Click or Press Enter to Start', 900, 300);
+            this.ctx.fillText('Press Enter', 410, 500);
             this.ctx.fill();
         this.ctx.closePath();
     }

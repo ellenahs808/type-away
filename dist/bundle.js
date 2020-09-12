@@ -105,35 +105,31 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var Game = /*#__PURE__*/function () {
-  function Game(page, canvas, ctx, x, y, input) {
+  function Game(canvas, ctx, input, wordList) {
     _classCallCheck(this, Game);
 
-    this.container = {
-      width: 1800,
-      height: 900
-    };
-    this.page = page;
     this.canvas = canvas;
     this.ctx = ctx;
-    this.x = x;
-    this.y = y;
-    this.input = input; // this.registerEvents();
-    // this.restart();
+    this.input = input;
+    this.wordList = wordList; // this.x = x;
+    // this.y = y;
 
+    this.container = {
+      width: 800,
+      height: 900
+    };
     this.lastTime = Date.now();
     this.words = [];
-    this.counter = 0;
-    this.activeWordIdx = null;
-    this.score = 0;
-    this.registerEvents = this.registerEvents.bind(this);
+    this.counter = 0; // this.timestamp = 
+    // this.registerEvents = this.registerEvents.bind(this)
+
     this.populateWords = this.populateWords.bind(this);
-    this.handleAttackWord = this.handleAttackWord.bind(this);
   }
 
   _createClass(Game, [{
     key: "testThis",
     value: function testThis() {
-      console.log(t.text);
+      console.log(this.words);
     } // deltaTime gives you the amount of time since the last frame/iteration of the loop
     // you can use that to calculate an amount of time for a new word to show up.
     // have some logic somewhere to subtract the delta time from a counter and once it hits 0, generate a new random word.
@@ -158,81 +154,38 @@ var Game = /*#__PURE__*/function () {
         this.words[i].y -= this.words[i].speedY;
 
         for (var text in this.words) {
-          var _t = this.words[text];
-          this.ctx.fillText(_t.text, _t.x, _t.y, 200);
-          this.ctx.fillStyle = "green";
-          this.ctx.font = '25px "Rubik"';
-          this.ctx.fill();
-          this.ctx.shadowBlur = 3;
+          var t = this.words[text];
+          this.ctx.fillText(t.text, t.x, t.y, 200);
+          this.ctx.fillStyle = "black";
+          this.ctx.font = '23px "Rubik"';
         }
       }
 
       requestAnimationFrame(this.gameLoop.bind(this));
     }
   }, {
-    key: "render",
-    value: function render() {
-      this.canvas.addEventListener('click', this.input.focus());
-      this.input.addEventListener('keydown', this.handleAttackWord);
-    }
-  }, {
     key: "populateWords",
     value: function populateWords() {
       var word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (this.container.width - 150)) + 50;
-      var y = 20; // const speed = Math.floor(Math.random() * 1.6 + 0.6);
-
+      var x = Math.floor(Math.random() * (this.container.width - 200)) + 50;
+      var y = 20;
+      var speed = Math.floor(Math.random() * 1.6 + 0.6);
       this.words.push({
         x: x,
         y: y,
         text: word.randomizeWord(),
-        // speedX: 2,
+        speedX: 2,
         speedY: -1.5
       });
     }
   }, {
-    key: "handleAttackWord",
-    value: function handleAttackWord(e) {
-      // let wordText = document.querySelector('.wordText'); 
-      var code = e.keyCode;
-
-      switch (code) {
-        case 32:
-          for (var i = 0; i < this.words.length; i++) {
-            if (words[i].letters[0] === letter) {
-              this.score++;
-              this.activeWordIdx = i;
-              words[i].damage(letter);
-              return;
-            }
-          }
-
-          break;
-      }
-    } //     function heroAttack(e) {
-    //     const letter = String.fromCharCode(e.keyCode).toLowerCase();
-    //     if(activeWordIndex === null) {
-    //         for (let i = 0; i < words.length; i++) {
-    //             if(words[i].letters[0] === letter) {
-    //                 incrementScore();
-    //                 activeWordIndex = i;
-    //                 words[i].damage(letter);
-    //                 return;
-    //             }
-    //         }
-    //     } else {
-    //         if(words[activeWordIndex].letters[0] === letter) {
-    //             incrementScore();
-    //             words[activeWordIndex].damage(letter);
-    //         }
-    //     }
-    // }
-
-  }, {
     key: "play",
-    value: function play() {
+    value: function play(e) {
       if (e.keyCode === 13) {
-        this.page.removeEventListener("keydown", this.play);
+        this.canvas.removeEventListener('click', this.play); // this.page.removeEventListener('keydown', this.play);
+
+        clearInterval(window.startInterval);
+        clearInterval(window.overInterval);
         var timestamp = Date.now();
         this.running = true;
         this.gameLoop(timestamp);
@@ -243,15 +196,13 @@ var Game = /*#__PURE__*/function () {
     value: function restart() {
       this.running = false;
       this.score = 0;
-      this.word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, canvas);
+      this.word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, canvas, x, y);
       this.animate();
-    }
-  }, {
-    key: "registerEvents",
-    value: function registerEvents() {
-      this.boundClickHandler = this.boundClickHandler.bind(this);
-      this.ctx.canvas.addEventListener('mousedown', this.boundClickHandler);
-    }
+    } // registerEvents() {
+    //     this.boundClickHandler = this.boundClickHandler.bind(this);
+    //     this.ctx.canvas.addEventListener('mousedown', this.boundClickHandler);
+    // }
+
   }, {
     key: "click",
     value: function click(e) {
@@ -282,35 +233,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", function () {
+  var page = document.getElementById("page");
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
-  var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx); // game.drawSquare(ctx);
-  // game.testThis();
-
-  game.play();
-  game.handleAttackWord();
+  var input = document.getElementById("typing-form");
+  var wordList = document.getElementById("wordlist");
   var startScreen = new _start_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
-  var titlePos = -10;
+  var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, input, wordList);
+  var titlePosition = 200;
   var startCounter = 0;
 
   function titleDrop() {
-    ctx.clearRect(0, 0, 1800, 900);
-    titlePos = 140;
-    startCounter += .5;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    titlePosition += 6;
 
-    if (startCounter % 10 <= 6) {
-      startScreen.drawStartClick();
-    } else {
-      null;
+    if (titlePosition >= 400) {
+      titlePosition = 400;
+      startCounter += .5;
+
+      if (startCounter % 10 <= 6) {
+        startScreen.drawStartClick();
+      } else {
+        null;
+      } // canvas.addEventListener('click', game.play)
+
+
+      page.addEventListener('keydown', game.play);
     }
 
-    canvas.addEventListener('keydown', game.play);
-    startScreen.drawTitle(titlePos);
+    startScreen.drawTitle(titlePosition);
   }
 
   if (canvas.className === 'start-screen') {
+    input.style.display = 'none';
     window.startInterval = setInterval(titleDrop, 70);
-  }
+  } // game.drawSquare(ctx);
+
+
+  game.testThis(); // game.play()
 });
 
 /***/ }),
@@ -336,18 +296,18 @@ var StartScreen = /*#__PURE__*/function () {
 
     this.ctx = ctx;
     this.canvas = canvas;
-    this.titlePos = -60;
+    this.titlePosition = 200;
     this.startCounter = 0;
   }
 
   _createClass(StartScreen, [{
     key: "drawTitle",
-    value: function drawTitle(titlePos) {
+    value: function drawTitle(titlePosition) {
       this.ctx.beginPath();
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+      this.ctx.fillStyle = 'aqua';
       this.ctx.font = '80px "Grandstander"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText("Typing Game", 900, titlePos);
+      this.ctx.fillText("Type Away", 410, titlePosition);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -355,10 +315,10 @@ var StartScreen = /*#__PURE__*/function () {
     key: "drawStartClick",
     value: function drawStartClick() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = 'blue';
+      this.ctx.fillStyle = "aqua";
       this.ctx.font = '38px "Grandstander"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Click or Press Enter to Start', 900, 300);
+      this.ctx.fillText('Press Enter', 410, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }
