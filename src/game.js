@@ -2,14 +2,17 @@ import Word from './word';
 
 
 class Game {
-    constructor(canvas, ctx, x, y) {
-        this.canvas = {
+    constructor(page, canvas, ctx, x, y, input) {
+        this.container = {
             width: 1800,
             height: 900
         }
+        this.page = page;
+        this.canvas = canvas;
         this.ctx = ctx;
         this.x = x;
         this.y = y;
+        this.input = input
         // this.registerEvents();
         // this.restart();
         
@@ -17,18 +20,20 @@ class Game {
         this.lastTime = Date.now();
         this.words = [];
         this.counter = 0;
-        // this.timestamp = 
+        this.activeWordIdx = null;
+        this.score = 0;
 
 
 
         this.registerEvents = this.registerEvents.bind(this)
         this.populateWords = this.populateWords.bind(this)
+        this.handleAttackWord = this.handleAttackWord.bind(this)
     }
     
 
 
     testThis() {
-        console.log(this.words);
+        console.log(t.text);
     }
 
 
@@ -47,7 +52,7 @@ class Game {
             this.populateWords()
             this.lastTime = timestamp;
         }
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.ctx.clearRect(0, 0, this.container.width, this.container.height)
         
         for (let i = 0; i < this.words.length; i++) {
             this.words[i].y -= this.words[i].speedY
@@ -56,13 +61,22 @@ class Game {
                 this.ctx.fillText(t.text, t.x, t.y, 200);
                 this.ctx.fillStyle = "green";
                 this.ctx.font = '25px "Rubik"';
+                this.ctx.fill();
+                this.ctx.shadowBlur = 3;
             }
         }
         
 
         requestAnimationFrame(this.gameLoop.bind(this));
+
     }
 
+
+
+    render() {
+        this.canvas.addEventListener('click', this.input.focus())
+        this.input.addEventListener('keydown', this.handleAttackWord)
+    }
 
     
 
@@ -70,33 +84,88 @@ class Game {
     populateWords() {
         const word = new Word(this.ctx, this.canvas);
 
-        let x = Math.floor(Math.random() * (this.canvas.width - 150)) + 50;
+        let x = Math.floor(Math.random() * (this.container.width - 150)) + 50;
         let y = 20;
-        const speed = Math.floor(Math.random() * 1.6 + 0.6);
+        // const speed = Math.floor(Math.random() * 1.6 + 0.6);
         this.words.push({
         x,
         y,
         text: word.randomizeWord(),
-        speedX: 2,
+        // speedX: 2,
         speedY: -1.5
         });
- 
+
     }
 
 
 
 
+
+
+
+    handleAttackWord(e) {
+        // let wordText = document.querySelector('.wordText'); 
+        let code = e.keyCode;
+
+        switch (code) {
+            case 32:
+                for (let i = 0; i < this.words.length; i++) {
+                    if (words[i].letters[0] === letter) {
+                        this.score++
+                        this.activeWordIdx = i;
+                        words[i].damage(letter)
+                        return;
+                    }
+                }
+                break;
+        }
+    }
+
+
+
+//     function heroAttack(e) {
+//     const letter = String.fromCharCode(e.keyCode).toLowerCase();
+
+//     if(activeWordIndex === null) {
+//         for (let i = 0; i < words.length; i++) {
+//             if(words[i].letters[0] === letter) {
+//                 incrementScore();
+
+//                 activeWordIndex = i;
+//                 words[i].damage(letter);
+
+//                 return;
+//             }
+            
+//         }
+//     } else {
+//         if(words[activeWordIndex].letters[0] === letter) {
+//             incrementScore();
+//             words[activeWordIndex].damage(letter);
+//         }
+//     }
+// }
+
+
+
+
+
+
+
     play() {
-        let timestamp = Date.now();
-        this.running = true;
-        this.gameLoop(timestamp);
+        if (e.keyCode === 13) {
+            this.page.removeEventListener("keydown", this.play);
+            let timestamp = Date.now();
+            this.running = true;
+            this.gameLoop(timestamp);
+        }
     }
 
 
     restart() {
         this.running = false;
         this.score = 0;
-        this.word = new Word(ctx, canvas, x, y);
+        this.word = new Word(ctx, canvas);
         this.animate();
     }
 

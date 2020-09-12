@@ -8,15 +8,19 @@
     
     <link rel="stylesheet" href="./public/canvas.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@300&display=swap" rel="stylesheet">
 
 
 </head>
 
 <body>
     <h1>Typing Game</h1>
-    <canvas id="game-canvas" width="1800" height="900"></canvas>
-
-
+    <canvas id="game-canvas" width="1800" height="900">
+        <canvas class="start-screen" id="canvas" width="800" height="450"></canvas>
+        <div class="wordText">
+            Click on the area below to start the game.
+        </div>
+    </canvas>
     <script src="./dist/bundle.js"></script>
 
 </body>
