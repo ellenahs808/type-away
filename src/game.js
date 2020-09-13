@@ -1,5 +1,5 @@
 import Word from './word';
-import GameOverScreen from './game_over_screen';
+// import GameOverScreen from './game_over_screen';
 
 
 
@@ -12,7 +12,7 @@ class Game {
         this.wordList = wordList;
 
 
-        this.gameOverScreen = new GameOverScreen(ctx, canvas);
+        // this.gameOverScreen = new GameOverScreen(ctx, canvas);
   
         
         this.container = {
@@ -30,8 +30,8 @@ class Game {
         this.populateWords = this.populateWords.bind(this)
         this.play = this.play.bind(this);
         this.restart = this.restart.bind(this);
-        this.gameOver = this.gameOver.bind(this);
-        this.gameOverAnimate = this.gameOverAnimate.bind(this);
+        // this.gameOver = this.gameOver.bind(this);
+        // this.gameOverAnimate = this.gameOverAnimate.bind(this);
 
     }
     
@@ -99,14 +99,16 @@ class Game {
 
 
     play(e) {
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 || e.button === 0) {
             // debugger
             this.page.removeEventListener('keydown', this.play);
+            this.canvas.removeEventListener('click', this.play);
+            this.restart()
             clearInterval(window.startInterval);
             clearInterval(window.overInterval);
+            this.canvas.className === 'start-screen'
             let timestamp = Date.now();
             this.running = true;
-            this.restart()
             this.gameLoop();
         }
         
@@ -126,20 +128,20 @@ class Game {
 
 
 
-    gameOver() {
-        this.canvas.removeEventListener('keydown', this.play)
-        this.input.style.display = 'none';
-        window.overInterval = setInterval(this.gameOverAnimate, 100);
-    }
+    // gameOver() {
+    //     this.canvas.removeEventListener('keydown', this.play)
+    //     this.input.style.display = 'none';
+    //     window.overInterval = setInterval(this.gameOverAnimate, 100);
+    // }
 
 
-    gameOverAnimate() {
-        this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
-        this.gameOverScreen.drawGameOver();
-        this.gameOverScreen.fade += .05;
-        this.canvas.addEventListener('keydown', this.play);
-        this.gameOverScreen.drawRestart();
-    }
+    // gameOverAnimate() {
+    //     this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
+    //     this.gameOverScreen.drawGameOver();
+    //     this.gameOverScreen.fade += .05;
+    //     this.canvas.addEventListener('keydown', this.play);
+    //     this.gameOverScreen.drawRestart();
+    // }
 
 
 

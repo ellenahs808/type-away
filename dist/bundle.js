@@ -96,15 +96,13 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./word */ "./src/word.js");
-/* harmony import */ var _game_over_screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game_over_screen */ "./src/game_over_screen.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-
-
+ // import GameOverScreen from './game_over_screen';
 
 var Game = /*#__PURE__*/function () {
   function Game(canvas, ctx, page, input, wordList) {
@@ -114,8 +112,8 @@ var Game = /*#__PURE__*/function () {
     this.ctx = ctx;
     this.page = page;
     this.input = input;
-    this.wordList = wordList;
-    this.gameOverScreen = new _game_over_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
+    this.wordList = wordList; // this.gameOverScreen = new GameOverScreen(ctx, canvas);
+
     this.container = {
       width: 800,
       height: 900
@@ -125,9 +123,8 @@ var Game = /*#__PURE__*/function () {
     this.counter = 0;
     this.populateWords = this.populateWords.bind(this);
     this.play = this.play.bind(this);
-    this.restart = this.restart.bind(this);
-    this.gameOver = this.gameOver.bind(this);
-    this.gameOverAnimate = this.gameOverAnimate.bind(this);
+    this.restart = this.restart.bind(this); // this.gameOver = this.gameOver.bind(this);
+    // this.gameOverAnimate = this.gameOverAnimate.bind(this);
   }
 
   _createClass(Game, [{
@@ -185,14 +182,16 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "play",
     value: function play(e) {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 || e.button === 0) {
         // debugger
         this.page.removeEventListener('keydown', this.play);
+        this.canvas.removeEventListener('click', this.play);
+        this.restart();
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
+        this.canvas.className === 'start-screen';
         var timestamp = Date.now();
         this.running = true;
-        this.restart();
         this.gameLoop();
       }
     } // handleWord(e) {
@@ -205,86 +204,25 @@ var Game = /*#__PURE__*/function () {
       this.running = false;
       this.score = 0;
       this.word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-    }
-  }, {
-    key: "gameOver",
-    value: function gameOver() {
-      this.canvas.removeEventListener('keydown', this.play);
-      this.input.style.display = 'none';
-      window.overInterval = setInterval(this.gameOverAnimate, 100);
-    }
-  }, {
-    key: "gameOverAnimate",
-    value: function gameOverAnimate() {
-      this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
-      this.gameOverScreen.drawGameOver();
-      this.gameOverScreen.fade += .05;
-      this.canvas.addEventListener('keydown', this.play);
-      this.gameOverScreen.drawRestart();
-    }
+    } // gameOver() {
+    //     this.canvas.removeEventListener('keydown', this.play)
+    //     this.input.style.display = 'none';
+    //     window.overInterval = setInterval(this.gameOverAnimate, 100);
+    // }
+    // gameOverAnimate() {
+    //     this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
+    //     this.gameOverScreen.drawGameOver();
+    //     this.gameOverScreen.fade += .05;
+    //     this.canvas.addEventListener('keydown', this.play);
+    //     this.gameOverScreen.drawRestart();
+    // }
+
   }]);
 
   return Game;
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Game);
-
-/***/ }),
-
-/***/ "./src/game_over_screen.js":
-/*!*********************************!*\
-  !*** ./src/game_over_screen.js ***!
-  \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var GameOverScreen = /*#__PURE__*/function () {
-  function GameOverScreen(ctx, canvas) {
-    _classCallCheck(this, GameOverScreen);
-
-    this.ctx = ctx;
-    this.canvas = canvas;
-    this.fade = 0;
-    this.endCounter = 0;
-  }
-
-  _createClass(GameOverScreen, [{
-    key: "drawGameOver",
-    value: function drawGameOver() {
-      this.ctx.beginPath();
-      this.ctx.fillStyle = "rgba(255, 0, 0, ".concat(this.fade);
-      this.ctx.font = '80px "Grandstander"';
-      this.ctx.textAlign = 'center';
-      this.ctx.fillText('Game Over', 410, 500);
-      this.ctx.fill();
-      this.ctx.closePath();
-    }
-  }, {
-    key: "drawRestart",
-    value: function drawRestart() {
-      this.ctx.beginPath();
-      this.ctx.fillStyle = "yellow";
-      this.ctx.textAlign = "center";
-      this.ctx.font = '38px "Grandstander"';
-      this.ctx.fillText("Press Enter tpo Restart", 410, 500);
-      this.ctx.fill();
-      this.ctx.closePath();
-    }
-  }]);
-
-  return GameOverScreen;
-}();
-
-;
-/* harmony default export */ __webpack_exports__["default"] = (GameOverScreen);
 
 /***/ }),
 
@@ -328,6 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       page.addEventListener('keydown', game.play);
+      canvas.addEventListener('click', game.play);
     }
 
     startScreen.drawTitle(titlePosition);
