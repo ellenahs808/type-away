@@ -1,1 +1,1 @@
-# typing-game
+# type-away
