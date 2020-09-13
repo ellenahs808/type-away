@@ -99,10 +99,10 @@ class Game {
 
 
     play(e) {
-        if (e.keyCode === 13 || e.button === 0) {
+        if (e.keyCode === 13) {
             // debugger
             this.page.removeEventListener('keydown', this.play);
-            this.canvas.removeEventListener('click', this.play);
+            // this.canvas.removeEventListener('click', this.play);
             this.restart()
             clearInterval(window.startInterval);
             clearInterval(window.overInterval);
