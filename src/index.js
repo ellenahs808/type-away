@@ -19,7 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let startCounter = 0;
 
 
+
     function titleDrop() {
+        // debugger
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         titlePosition += 6;
         if (titlePosition >= 400) {
@@ -30,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 null;
             }
-            // canvas.addEventListener('click', game.play)
+
             page.addEventListener('keydown', game.play)
         }
 
@@ -38,10 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+
+ 
     if (canvas.className === 'start-screen') {
         input.style.display = 'none';
         window.startInterval = setInterval(titleDrop, 70)
     }
+
 
 
 

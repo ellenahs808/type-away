@@ -1,15 +1,18 @@
 import Word from './word';
+import GameOverScreen from './game_over_screen';
+
 
 
 class Game {
-    constructor(canvas, ctx, input, wordList) {
+    constructor(canvas, ctx, page, input, wordList) {
         this.canvas = canvas;
         this.ctx = ctx;
+        this.page = page;
         this.input = input;
         this.wordList = wordList;
 
-        // this.x = x;
-        // this.y = y;
+
+        this.gameOverScreen = new GameOverScreen(ctx, canvas);
   
         
         this.container = {
@@ -20,12 +23,16 @@ class Game {
         this.lastTime = Date.now();
         this.words = [];
         this.counter = 0;
-        // this.timestamp = 
 
 
 
-        // this.registerEvents = this.registerEvents.bind(this)
+
         this.populateWords = this.populateWords.bind(this)
+        this.play = this.play.bind(this);
+        this.restart = this.restart.bind(this);
+        this.gameOver = this.gameOver.bind(this);
+        this.gameOverAnimate = this.gameOverAnimate.bind(this);
+
     }
     
 
@@ -62,10 +69,6 @@ class Game {
             }
         }
         
-        
-
-        
-
 
         requestAnimationFrame(this.gameLoop.bind(this));
         
@@ -97,40 +100,48 @@ class Game {
 
     play(e) {
         if (e.keyCode === 13) {
-            this.canvas.removeEventListener('click', this.play);
-            // this.page.removeEventListener('keydown', this.play);
+            // debugger
+            this.page.removeEventListener('keydown', this.play);
             clearInterval(window.startInterval);
             clearInterval(window.overInterval);
             let timestamp = Date.now();
             this.running = true;
-            this.gameLoop(timestamp);
+            this.restart()
+            this.gameLoop();
         }
-
         
     }
+
+
+    // handleWord(e) {
+    //     if (e.keyCode)
+    // }
 
 
     restart() {
         this.running = false;
         this.score = 0;
-        this.word = new Word(ctx, canvas, x, y);
-        this.animate();
+        this.word = new Word(this.ctx, this.canvas);
     }
 
 
 
-
-    // registerEvents() {
-    //     this.boundClickHandler = this.boundClickHandler.bind(this);
-    //     this.ctx.canvas.addEventListener('mousedown', this.boundClickHandler);
-    // }
-
-
-    click(e) {
-        if (!this.running) {
-            this.play();
-        }
+    gameOver() {
+        this.canvas.removeEventListener('keydown', this.play)
+        this.input.style.display = 'none';
+        window.overInterval = setInterval(this.gameOverAnimate, 100);
     }
+
+
+    gameOverAnimate() {
+        this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
+        this.gameOverScreen.drawGameOver();
+        this.gameOverScreen.fade += .05;
+        this.canvas.addEventListener('keydown', this.play);
+        this.gameOverScreen.drawRestart();
+    }
+
+
 
 
 }
