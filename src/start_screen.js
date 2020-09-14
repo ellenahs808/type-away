@@ -19,8 +19,8 @@ class StartScreen {
 
     drawStartClick() {
         this.ctx.beginPath();
-            this.ctx.fillStyle = "aqua";
-            this.ctx.font = '38px "Grandstander"';
+            this.ctx.fillStyle = "blueviolet";
+            this.ctx.font = '50px "VT323"';
             this.ctx.textAlign = 'center';
             this.ctx.fillText('Press Enter', 410, 500);
             this.ctx.fill();
