@@ -49,12 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-
-
-    // game.drawSquare(ctx);
     game.testThis();
-    // game.play()
+
 
 });
 

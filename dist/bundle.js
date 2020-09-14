@@ -274,10 +274,9 @@ document.addEventListener("DOMContentLoaded", function () {
   if (canvas.className === 'start-screen') {
     input.style.display = 'none';
     window.startInterval = setInterval(titleDrop, 70);
-  } // game.drawSquare(ctx);
+  }
 
-
-  game.testThis(); // game.play()
+  game.testThis();
 });
 
 /***/ }),
