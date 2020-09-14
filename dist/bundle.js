@@ -343,8 +343,6 @@ document.addEventListener("DOMContentLoaded", function () {
     input.style.display = 'none';
     window.startInterval = setInterval(titleDrop, 70);
   }
-
-  game.testThis();
 });
 
 /***/ }),

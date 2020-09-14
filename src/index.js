@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    game.testThis();
 
 
 });
