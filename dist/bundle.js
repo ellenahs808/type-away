@@ -96,13 +96,15 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./word */ "./src/word.js");
+/* harmony import */ var _game_over_screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game_over_screen */ "./src/game_over_screen.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
- // import GameOverScreen from './game_over_screen';
+
+
 
 var Game = /*#__PURE__*/function () {
   function Game(canvas, ctx, page, input, wordList) {
@@ -112,8 +114,8 @@ var Game = /*#__PURE__*/function () {
     this.ctx = ctx;
     this.page = page;
     this.input = input;
-    this.wordList = wordList; // this.gameOverScreen = new GameOverScreen(ctx, canvas);
-
+    this.wordList = wordList;
+    this.gameOverScreen = new _game_over_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
     this.container = {
       width: 800,
       height: 900
@@ -123,8 +125,9 @@ var Game = /*#__PURE__*/function () {
     this.counter = 0;
     this.populateWords = this.populateWords.bind(this);
     this.play = this.play.bind(this);
-    this.restart = this.restart.bind(this); // this.gameOver = this.gameOver.bind(this);
-    // this.gameOverAnimate = this.gameOverAnimate.bind(this);
+    this.restart = this.restart.bind(this);
+    this.gameOver = this.gameOver.bind(this);
+    this.gameOverAnimate = this.gameOverAnimate.bind(this);
   }
 
   _createClass(Game, [{
@@ -159,6 +162,11 @@ var Game = /*#__PURE__*/function () {
           this.ctx.fillText(t.text, t.x, t.y, 200);
           this.ctx.fillStyle = "black";
           this.ctx.font = '23px "Rubik"';
+
+          if (t.y >= 899) {
+            this.gameOverAnimate();
+            break;
+          }
         }
       }
 
@@ -184,8 +192,7 @@ var Game = /*#__PURE__*/function () {
     value: function play(e) {
       if (e.keyCode === 13) {
         // debugger
-        this.page.removeEventListener('keydown', this.play); // this.canvas.removeEventListener('click', this.play);
-
+        this.page.removeEventListener('keydown', this.play);
         this.restart();
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
@@ -204,25 +211,86 @@ var Game = /*#__PURE__*/function () {
       this.running = false;
       this.score = 0;
       this.word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-    } // gameOver() {
-    //     this.canvas.removeEventListener('keydown', this.play)
-    //     this.input.style.display = 'none';
-    //     window.overInterval = setInterval(this.gameOverAnimate, 100);
-    // }
-    // gameOverAnimate() {
-    //     this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
-    //     this.gameOverScreen.drawGameOver();
-    //     this.gameOverScreen.fade += .05;
-    //     this.canvas.addEventListener('keydown', this.play);
-    //     this.gameOverScreen.drawRestart();
-    // }
-
+    }
+  }, {
+    key: "gameOver",
+    value: function gameOver() {
+      // this.page.removeEventListener('keydown', this.play)  //not working
+      this.input.style.display = 'none';
+      window.overInterval = setInterval(this.gameOverAnimate, 100);
+    }
+  }, {
+    key: "gameOverAnimate",
+    value: function gameOverAnimate() {
+      // debugger
+      this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
+      this.gameOverScreen.drawGameOver();
+      this.gameOverScreen.fade += .05;
+      this.gameOverScreen.drawRestart(); // this.page.addEventListener('keydown', this.play);  // not working
+    }
   }]);
 
   return Game;
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Game);
+
+/***/ }),
+
+/***/ "./src/game_over_screen.js":
+/*!*********************************!*\
+  !*** ./src/game_over_screen.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var GameOverScreen = /*#__PURE__*/function () {
+  function GameOverScreen(ctx, canvas) {
+    _classCallCheck(this, GameOverScreen);
+
+    this.ctx = ctx;
+    this.canvas = canvas;
+    this.fade = 0;
+    this.endCounter = 0;
+  }
+
+  _createClass(GameOverScreen, [{
+    key: "drawGameOver",
+    value: function drawGameOver() {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = "rgba(255, 255, 255, ".concat(this.fade);
+      this.ctx.font = '80px "Bungee Outline"';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('Game Over', 410, 400);
+      this.ctx.fill();
+      this.ctx.closePath();
+    }
+  }, {
+    key: "drawRestart",
+    value: function drawRestart() {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = "blueviolet";
+      this.ctx.textAlign = "center";
+      this.ctx.font = '38px "Grandstander"';
+      this.ctx.fillText("Press Refresh to Restart", 410, 500);
+      this.ctx.fill();
+      this.ctx.closePath();
+    }
+  }]);
+
+  return GameOverScreen;
+}();
+
+;
+/* harmony default export */ __webpack_exports__["default"] = (GameOverScreen);
 
 /***/ }),
 
@@ -265,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
         null;
       }
 
-      page.addEventListener('keydown', game.play); // canvas.addEventListener('click', game.play)
+      page.addEventListener('keydown', game.play);
     }
 
     startScreen.drawTitle(titlePosition);
@@ -311,7 +379,7 @@ var StartScreen = /*#__PURE__*/function () {
     value: function drawTitle(titlePosition) {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'aqua';
-      this.ctx.font = '80px "Grandstander"';
+      this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
       this.ctx.fillText("Type Away", 410, titlePosition);
       this.ctx.fill();
@@ -346,22 +414,11 @@ var StartScreen = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ "./src/game.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-var WORD_CONSTANTS = {
-  SPEED: 8,
-  TERMINAL_VEL: 12,
-  WIDTH: 40,
-  HEIGHT: 30,
-  GAME_WIDTH: 1800,
-  GAME_HEIGHT: 900
-};
 
 var Word = /*#__PURE__*/function () {
   function Word(ctx, canvas) {
@@ -369,15 +426,7 @@ var Word = /*#__PURE__*/function () {
 
     this.words = ['add', 'algorithm', 'array', 'backend', 'binary', 'break', 'boolean', 'bracket', 'branch', 'browse', 'bug', 'camelcase', 'callback', 'character', 'class', 'closure', 'code', 'comment', 'compiler', 'compute', 'computer', 'concatenation', 'conditional', 'constant', 'constructor', 'control', 'constraints', 'compressor', 'curly', 'curry', 'data', 'dataflow', 'debug', 'debugger', 'debugging', 'declaration', 'declarative', 'declare', 'decompiler', 'decrement', 'deductive', 'dependent', 'developer', 'diff', 'direct', 'discrete', 'do', 'div', 'dom', 'dump', 'dynamic', 'element', 'else', 'elsif', 'embedded', 'encapsulation', 'encode', 'equal', 'error', 'escape', 'eval', 'event', 'exception', 'exists', 'exponent', 'expression', 'false', 'flag', 'float', 'for', 'foreach', 'framework', 'frontend', 'fullstack', 'function', 'functional', 'fizzbuzz', 'anagram', 'game', 'git', 'github', 'glitch', 'hash', 'heap', 'hello', 'heroku', 'html', 'hypertext', 'immutable', 'imperative', 'implicit', 'increment', 'inherent', 'inherit', 'inheritance', 'inline', 'input', 'instance', 'instantiation', 'instructions', 'integer', 'integrated', 'integer', 'intermediate', 'interpreted', 'invalid', 'iteration', 'javascript', 'jbuilder', 'json', 'label', 'language', 'library', 'lifecycle', 'links', 'linker', 'literal', 'local', 'logical', 'logic', 'lookup', 'loop', 'loophole', 'machine', 'map', 'markup', 'math', 'memoization', 'metacharacter', 'metaclass', 'metalanguage', 'metaprogramming', 'method', 'middleware', 'module', 'modulo', 'native', 'nested', 'node', 'nodelist', 'null', 'object', 'objective', 'oriented', 'onmouseover', 'oop', 'open', 'operator', 'overflow', 'overload', 'package', 'parenthesis', 'parse', 'pascal', 'persistent', 'phrase', 'pipe', 'pixel', 'pointer', 'polymorphism', 'pop', 'positional', 'private', 'procedure', 'procedural', 'process', 'program', 'programmable', 'programming', 'pseudo', 'pseudocode', 'pseudolanguage', 'public', 'push', 'random', 'react', 'real', 'recompile', 'recursion', 'recursive', 'regex', 'regular', 'relational', 'remark', 'repeat', 'return', 'reverse', 'revision', 'routine', 'route', 'routing', 'ruby', 'rails', 'runtime', 'run', 'schema', 'scratch', 'section', 'secure', 'security', 'seed', 'separator', 'sequence', 'server', 'shell', 'shift', 'simulated', 'snippet', 'software', 'source', 'spaghetti', 'sparse', 'special', 'spooling', 'sql', 'sqlite', 'stack', 'standard', 'statement', 'stream', 'strong', 'stylesheet', 'submit', 'subprogram', 'subscript', 'substring', 'switch', 'syntactic', 'syntax', 'system', 'ternary', 'theoretical', 'operator', 'thread', 'threading', 'thunk', 'token', 'toolbox', 'transcompiler', 'true', 'trunk', 'undefined', 'unit', 'unshift', 'value', 'var', 'variable', 'vector', 'visual', 'web', 'while', 'whole', 'workspace', 'xor', 'yaml', 'webpack', 'salting', 'range', 'prime', 'magic', 'number', 'reverse', 'index', 'min', 'max', 'cipher', 'multiple', 'hipsterfy', 'snakecase', 'select', 'reduce', 'reducer', 'palindrome', 'laligat', 'vowel', 'bigram', 'streak', 'pyramid', 'negative', 'positive', 'string', 'stringify', 'coprime', 'merge', 'bubblesort', 'quicksort', 'symmetrical', 'digital', 'root', 'notation', 'linearithmic', 'logarithmic', 'exponential', 'constant', 'pair', 'pairing', 'factorial', 'querying', 'tables', 'rails', 'react', 'redux', 'convention', 'coalesce', 'aggregate', 'distinct', 'subquery', 'migration', 'bind', 'production', 'development', 'test', 'log', 'create', 'generate', 'terminal', 'validations', 'models', 'controllers', 'associations', 'pluck', 'params'];
     this.ctx = ctx;
-    this.canvas = canvas; // this.position = {
-    //   x: Math.floor(Math.random() * (this.canvas.width - 150)) + 50,
-    //   y: 20,
-    // //   y2: Math.floor(Math.random() * (this.canvas.height - 50)) + 50,
-    // };
-    // this.x = this.canvas.width / 2;  
-    // this.y = this.canvas.height / 2; 
-    // this.dX = 2.5;
-    // this.dY = 0;
+    this.canvas = canvas;
   }
 
   _createClass(Word, [{
@@ -388,13 +437,6 @@ var Word = /*#__PURE__*/function () {
     } // randomizePosition() {
     //     return Math.floor(Math.random() * (this.canvas.width - 150)) + 50
     // }
-    // drawWord() {
-    //   this.ctx.fillStyle = "green";
-    //   this.ctx.font = '25px "Rubik"';
-    //   this.ctx.fillText (this.randomizeWord(), this.position.x, this.position.y, 200)
-    // //   this.ctx.fillText(this.words[0], this.position.x, this.position.y, 200);
-    // //   this.ctx.fillText(this.words[1], this.randomizePosition(), this.position.y, 200);
-    // };
     // update(deltaTime) {
     //     if (!deltaTime) return;
     //     this.position.y += 20 / deltaTime;

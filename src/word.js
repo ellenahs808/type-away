@@ -1,15 +1,3 @@
-import Game from './game';
-
-const WORD_CONSTANTS = {
-    SPEED: 8,
-    TERMINAL_VEL: 12,
-    WIDTH: 40,
-    HEIGHT: 30,
-    GAME_WIDTH: 1800,
-    GAME_HEIGHT: 900
-};
-
-
 
 class Word {
     constructor(ctx, canvas) {
@@ -17,17 +5,6 @@ class Word {
 
         this.ctx = ctx;
         this.canvas = canvas;
-        // this.position = {
-        //   x: Math.floor(Math.random() * (this.canvas.width - 150)) + 50,
-        //   y: 20,
-        // //   y2: Math.floor(Math.random() * (this.canvas.height - 50)) + 50,
-        // };
-        // this.x = this.canvas.width / 2;  
-        // this.y = this.canvas.height / 2; 
-  
-        // this.dX = 2.5;
-        // this.dY = 0;
-    
 
     }
 
@@ -40,16 +17,6 @@ class Word {
     // randomizePosition() {
     //     return Math.floor(Math.random() * (this.canvas.width - 150)) + 50
     // }
-
-
-
-    // drawWord() {
-    //   this.ctx.fillStyle = "green";
-    //   this.ctx.font = '25px "Rubik"';
-    //   this.ctx.fillText (this.randomizeWord(), this.position.x, this.position.y, 200)
-    // //   this.ctx.fillText(this.words[0], this.position.x, this.position.y, 200);
-    // //   this.ctx.fillText(this.words[1], this.randomizePosition(), this.position.y, 200);
-    // };
 
 
 

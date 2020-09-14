@@ -1,5 +1,4 @@
 
-
 body {
   background: url("https://pressstart.vip/images/uploads/assets/cityskyline.png");
   background-size: auto;
@@ -31,6 +30,7 @@ footer {
   padding-top: 20px;
   justify-content: center;
   color: rgba(94, 24, 160, 0.746);
+  
 }
 
 
@@ -39,17 +39,3 @@ footer {
   padding: 0 80px;
 }
 
-
-
-
-/* * {
-  margin: 0;
-}
-
-
-
-.btn-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-} */

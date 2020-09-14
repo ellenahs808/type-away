@@ -10,7 +10,7 @@ class StartScreen {
     drawTitle(titlePosition) {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'aqua';
-            this.ctx.font = '80px "Grandstander"';
+            this.ctx.font = '80px "Bungee Outline"';
             this.ctx.textAlign = 'center';
             this.ctx.fillText("Type Away", 410, titlePosition);
             this.ctx.fill();
