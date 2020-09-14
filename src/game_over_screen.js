@@ -23,8 +23,8 @@ class GameOverScreen {
         this.ctx.beginPath();
             this.ctx.fillStyle = "blueviolet";
             this.ctx.textAlign = "center";
-            this.ctx.font = '50px "VT323"';
-            this.ctx.fillText("Press Refresh to Restart", 410, 500);
+            this.ctx.font = '36px "Sirin Stencil"';
+            this.ctx.fillText("Click Refresh to Restart", 410, 500);
             this.ctx.fill();
         this.ctx.closePath();
     }
