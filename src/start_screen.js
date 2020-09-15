@@ -22,7 +22,7 @@ class StartScreen {
             this.ctx.fillStyle = "blueviolet";
             this.ctx.font = '38px "Sirin Stencil"';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Press Enter', 410, 500);
+            this.ctx.fillText('Click to Start', 410, 500);
             this.ctx.fill();
         this.ctx.closePath();
     }

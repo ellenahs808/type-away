@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 null;
             }
 
-            page.addEventListener('keydown', game.play)
+            canvas.addEventListener('click', game.play)
+            // page.addEventListener('keydown', game.play)
         }
 
         startScreen.drawTitle(titlePosition)

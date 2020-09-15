@@ -26,14 +26,12 @@ class Game {
         this.counter = 0;
 
 
-
-
         this.populateWords = this.populateWords.bind(this)
         this.play = this.play.bind(this);
         this.restart = this.restart.bind(this);
         this.gameOver = this.gameOver.bind(this);
         this.gameOverAnimate = this.gameOverAnimate.bind(this);
-
+        this.render = this.render.bind(this);
     }
     
 
@@ -60,13 +58,35 @@ class Game {
         }
         this.ctx.clearRect(0, 0, this.container.width, this.container.height)
         
+        // for (let i = 0; i < this.words.length; i++) {
+        //     this.words[i].y -= this.words[i].speedY
+        //     for (let text in this.words) {
+        //         let t = this.words[text]
+        //         this.ctx.fillText(t.text, t.x, t.y, 200);
+        //         this.ctx.fillStyle = "black";
+        //         this.ctx.font = '23px "Rubik"';
+
+        //         if (t.y >= 899) {
+        //             this.gameOverAnimate();
+        //             break;
+        //         }
+        //     }
+        // }
+        this.render();
+
+        requestAnimationFrame(this.gameLoop.bind(this));
+        
+    }
+
+
+    render() {
         for (let i = 0; i < this.words.length; i++) {
-            this.words[i].y -= this.words[i].speedY
+            this.words[i].y -= this.words[i].speedY;
             for (let text in this.words) {
-                let t = this.words[text]
-                this.ctx.fillText(t.text, t.x, t.y, 200);
-                this.ctx.fillStyle = "black";
-                this.ctx.font = '23px "Rubik"';
+            let t = this.words[text];
+            this.ctx.fillText(t.text, t.x, t.y, 200);
+            this.ctx.fillStyle = "black";
+            this.ctx.font = '23px "Rubik"';
 
                 if (t.y >= 899) {
                     this.gameOverAnimate();
@@ -75,11 +95,7 @@ class Game {
             }
         }
 
-
-        requestAnimationFrame(this.gameLoop.bind(this));
-        
     }
-
 
     
 
@@ -98,6 +114,8 @@ class Game {
         speedX: 2,
         speedY: -1.5
         });
+
+        // requestAnimationFrame(this.populateWords.bind(this));
  
     }
 
@@ -105,9 +123,10 @@ class Game {
 
 
     play(e) {
-        if (e.keyCode === 13) {
+        if (e.button === 0) {
             // debugger
-            this.page.removeEventListener('keydown', this.play);
+            // this.page.removeEventListener('keydown', this.play);
+            this.canvas.removeEventListener('click', this.play)
             this.restart()
             clearInterval(window.startInterval);
             clearInterval(window.overInterval);
@@ -116,6 +135,7 @@ class Game {
             this.running = true;
             this.gameLoop();
         }
+        // requestAnimationFrame(this.gameLoop.bind(this))
         
     }
 

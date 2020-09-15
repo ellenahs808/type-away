@@ -128,6 +128,7 @@ var Game = /*#__PURE__*/function () {
     this.restart = this.restart.bind(this);
     this.gameOver = this.gameOver.bind(this);
     this.gameOverAnimate = this.gameOverAnimate.bind(this);
+    this.render = this.render.bind(this);
   }
 
   _createClass(Game, [{
@@ -152,8 +153,26 @@ var Game = /*#__PURE__*/function () {
         this.lastTime = timestamp;
       }
 
-      this.ctx.clearRect(0, 0, this.container.width, this.container.height);
+      this.ctx.clearRect(0, 0, this.container.width, this.container.height); // for (let i = 0; i < this.words.length; i++) {
+      //     this.words[i].y -= this.words[i].speedY
+      //     for (let text in this.words) {
+      //         let t = this.words[text]
+      //         this.ctx.fillText(t.text, t.x, t.y, 200);
+      //         this.ctx.fillStyle = "black";
+      //         this.ctx.font = '23px "Rubik"';
+      //         if (t.y >= 899) {
+      //             this.gameOverAnimate();
+      //             break;
+      //         }
+      //     }
+      // }
 
+      this.render();
+      requestAnimationFrame(this.gameLoop.bind(this));
+    }
+  }, {
+    key: "render",
+    value: function render() {
       for (var i = 0; i < this.words.length; i++) {
         this.words[i].y -= this.words[i].speedY;
 
@@ -169,8 +188,6 @@ var Game = /*#__PURE__*/function () {
           }
         }
       }
-
-      requestAnimationFrame(this.gameLoop.bind(this));
     }
   }, {
     key: "populateWords",
@@ -185,14 +202,15 @@ var Game = /*#__PURE__*/function () {
         text: word.randomizeWord(),
         speedX: 2,
         speedY: -1.5
-      });
+      }); // requestAnimationFrame(this.populateWords.bind(this));
     }
   }, {
     key: "play",
     value: function play(e) {
-      if (e.keyCode === 13) {
+      if (e.button === 0) {
         // debugger
-        this.page.removeEventListener('keydown', this.play);
+        // this.page.removeEventListener('keydown', this.play);
+        this.canvas.removeEventListener('click', this.play);
         this.restart();
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
@@ -200,7 +218,8 @@ var Game = /*#__PURE__*/function () {
         var timestamp = Date.now();
         this.running = true;
         this.gameLoop();
-      }
+      } // requestAnimationFrame(this.gameLoop.bind(this))
+
     } // handleWord(e) {
     //     if (e.keyCode)
     // }
@@ -333,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
         null;
       }
 
-      page.addEventListener('keydown', game.play);
+      canvas.addEventListener('click', game.play); // page.addEventListener('keydown', game.play)
     }
 
     startScreen.drawTitle(titlePosition);
@@ -390,7 +409,7 @@ var StartScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = "blueviolet";
       this.ctx.font = '38px "Sirin Stencil"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Press Enter', 410, 500);
+      this.ctx.fillText('Click to Start', 410, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }
