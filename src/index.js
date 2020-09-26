@@ -14,11 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const startScreen = new StartScreen(ctx, canvas);
     const game = new Game(canvas, ctx, input, wordList);
 
+    game.testThis()
+
+
 
     let titlePosition = 200;
     let startCounter = 0;
-
-
 
     function titleDrop() {
         // debugger
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             canvas.addEventListener('click', game.play)
-            // page.addEventListener('keydown', game.play)
+            page.addEventListener('keydown', game.play)
         }
 
         startScreen.drawTitle(titlePosition)
@@ -47,8 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
         input.style.display = 'none';
         window.startInterval = setInterval(titleDrop, 70)
     }
-
-
 
 
 });

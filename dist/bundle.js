@@ -95,7 +95,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _word__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./word */ "./src/word.js");
+/* harmony import */ var _words__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./words */ "./src/words.js");
 /* harmony import */ var _game_over_screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game_over_screen */ "./src/game_over_screen.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -122,27 +122,51 @@ var Game = /*#__PURE__*/function () {
     };
     this.lastTime = Date.now();
     this.words = [];
+    this.confettis = [];
     this.counter = 0;
     this.populateWords = this.populateWords.bind(this);
     this.play = this.play.bind(this);
     this.restart = this.restart.bind(this);
     this.gameOver = this.gameOver.bind(this);
-    this.gameOverAnimate = this.gameOverAnimate.bind(this);
-    this.render = this.render.bind(this);
+    this.gameOverAnimate = this.gameOverAnimate.bind(this); // this.render = this.render.bind(this);
+
+    this.gameLoop = this.gameLoop.bind(this);
   }
 
   _createClass(Game, [{
     key: "testThis",
     value: function testThis() {
-      console.log(this.words);
+      console.log(this.input.focus());
     } // deltaTime gives you the amount of time since the last frame/iteration of the loop
     // you can use that to calculate an amount of time for a new word to show up.
     // have some logic somewhere to subtract the delta time from a counter and once it hits 0, generate a new random word.
 
   }, {
+    key: "play",
+    value: function play(e) {
+      if (e.button === 0 || e.button === 32) {
+        // debugger
+        this.page.removeEventListener('keydown', this.play);
+        this.canvas.removeEventListener('click', this.play);
+        this.restart();
+        clearInterval(window.startInterval);
+        clearInterval(window.overInterval);
+        this.canvas.className === 'start-screen';
+        var timestamp = Date.now();
+        this.running = true;
+        this.gameLoop(); // let timestamp = Date.now()
+        // requestAnimationFrame(this.gameLoop(timestamp))
+      } // requestAnimationFrame(this.gameLoop.bind(this))
+
+    }
+  }, {
     key: "gameLoop",
     value: function gameLoop(timestamp) {
+      var _this = this;
+
       // debugger
+      var loopTest = requestAnimationFrame(this.gameLoop);
+      var wordsArray = this.words;
       timestamp = Date.now();
       var deltaTime = timestamp - this.lastTime; //gap between last time and now
 
@@ -153,47 +177,81 @@ var Game = /*#__PURE__*/function () {
         this.lastTime = timestamp;
       }
 
-      this.ctx.clearRect(0, 0, this.container.width, this.container.height); // for (let i = 0; i < this.words.length; i++) {
-      //     this.words[i].y -= this.words[i].speedY
-      //     for (let text in this.words) {
-      //         let t = this.words[text]
-      //         this.ctx.fillText(t.text, t.x, t.y, 200);
-      //         this.ctx.fillStyle = "black";
-      //         this.ctx.font = '23px "Rubik"';
-      //         if (t.y >= 899) {
-      //             this.gameOverAnimate();
-      //             break;
-      //         }
-      //     }
-      // }
+      this.ctx.clearRect(0, 0, this.container.width, this.container.height); // this.render();
 
-      this.render();
-      requestAnimationFrame(this.gameLoop.bind(this));
-    }
-  }, {
-    key: "render",
-    value: function render() {
       for (var i = 0; i < this.words.length; i++) {
         this.words[i].y -= this.words[i].speedY;
 
-        for (var text in this.words) {
-          var t = this.words[text];
-          this.ctx.fillText(t.text, t.x, t.y, 200);
-          this.ctx.fillStyle = "black";
-          this.ctx.font = '23px "Rubik"';
+        var _loop = function _loop(text) {
+          var t = _this.words[text];
+
+          _this.ctx.fillText(t.text, t.x, t.y, 200);
+
+          _this.ctx.fillStyle = "black";
+          _this.ctx.font = '23px "Rubik"';
 
           if (t.y >= 899) {
-            this.gameOverAnimate();
-            break;
+            // cancelAnimationFrame(loopTest)
+            _this.ctx.clearRect(0, 0, _this.container.width, _this.container.height);
+
+            _this.gameOverAnimate();
+
+            return "break";
           }
+
+          document.addEventListener("keydown", function (e) {
+            // debugger
+            // if (e.keyCode >= 65 && e.keyCode <= 90) {
+            var focusedWord = document.getElementById("wordlist").innerHTML = t.text;
+            console.log(focusedWord);
+            console.log(wordsArray);
+
+            if (this.words.includes(focusedWord)) {
+              console.log("yahoo");
+            } // }
+
+          });
+        };
+
+        for (var text in this.words) {
+          var _ret = _loop(text);
+
+          if (_ret === "break") break;
         }
-      }
-    }
+      } // requestAnimationFrame(this.gameLoop.bind(this));
+
+    } // render() {
+    //     // debugger
+    //     for (let i = 0; i < this.words.length; i++) {
+    //         this.words[i].y -= this.words[i].speedY;
+    //         for (let text in this.words) {
+    //         let t = this.words[text];
+    //         this.ctx.fillText(t.text, t.x, t.y, 200);
+    //         this.ctx.fillStyle = "black";
+    //         this.ctx.font = '23px "Rubik"';
+    //             if (t.y >= 899) {
+    //                 this.gameOverAnimate();
+    //                 break;
+    //             }
+    //             document.addEventListener('keydown', function(e) {
+    //                 // debugger
+    //                 // if (e.keyCode >= 65 && e.keyCode <= 90) {
+    //                     let focusedWord = document.getElementById("wordlist").focus = t.text
+    //                     console.log(focusedWord)
+    //                     if (focusedWord === t.text) {
+    //                         console.log('yahoo')
+    //                     }
+    //                 // }
+    //             })
+    //         }
+    //     }
+    // }
+
   }, {
     key: "populateWords",
     value: function populateWords() {
-      var word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (this.container.width - 200)) + 50;
+      var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
+      var x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
       var y = 20;
       var speed = Math.floor(Math.random() * 1.6 + 0.6);
       this.words.push({
@@ -205,31 +263,51 @@ var Game = /*#__PURE__*/function () {
       }); // requestAnimationFrame(this.populateWords.bind(this));
     }
   }, {
-    key: "play",
-    value: function play(e) {
-      if (e.button === 0) {
-        // debugger
-        // this.page.removeEventListener('keydown', this.play);
-        this.canvas.removeEventListener('click', this.play);
-        this.restart();
-        clearInterval(window.startInterval);
-        clearInterval(window.overInterval);
-        this.canvas.className === 'start-screen';
-        var timestamp = Date.now();
-        this.running = true;
-        this.gameLoop();
-      } // requestAnimationFrame(this.gameLoop.bind(this))
+    key: "createConfettis",
+    value: function createConfettis() {
+      var confetti = {
+        decrease: 0.05,
+        highestAlpha: 0.8,
+        highestRadius: 5,
+        highestSpeedX: 5,
+        highestSpeedY: 5,
+        lowestAlpha: 0.4,
+        lowestRadius: 2,
+        lowestSpeedX: -5,
+        lowestSpeedY: -5,
+        total: 50
+      };
 
-    } // handleWord(e) {
-    //     if (e.keyCode)
+      for (var i = 0; i < confetti.total; i++) {
+        var c = generateRandomRgbColor();
+        var alpha = confetti.lowestAlpha + Math.random() * (confetti.highestAlpha - confetti.lowestAlpha);
+        particles.push({
+          x: l.x,
+          y: l.y,
+          radius: particle.lowestRadius + Math.random() * (particle.highestRadius - particle.lowestRadius),
+          color: "rgba(".concat(c[0], ", ").concat(c[1], ", ").concat(c[2], ", ").concat(alpha, ")"),
+          speedX: particle.lowestSpeedX + Math.random() * (particle.highestSpeedX - particle.lowestSpeedX),
+          speedY: particle.lowestSpeedY + Math.random() * (particle.highestSpeedY - particle.lowestSpeedY)
+        });
+      }
+    } // handleWord() {
+    //     setTimeout(function() {
+    //         let anotoh = document.getElementById('wordlist').focus()
+    //         let wordValue = document.getElementById('wordlist').value
+    //         console.log(anotoh)
+    //         console.log(wordValue)
+    //     })
     // }
 
   }, {
     key: "restart",
-    value: function restart() {
+    value: function restart(e) {
+      // if (e.keyCode == 13) {
+      this.page.removeEventListener('keydown', this.play); //not working
+
       this.running = false;
       this.score = 0;
-      this.word = new _word__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
+      this.word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas); // }
     }
   }, {
     key: "gameOver",
@@ -245,7 +323,8 @@ var Game = /*#__PURE__*/function () {
       this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
       this.gameOverScreen.drawGameOver();
       this.gameOverScreen.fade += .05;
-      this.gameOverScreen.drawRestart(); // this.page.addEventListener('keydown', this.play);  // not working
+      this.gameOverScreen.drawRestart();
+      this.restart(); // this.page.addEventListener('keydown', this.play);  // not working
     }
   }]);
 
@@ -334,6 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var wordList = document.getElementById("wordlist");
   var startScreen = new _start_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, input, wordList);
+  game.testThis();
   var titlePosition = 200;
   var startCounter = 0;
 
@@ -352,7 +432,8 @@ document.addEventListener("DOMContentLoaded", function () {
         null;
       }
 
-      canvas.addEventListener('click', game.play); // page.addEventListener('keydown', game.play)
+      canvas.addEventListener('click', game.play);
+      page.addEventListener('keydown', game.play);
     }
 
     startScreen.drawTitle(titlePosition);
@@ -422,10 +503,10 @@ var StartScreen = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/word.js":
-/*!*********************!*\
-  !*** ./src/word.js ***!
-  \*********************/
+/***/ "./src/words.js":
+/*!**********************!*\
+  !*** ./src/words.js ***!
+  \**********************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -437,16 +518,16 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Word = /*#__PURE__*/function () {
-  function Word(ctx, canvas) {
-    _classCallCheck(this, Word);
+var Words = /*#__PURE__*/function () {
+  function Words(ctx, canvas) {
+    _classCallCheck(this, Words);
 
     this.words = ['add', 'algorithm', 'array', 'backend', 'binary', 'break', 'boolean', 'bracket', 'branch', 'browse', 'bug', 'camelcase', 'callback', 'character', 'class', 'closure', 'code', 'comment', 'compiler', 'compute', 'computer', 'concatenation', 'conditional', 'constant', 'constructor', 'control', 'constraints', 'compressor', 'curly', 'curry', 'data', 'dataflow', 'debug', 'debugger', 'debugging', 'declaration', 'declarative', 'declare', 'decompiler', 'decrement', 'deductive', 'dependent', 'developer', 'diff', 'direct', 'discrete', 'do', 'div', 'dom', 'dump', 'dynamic', 'element', 'else', 'elsif', 'embedded', 'encapsulation', 'encode', 'equal', 'error', 'escape', 'eval', 'event', 'exception', 'exists', 'exponent', 'expression', 'false', 'flag', 'float', 'for', 'foreach', 'framework', 'frontend', 'fullstack', 'function', 'functional', 'fizzbuzz', 'anagram', 'game', 'git', 'github', 'glitch', 'hash', 'heap', 'heroku', 'html', 'hypertext', 'immutable', 'imperative', 'implicit', 'increment', 'inherent', 'inherit', 'inheritance', 'inline', 'input', 'instance', 'instantiation', 'instructions', 'integer', 'integrated', 'integer', 'intermediate', 'interpreted', 'invalid', 'iteration', 'javascript', 'jbuilder', 'json', 'label', 'language', 'library', 'lifecycle', 'links', 'linker', 'literal', 'local', 'logical', 'logic', 'lookup', 'loop', 'loophole', 'machine', 'map', 'markup', 'math', 'memoization', 'metacharacter', 'metaclass', 'metalanguage', 'metaprogramming', 'method', 'middleware', 'module', 'modulo', 'native', 'nested', 'node', 'nodelist', 'null', 'object', 'objective', 'oriented', 'onmouseover', 'oop', 'open', 'operator', 'overflow', 'overload', 'package', 'parenthesis', 'parse', 'pascal', 'persistent', 'phrase', 'pipe', 'pixel', 'pointer', 'polymorphism', 'pop', 'positional', 'private', 'procedure', 'procedural', 'process', 'program', 'programmable', 'programming', 'pseudo', 'pseudocode', 'pseudolanguage', 'public', 'push', 'random', 'react', 'real', 'recompile', 'recursion', 'recursive', 'regex', 'regular', 'relational', 'remark', 'repeat', 'return', 'reverse', 'revision', 'routine', 'route', 'routing', 'ruby', 'rails', 'runtime', 'run', 'schema', 'scratch', 'section', 'secure', 'security', 'seed', 'separator', 'sequence', 'server', 'shell', 'shift', 'simulated', 'snippet', 'software', 'source', 'spaghetti', 'sparse', 'special', 'spooling', 'sql', 'sqlite', 'stack', 'standard', 'statement', 'stream', 'strong', 'stylesheet', 'submit', 'subprogram', 'subscript', 'substring', 'switch', 'syntactic', 'syntax', 'system', 'ternary', 'theoretical', 'operator', 'thread', 'threading', 'thunk', 'token', 'toolbox', 'transcompiler', 'true', 'trunk', 'undefined', 'unit', 'unshift', 'value', 'var', 'variable', 'vector', 'visual', 'web', 'while', 'whole', 'workspace', 'xor', 'yaml', 'webpack', 'salting', 'range', 'prime', 'magic', 'number', 'reverse', 'index', 'min', 'max', 'cipher', 'multiple', 'hipsterfy', 'snakecase', 'select', 'reduce', 'reducer', 'palindrome', 'laligat', 'vowel', 'bigram', 'streak', 'pyramid', 'negative', 'positive', 'string', 'stringify', 'coprime', 'merge', 'bubblesort', 'quicksort', 'symmetrical', 'digital', 'root', 'notation', 'linearithmic', 'logarithmic', 'exponential', 'constant', 'pair', 'pairing', 'factorial', 'querying', 'tables', 'rails', 'react', 'redux', 'convention', 'coalesce', 'aggregate', 'distinct', 'subquery', 'migration', 'bind', 'production', 'development', 'test', 'log', 'create', 'generate', 'terminal', 'validations', 'models', 'controllers', 'associations', 'pluck', 'params'];
     this.ctx = ctx;
     this.canvas = canvas;
   }
 
-  _createClass(Word, [{
+  _createClass(Words, [{
     key: "randomizeWord",
     value: function randomizeWord() {
       var randomIdx = Math.floor(Math.random() * this.words.length);
@@ -491,11 +572,11 @@ var Word = /*#__PURE__*/function () {
 
   }]);
 
-  return Word;
+  return Words;
 }();
 
 ;
-/* harmony default export */ __webpack_exports__["default"] = (Word);
+/* harmony default export */ __webpack_exports__["default"] = (Words);
 
 /***/ })
 
