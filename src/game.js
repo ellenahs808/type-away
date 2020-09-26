@@ -68,7 +68,7 @@ class Game {
         // requestAnimationFrame(this.gameLoop.bind(this))
         
     }
-
+    
 
     gameLoop(timestamp) {
         // debugger
