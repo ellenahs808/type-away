@@ -31,13 +31,13 @@ h1 {
 #typing-form {
   /* font-family: "Roboto Slab"; */
   background-color: rgba(0, 0, 0, 0.1);
-  color: white;
+  color: rgb(74, 219, 219);
   position: absolute;
   border: 0px solid blue;
   outline: none;
   left: 50%;
   bottom: 0;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -280%);
   width: 250px;
   height: 40px;
   padding: 0;
