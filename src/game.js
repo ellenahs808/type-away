@@ -24,7 +24,8 @@ class Game {
         this.lastTime = Date.now();
         this.words = [];
         this.confettis = []
-        this.counter = 0;
+        this.score = 0;
+        this.startTimer = Date.now();
 
 
         // this.populateWords = this.populateWords.bind(this)
@@ -50,6 +51,7 @@ class Game {
             clearInterval(window.overInterval); 
             this.canvas.className === 'start-screen'
             this.running = true;
+            this.startTimer;
             // this.gameLoop();
             // let timestamp = Date.now()
             requestAnimationFrame(this.gameLoop)
@@ -68,7 +70,7 @@ class Game {
 
     
 
-    gameLoop(timestamp) {
+    gameLoop(timestamp) {  //render
         // debugger
         let loopTest = requestAnimationFrame(this.gameLoop);
         this.input.focus();
@@ -89,7 +91,8 @@ class Game {
         
     
         this.drawWord();
-
+        this.drawScoreCount();
+        this.drawWPM();
 
     }
 
@@ -106,7 +109,7 @@ class Game {
             y,
             text: word.randomizeWord(),
             speedX: 2,
-            speedY: -(Math.random() * (1.4 - 1.2) + 1.2)
+            speedY: -(Math.random() * (1.2 - 1.1) + 1.1)
         });
 
     }
@@ -145,6 +148,7 @@ class Game {
                 wordsArray.forEach((words) => {
                     if (userWord === words.text) {
                         words.text = ""
+                        this.score += 1
                     }
                 })
                 this.input.value = ""
@@ -195,9 +199,19 @@ class Game {
     // }
 
 
-    drawWordCount() {
+    drawScoreCount() {
         this.ctx.beginPath();
-            this.ctx.fillStyle = 'white'
+            this.ctx.fillStyle = 'white';
+            this.ctx.font = 
+            this.ctx.fillText('Score: ' + this.score.toString(), this.canvas.width - 100, 40)
+        this.ctx.closePath();
+    }
+
+    drawWPM() {
+        this.ctx.beginPath();
+            this.ctx.fillStyle = 'white';
+            this.ctx.font = 
+            this.ctx.fillText('WPM: ' + this.startTimer.toString(), 100, 40)
         this.ctx.closePath();
     }
 

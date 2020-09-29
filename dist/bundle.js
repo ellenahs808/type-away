@@ -123,7 +123,8 @@ var Game = /*#__PURE__*/function () {
     this.lastTime = Date.now();
     this.words = [];
     this.confettis = [];
-    this.counter = 0; // this.populateWords = this.populateWords.bind(this)
+    this.score = 0;
+    this.startTimer = Date.now(); // this.populateWords = this.populateWords.bind(this)
 
     this.start = this.start.bind(this);
     this.restart = this.restart.bind(this);
@@ -144,7 +145,8 @@ var Game = /*#__PURE__*/function () {
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
         this.canvas.className === 'start-screen';
-        this.running = true; // this.gameLoop();
+        this.running = true;
+        this.startTimer; // this.gameLoop();
         // let timestamp = Date.now()
 
         requestAnimationFrame(this.gameLoop);
@@ -159,6 +161,7 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "gameLoop",
     value: function gameLoop(timestamp) {
+      //render
       // debugger
       var loopTest = requestAnimationFrame(this.gameLoop);
       this.input.focus();
@@ -176,6 +179,8 @@ var Game = /*#__PURE__*/function () {
       }
 
       this.drawWord();
+      this.drawScoreCount();
+      this.drawWPM();
     }
   }, {
     key: "populateWords",
@@ -188,7 +193,7 @@ var Game = /*#__PURE__*/function () {
         y: y,
         text: word.randomizeWord(),
         speedX: 2,
-        speedY: -(Math.random() * (1.4 - 1.2) + 1.2)
+        speedY: -(Math.random() * (1.2 - 1.1) + 1.1)
       });
     }
   }, {
@@ -219,6 +224,8 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "handleWord",
     value: function handleWord(e) {
+      var _this = this;
+
       // debugger
       var wordsArray = this.words;
 
@@ -228,6 +235,7 @@ var Game = /*#__PURE__*/function () {
         wordsArray.forEach(function (words) {
           if (userWord === words.text) {
             words.text = "";
+            _this.score += 1;
           }
         });
         this.input.value = "";
@@ -271,10 +279,19 @@ var Game = /*#__PURE__*/function () {
     // }
 
   }, {
-    key: "drawWordCount",
-    value: function drawWordCount() {
+    key: "drawScoreCount",
+    value: function drawScoreCount() {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
+      this.ctx.font = this.ctx.fillText('Score: ' + this.score.toString(), this.canvas.width - 100, 40);
+      this.ctx.closePath();
+    }
+  }, {
+    key: "drawWPM",
+    value: function drawWPM() {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = 'white';
+      this.ctx.font = this.ctx.fillText('WPM: ' + this.startTimer.toString(), 100, 40);
       this.ctx.closePath();
     }
   }, {
@@ -395,11 +412,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var page = document.getElementById("page");
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
-  var input = document.getElementById("typing-form"); // const wordList = document.getElementById("wordlist")
-
+  var input = document.getElementById("typing-form");
   var startScreen = new _start_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
-  var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, page, input); // game.testThis()
-
+  var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, page, input);
   var titlePosition = 200;
   var startCounter = 0;
 
