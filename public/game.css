@@ -10,15 +10,39 @@ h1 {
   justify-content: center;
 }
 
+/* #page {
+  margin-bottom: 0px;
+} */
+
 .game-container {
     background: rgba(0, 255, 34, 0.075);
     border: 2px solid rgba(137, 43, 226, 0.431);
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    height: 900px;
+    height: 850px;
     width: 800px;
 
+    
+  }
+  
+
+
+#typing-form {
+  /* font-family: "Roboto Slab"; */
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+  position: absolute;
+  border: 0px solid blue;
+  outline: none;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 40px;
+  padding: 0;
+  font-size: 24px;
+  text-align: center;
 }
 
 

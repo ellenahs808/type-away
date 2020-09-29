@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
     const input = document.getElementById("typing-form")
-    const wordList = document.getElementById("wordlist")
+    // const wordList = document.getElementById("wordlist")
 
 
     const startScreen = new StartScreen(ctx, canvas);
-    const game = new Game(canvas, ctx, input, wordList);
+    const game = new Game(canvas, ctx, page, input);
 
-    game.testThis()
+    // game.testThis()
 
 
 
@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 null;
             }
 
-            canvas.addEventListener('click', game.play)
-            page.addEventListener('keydown', game.play)
+            canvas.addEventListener('click', game.start)
+            page.addEventListener('keydown', game.start)
         }
 
         startScreen.drawTitle(titlePosition)
