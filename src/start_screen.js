@@ -12,7 +12,7 @@ class StartScreen {
             this.ctx.fillStyle = 'aqua';
             this.ctx.font = '80px "Bungee Outline"';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText("Type Away", 410, titlePosition);
+            this.ctx.fillText("Type Away", 600, titlePosition);
             this.ctx.fill();
         this.ctx.closePath();
     }
@@ -22,7 +22,7 @@ class StartScreen {
             this.ctx.fillStyle = "blueviolet";
             this.ctx.font = '38px "Sirin Stencil"';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Click to Start', 410, 500);
+            this.ctx.fillText('Click to Start', 600, 500);
             this.ctx.fill();
         this.ctx.closePath();
     }

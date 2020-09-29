@@ -117,8 +117,8 @@ var Game = /*#__PURE__*/function () {
 
     this.gameOverScreen = new _game_over_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
     this.container = {
-      width: 800,
-      height: 850
+      width: 1200,
+      height: 750
     };
     this.lastTime = Date.now();
     this.words = [];
@@ -128,7 +128,7 @@ var Game = /*#__PURE__*/function () {
     this.start = this.start.bind(this);
     this.restart = this.restart.bind(this);
     this.gameOver = this.gameOver.bind(this);
-    this.gameOverAnimate = this.gameOverAnimate.bind(this); // this.dropWords = this.dropWords.bind(this);
+    this.gameOverAnimate = this.gameOverAnimate.bind(this); // this.drawWord = this.drawWord.bind(this);
 
     this.gameLoop = this.gameLoop.bind(this);
     this.handleWord = this.handleWord.bind(this);
@@ -143,8 +143,7 @@ var Game = /*#__PURE__*/function () {
         this.canvas.removeEventListener('click', this.start);
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
-        this.canvas.className === 'start-screen'; // this.restart()
-
+        this.canvas.className === 'start-screen';
         this.running = true; // this.gameLoop();
         // let timestamp = Date.now()
 
@@ -176,11 +175,25 @@ var Game = /*#__PURE__*/function () {
         this.lastTime = now;
       }
 
-      this.dropWords();
+      this.drawWord();
     }
   }, {
-    key: "dropWords",
-    value: function dropWords() {
+    key: "populateWords",
+    value: function populateWords() {
+      var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
+      var x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
+      var y = -10;
+      this.words.push({
+        x: x,
+        y: y,
+        text: word.randomizeWord(),
+        speedX: 2,
+        speedY: -(Math.random() * (1.4 - 1.2) + 1.2)
+      });
+    }
+  }, {
+    key: "drawWord",
+    value: function drawWord() {
       // debugger
       this.input.focus();
 
@@ -193,7 +206,7 @@ var Game = /*#__PURE__*/function () {
           this.ctx.fillStyle = "black";
           this.ctx.font = '23px "Rubik"';
 
-          if (t.y >= 854 && t.text !== "") {
+          if (t.y >= 758 && t.text !== "") {
             this.gameOverAnimate();
             this.input.style.display = "none";
             this.input.value = "";
@@ -210,7 +223,8 @@ var Game = /*#__PURE__*/function () {
       var wordsArray = this.words;
 
       if (e.keyCode === 32 || e.keyCode === 13) {
-        var userWord = this.input.value.trim();
+        var userWord = this.input.value.trim(); // .trim gets rid of spaces in the front and back of the string
+
         wordsArray.forEach(function (words) {
           if (userWord === words.text) {
             words.text = "";
@@ -218,20 +232,6 @@ var Game = /*#__PURE__*/function () {
         });
         this.input.value = "";
       }
-    }
-  }, {
-    key: "populateWords",
-    value: function populateWords() {
-      var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
-      var y = -10;
-      this.words.push({
-        x: x,
-        y: y,
-        text: word.randomizeWord(),
-        speedX: 2,
-        speedY: -(Math.random() * (1.4 - 1.2) + 1.2)
-      });
     } // createConfettis() {
     //     const confetti = {
     //       decrease: 0.05,
@@ -270,6 +270,13 @@ var Game = /*#__PURE__*/function () {
     //     }
     // }
 
+  }, {
+    key: "drawWordCount",
+    value: function drawWordCount() {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = 'white';
+      this.ctx.closePath();
+    }
   }, {
     key: "restart",
     value: function restart(e) {
@@ -346,7 +353,7 @@ var GameOverScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = "rgba(255, 255, 255, ".concat(this.fade);
       this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Game Over', 410, 400);
+      this.ctx.fillText('Game Over', 600, 400);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -357,7 +364,7 @@ var GameOverScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = "blueviolet";
       this.ctx.textAlign = "center";
       this.ctx.font = '36px "Sirin Stencil"';
-      this.ctx.fillText("Click Refresh to Restart", 410, 500);
+      this.ctx.fillText("Click Refresh to Restart", 600, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -458,7 +465,7 @@ var StartScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = 'aqua';
       this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText("Type Away", 410, titlePosition);
+      this.ctx.fillText("Type Away", 600, titlePosition);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -469,7 +476,7 @@ var StartScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = "blueviolet";
       this.ctx.font = '38px "Sirin Stencil"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Click to Start', 410, 500);
+      this.ctx.fillText('Click to Start', 600, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -511,20 +518,7 @@ var Words = /*#__PURE__*/function () {
     value: function randomizeWord() {
       var randomIdx = Math.floor(Math.random() * this.words.length);
       return this.words[randomIdx];
-    } // randomizePosition() {
-    //     return Math.floor(Math.random() * (this.canvas.width - 150)) + 50
-    // }
-    // update(deltaTime) {
-    //     if (!deltaTime) return;
-    //     this.position.y += 20 / deltaTime;
-    // }
-    // animate(ctx) {
-    //     // this.drawWord();
-    //     // this.bounds();
-    //     // this.outOfBounds();
-    //     // this.randomizeWord()
-    // }
-    // bounds() {
+    } // bounds() {
     //     return {
     //         left: this.x,
     //         right: this.x + WORD_CONSTANTS.WIDTH,
@@ -536,17 +530,6 @@ var Words = /*#__PURE__*/function () {
     //     const aboveTheTop = this.y < 0;
     //     const belowTheBottom = this.y + WORD_CONSTANTS.HEIGHT > this.y
     //     return aboveTheTop || belowTheBottom
-    // }
-    //doesn't do shit
-    // moveWord() {
-    //     this.y += this.vel;
-    //     if (Math.abs(this.vel) > WORD_CONSTANTS.TERMINAL_VEL) {
-    //         if (this.vel > 0) {
-    //             this.vel = WORD_CONSTANTS.TERMINAL_VEL;
-    //         } else {
-    //             this.vel = WORD_CONSTANTS.TERMINAL_VEL * -1;
-    //         }
-    //     }
     // }
 
   }]);

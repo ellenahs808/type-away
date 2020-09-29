@@ -10,9 +10,9 @@ h1 {
   justify-content: center;
 }
 
-/* #page {
-  margin-bottom: 0px;
-} */
+#page {
+  margin-top: 90px;
+}
 
 .game-container {
     background: rgba(0, 255, 34, 0.075);
@@ -20,8 +20,8 @@ h1 {
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    height: 850px;
-    width: 800px;
+    height: 750px;
+    width: 1200px;
 
     
   }
@@ -37,7 +37,7 @@ h1 {
   outline: none;
   left: 50%;
   bottom: 0;
-  transform: translate(-50%, -290%);
+  transform: translate(-50%, -320%);
   width: 250px;
   height: 40px;
   padding: 0;

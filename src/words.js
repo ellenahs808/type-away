@@ -14,32 +14,6 @@ class Words {
     }
 
 
-    // randomizePosition() {
-    //     return Math.floor(Math.random() * (this.canvas.width - 150)) + 50
-    // }
-
-
-
-    
-
-    // update(deltaTime) {
-    //     if (!deltaTime) return;
-
-    //     this.position.y += 20 / deltaTime;
-    // }
-    
-
-
-    // animate(ctx) {
-    //     // this.drawWord();
-    //     // this.bounds();
-    //     // this.outOfBounds();
-    //     // this.randomizeWord()
-    // }
-
-
-
-
 
 
     // bounds() {
@@ -59,21 +33,6 @@ class Words {
     // }
 
 
-
-
-
-    //doesn't do shit
-    // moveWord() {
-    //     this.y += this.vel;
-        
-    //     if (Math.abs(this.vel) > WORD_CONSTANTS.TERMINAL_VEL) {
-    //         if (this.vel > 0) {
-    //             this.vel = WORD_CONSTANTS.TERMINAL_VEL;
-    //         } else {
-    //             this.vel = WORD_CONSTANTS.TERMINAL_VEL * -1;
-    //         }
-    //     }
-    // }
 
 
     

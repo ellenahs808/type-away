@@ -17,8 +17,8 @@ class Game {
   
         
         this.container = {
-            width: 800,
-            height: 850
+            width: 1200,
+            height: 750
         }
 
         this.lastTime = Date.now();
@@ -32,7 +32,7 @@ class Game {
         this.restart = this.restart.bind(this);
         this.gameOver = this.gameOver.bind(this);
         this.gameOverAnimate = this.gameOverAnimate.bind(this);
-        // this.dropWords = this.dropWords.bind(this);
+        // this.drawWord = this.drawWord.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.handleWord = this.handleWord.bind(this)
     }
@@ -49,7 +49,6 @@ class Game {
             clearInterval(window.startInterval);
             clearInterval(window.overInterval); 
             this.canvas.className === 'start-screen'
-            // this.restart()
             this.running = true;
             // this.gameLoop();
             // let timestamp = Date.now()
@@ -89,53 +88,10 @@ class Game {
 
         
     
-        this.dropWords();
+        this.drawWord();
 
-        
+
     }
-
-
-    dropWords() {
-        // debugger
-        this.input.focus();
-
-
-        for (let i = 0; i < this.words.length; i++) {
-            this.words[i].y -= this.words[i].speedY;
-            for (let text in this.words) {
-            let t = this.words[text];
-            this.ctx.fillText(t.text, t.x, t.y, 200);
-            this.ctx.fillStyle = "black";
-            this.ctx.font = '23px "Rubik"';
-
-                if (t.y >= 854 && t.text !== "") {
-                    this.gameOverAnimate();
-                    this.input.style.display = "none";
-                    this.input.value = "";
-                    this.input.disabled = true;
-                    break;
-                }
-
-          }
-        }      
-    }
-
-
-    handleWord(e) {
-        // debugger
-        let wordsArray = this.words;
-        
-        if (e.keyCode === 32 || e.keyCode === 13) {
-        let userWord = this.input.value.trim();
-            wordsArray.forEach((words) => {
-                if (userWord === words.text) {
-                    words.text = ""
-                }
-            })
-            this.input.value = ""
-        }
-    }
-    
 
 
 
@@ -153,8 +109,49 @@ class Game {
             speedY: -(Math.random() * (1.4 - 1.2) + 1.2)
         });
 
- 
     }
+
+
+    drawWord() {
+        // debugger
+        this.input.focus();
+
+        for (let i = 0; i < this.words.length; i++) {
+            this.words[i].y -= this.words[i].speedY;
+            for (let text in this.words) {
+            let t = this.words[text];
+            this.ctx.fillText(t.text, t.x, t.y, 200);
+            this.ctx.fillStyle = "black";
+            this.ctx.font = '23px "Rubik"';
+
+                if (t.y >= 758 && t.text !== "") {
+                    this.gameOverAnimate();
+                    this.input.style.display = "none";
+                    this.input.value = "";
+                    this.input.disabled = true;
+                    break;
+                }
+            }
+        }      
+    }
+
+
+    handleWord(e) {
+        // debugger
+        let wordsArray = this.words;
+        
+        if (e.keyCode === 32 || e.keyCode === 13) {
+            let userWord = this.input.value.trim(); // .trim gets rid of spaces in the front and back of the string
+                wordsArray.forEach((words) => {
+                    if (userWord === words.text) {
+                        words.text = ""
+                    }
+                })
+                this.input.value = ""
+        }
+    }
+    
+
 
     
 
@@ -196,6 +193,13 @@ class Game {
     //     });
     //     }
     // }
+
+
+    drawWordCount() {
+        this.ctx.beginPath();
+            this.ctx.fillStyle = 'white'
+        this.ctx.closePath();
+    }
 
 
 
