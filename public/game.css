@@ -37,12 +37,13 @@ h1 {
   outline: none;
   left: 50%;
   bottom: 0;
-  transform: translate(-50%, -280%);
+  transform: translate(-50%, -290%);
   width: 250px;
   height: 40px;
   padding: 0;
   font-size: 24px;
   text-align: center;
+  border-radius: 20px;
 }
 
 

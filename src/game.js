@@ -110,6 +110,9 @@ class Game {
 
                 if (t.y >= 854 && t.text !== "") {
                     this.gameOverAnimate();
+                    this.input.style.display = "none";
+                    this.input.value = "";
+                    this.input.disabled = true;
                     break;
                 }
 
@@ -126,7 +129,6 @@ class Game {
         let userWord = this.input.value.trim();
             wordsArray.forEach((words) => {
                 if (userWord === words.text) {
-                    console.log("yahoo");
                     words.text = ""
                 }
             })
@@ -216,11 +218,11 @@ class Game {
             window.overInterval = setInterval(this.gameOverAnimate, 100);
 
             this.canvas.removeEventListener("click", this.input.focus());
-            this.input.removeEventListener("keydown", this.handleZombie);
+            this.input.removeEventListener("keydown", this.handleWord);
             this.input.removeEventListener("input", this.startTimer);
-            this.input.value = "";
-            this.input.disabled = true;
-            this.input.style.display = "none";
+            // this.input.value = "";
+            // this.input.disabled = true;
+            // this.input.style.display = "none";  //not working
         }
     }
 

@@ -195,6 +195,9 @@ var Game = /*#__PURE__*/function () {
 
           if (t.y >= 854 && t.text !== "") {
             this.gameOverAnimate();
+            this.input.style.display = "none";
+            this.input.value = "";
+            this.input.disabled = true;
             break;
           }
         }
@@ -210,7 +213,6 @@ var Game = /*#__PURE__*/function () {
         var userWord = this.input.value.trim();
         wordsArray.forEach(function (words) {
           if (userWord === words.text) {
-            console.log("yahoo");
             words.text = "";
           }
         });
@@ -285,11 +287,10 @@ var Game = /*#__PURE__*/function () {
       if (e.keyCode === 13 || e.button === 0) {
         window.overInterval = setInterval(this.gameOverAnimate, 100);
         this.canvas.removeEventListener("click", this.input.focus());
-        this.input.removeEventListener("keydown", this.handleZombie);
-        this.input.removeEventListener("input", this.startTimer);
-        this.input.value = "";
-        this.input.disabled = true;
-        this.input.style.display = "none";
+        this.input.removeEventListener("keydown", this.handleWord);
+        this.input.removeEventListener("input", this.startTimer); // this.input.value = "";
+        // this.input.disabled = true;
+        // this.input.style.display = "none";  //not working
       }
     }
   }, {
