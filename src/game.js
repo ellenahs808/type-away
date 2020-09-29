@@ -108,7 +108,7 @@ class Game {
             this.ctx.fillStyle = "black";
             this.ctx.font = '23px "Rubik"';
 
-                if (t.y >= 854) {
+                if (t.y >= 854 && t.text !== "") {
                     this.gameOverAnimate();
                     break;
                 }
@@ -121,12 +121,16 @@ class Game {
     handleWord(e) {
         // debugger
         let wordsArray = this.words;
+        
         if (e.keyCode === 32 || e.keyCode === 13) {
         let userWord = this.input.value.trim();
-        // let focusedWord = (document.getElementById("wordlist").innerHTML = t.text);
-        if (wordsArray.includes(userWord)) {
-            console.log("yahoo");
-        }
+            wordsArray.forEach((words) => {
+                if (userWord === words.text) {
+                    console.log("yahoo");
+                    words.text = ""
+                }
+            })
+            this.input.value = ""
         }
     }
     

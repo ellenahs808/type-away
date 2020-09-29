@@ -193,7 +193,7 @@ var Game = /*#__PURE__*/function () {
           this.ctx.fillStyle = "black";
           this.ctx.font = '23px "Rubik"';
 
-          if (t.y >= 854) {
+          if (t.y >= 854 && t.text !== "") {
             this.gameOverAnimate();
             break;
           }
@@ -207,11 +207,14 @@ var Game = /*#__PURE__*/function () {
       var wordsArray = this.words;
 
       if (e.keyCode === 32 || e.keyCode === 13) {
-        var userWord = this.input.value.trim(); // let focusedWord = (document.getElementById("wordlist").innerHTML = t.text);
-
-        if (wordsArray.includes(userWord)) {
-          console.log("yahoo");
-        }
+        var userWord = this.input.value.trim();
+        wordsArray.forEach(function (words) {
+          if (userWord === words.text) {
+            console.log("yahoo");
+            words.text = "";
+          }
+        });
+        this.input.value = "";
       }
     }
   }, {
