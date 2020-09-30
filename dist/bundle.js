@@ -180,7 +180,7 @@ var Game = /*#__PURE__*/function () {
       var now = Date.now();
       var deltaTime = now - this.lastTime; //gap between last time and now
 
-      var randomTime = Math.floor(Math.random() * (4000 - 1000) + 1000);
+      var randomTime = Math.floor(Math.random() * (3000 - 2000) + 2000);
 
       if (deltaTime > randomTime) {
         this.populateWords();
@@ -228,7 +228,8 @@ var Game = /*#__PURE__*/function () {
         y: y,
         text: word.randomizeWord(),
         speedX: 2,
-        speedY: -(Math.random() * (1.2 - 1.1) + 1.1)
+        // speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
+        speedY: -0.9
       });
     } // drawWord() {
     //     // debugger
@@ -317,7 +318,7 @@ var Game = /*#__PURE__*/function () {
     value: function drawScoreCount() {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = this.ctx.fillText('Score: ' + this.score.toString(), this.canvas.width - 100, 40);
+      this.ctx.font = this.ctx.fillText('Score: ' + this.score.toString(), 70, 40);
       this.ctx.closePath();
     }
   }, {
@@ -327,7 +328,7 @@ var Game = /*#__PURE__*/function () {
       var actualWPM = this.wpm;
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = this.ctx.fillText('WPM: ' + actualWPM.toString(), 100, 40);
+      this.ctx.font = this.ctx.fillText('WPM: ' + actualWPM.toString(), this.canvas.width - 70, 40);
       this.ctx.closePath();
     }
   }, {

@@ -93,7 +93,7 @@ class Game {
 
         let now = Date.now();
         let deltaTime = now - this.lastTime;  //gap between last time and now
-        let randomTime = Math.floor(Math.random() * (4000 - 1000) + 1000);
+        let randomTime = Math.floor(Math.random() * (3000 - 2000) + 2000);
         if (deltaTime > randomTime) {
             this.populateWords()
             this.lastTime = now;
@@ -149,7 +149,8 @@ class Game {
             y,
             text: word.randomizeWord(),
             speedX: 2,
-            speedY: -(Math.random() * (1.2 - 1.1) + 1.1)
+            // speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
+            speedY: -0.9
         });
 
     }
@@ -247,7 +248,7 @@ class Game {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
             this.ctx.font = 
-            this.ctx.fillText('Score: ' + this.score.toString(), this.canvas.width - 100, 40)
+            this.ctx.fillText('Score: ' + this.score.toString(), 70, 40)
         this.ctx.closePath();
     }
 
@@ -257,7 +258,7 @@ class Game {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
             this.ctx.font = 
-            this.ctx.fillText('WPM: ' + actualWPM.toString(), 100, 40)
+            this.ctx.fillText('WPM: ' + actualWPM.toString(), this.canvas.width - 70, 40)
         this.ctx.closePath();
     }
 
