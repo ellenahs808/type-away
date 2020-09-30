@@ -28,6 +28,7 @@ class GameOverScreen {
             this.ctx.fill();
         this.ctx.closePath();
     }
+    
 
 };
 

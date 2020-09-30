@@ -130,8 +130,8 @@ var Game = /*#__PURE__*/function () {
     this.wpm = 0; // this.populateWords = this.populateWords.bind(this)
 
     this.start = this.start.bind(this);
-    this.restart = this.restart.bind(this);
-    this.gameOver = this.gameOver.bind(this);
+    this.restart = this.restart.bind(this); // this.gameOver = this.gameOver.bind(this);
+
     this.gameOverAnimate = this.gameOverAnimate.bind(this); // this.drawWord = this.drawWord.bind(this);
 
     this.gameLoop = this.gameLoop.bind(this);
@@ -142,14 +142,15 @@ var Game = /*#__PURE__*/function () {
   _createClass(Game, [{
     key: "start",
     value: function start(e) {
+      // debugger
       if (e.button === 0 || e.keyCode === 13) {
         // debugger
         this.page.removeEventListener('keydown', this.start);
         this.canvas.removeEventListener('click', this.start);
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
-        this.canvas.className === 'start-screen';
-        this.running = true;
+        this.canvas.className === 'start-screen'; // this.running = true;
+
         this.startTimer = Date.now(); // this.lastTime;
 
         requestAnimationFrame(this.gameLoop); // this.gameLoop();
@@ -171,7 +172,9 @@ var Game = /*#__PURE__*/function () {
     value: function gameLoop(timestamp) {
       //render
       // debugger
-      var loopTest = requestAnimationFrame(this.gameLoop); // requestAnimationFrame(this.gameLoop)
+      var loopTest = requestAnimationFrame(this.gameLoop); // this.page.removeEventListener("keydown", this.gameLoop);
+      // this.canvas.removeEventListener("click", this.gameLoop);
+      // requestAnimationFrame(this.gameLoop)
 
       this.input.focus();
       this.ctx.clearRect(0, 0, this.container.width, this.container.height);
@@ -186,7 +189,6 @@ var Game = /*#__PURE__*/function () {
         this.populateWords();
         this.lastTime = now;
       } //drawWord
-      // this.startTimer = Date.now();
 
 
       for (var i = 0; i < this.words.length; i++) {
@@ -206,24 +208,23 @@ var Game = /*#__PURE__*/function () {
             this.input.value = "";
             this.input.disabled = true;
             this.endTimer = Date.now();
-            console.log("Test end game");
             cancelAnimationFrame(loopTest);
             this.running = false;
             this.calculateWPM();
             break;
           }
         }
-      } // this.drawWord();
+      }
 
-
-      this.drawScoreCount(); // this.drawWPM();
-      // return;
+      this.drawScoreCount();
     }
   }, {
     key: "populateWords",
     value: function populateWords() {
       var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
+      var x = Math.floor(Math.random() * (1100 - 200)) + 200; // let x = 85
+      // let y = 55
+
       var y = -10;
       this.words.push({
         x: x,
@@ -320,7 +321,7 @@ var Game = /*#__PURE__*/function () {
     value: function drawScoreCount() {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = '28px "Fredericka the Great", cursive';
+      this.ctx.font = '30px "Fredericka the Great", cursive';
       this.ctx.fillText('score: ' + this.score.toString(), 70, 40);
       this.ctx.closePath();
     }
@@ -331,8 +332,8 @@ var Game = /*#__PURE__*/function () {
       var actualWPM = this.wpm;
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = '28px "Fredericka the Great", cursive';
-      this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 90, 40);
+      this.ctx.font = '30px "Fredericka the Great", cursive';
+      this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 92, 40);
       this.ctx.closePath();
     }
   }, {
@@ -358,20 +359,21 @@ var Game = /*#__PURE__*/function () {
       this.running = false;
       this.score = 0;
       this.word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas); // }
-    }
-  }, {
-    key: "gameOver",
-    value: function gameOver() {
-      // this.page.removeEventListener('keydown', this.play)  //not working
-      if (e.keyCode === 13 || e.button === 0) {
-        window.overInterval = setInterval(this.gameOverAnimate, 100);
-        this.canvas.removeEventListener("click", this.input.focus());
-        this.input.removeEventListener("keydown", this.handleWord);
-        this.input.removeEventListener("input", this.startTimer); // this.input.value = "";
-        // this.input.disabled = true;
-        // this.input.style.display = "none";  //not working
-      }
-    }
+    } // gameOver(e) {
+    //     // this.page.removeEventListener('keydown', this.play)  //not working
+    //     // debugger
+    //     if (e.keyCode === 13 || e.button === 0) {
+    //         window.overInterval = setInterval(this.gameOverAnimate, 100);
+    //         this.canvas.removeEventListener("click", this.input.focus());
+    //         this.input.removeEventListener("keydown", this.handleWord);
+    //         this.input.removeEventListener("input", this.startTimer);
+    //         this.gameLoop()
+    //         // this.canvas.addEventListener("click", this.gameLoop);
+    //         // this.page.addEventListener("keydown", this.gameLoop);
+    //         // this.start()
+    //     }
+    // }
+
   }, {
     key: "gameOverAnimate",
     value: function gameOverAnimate() {
@@ -379,9 +381,10 @@ var Game = /*#__PURE__*/function () {
       this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
       this.gameOverScreen.drawGameOver();
       this.gameOverScreen.fade += .05;
-      this.gameOverScreen.drawRestart();
-      this.canvas.addEventListener("click", this.start);
-      this.page.addEventListener("keydown", this.start);
+      this.gameOverScreen.drawRestart(); // this.canvas.addEventListener("click", this.gameOver);
+      // this.page.addEventListener("keydown", this.gameOver);
+      // this.gameOver()
+
       this.drawWPM(); // this.restart()
       // this.page.addEventListener('keydown', this.play);  // not working
     }

@@ -33,7 +33,7 @@ class Game {
         // this.populateWords = this.populateWords.bind(this)
         this.start = this.start.bind(this);
         this.restart = this.restart.bind(this);
-        this.gameOver = this.gameOver.bind(this);
+        // this.gameOver = this.gameOver.bind(this);
         this.gameOverAnimate = this.gameOverAnimate.bind(this);
         // this.drawWord = this.drawWord.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
@@ -46,6 +46,7 @@ class Game {
     
     
     start(e) {
+        // debugger
         if (e.button === 0 || e.keyCode === 13) {
             // debugger
             this.page.removeEventListener('keydown', this.start);
@@ -53,7 +54,7 @@ class Game {
             clearInterval(window.startInterval);
             clearInterval(window.overInterval); 
             this.canvas.className === 'start-screen'
-            this.running = true;
+            // this.running = true;
             this.startTimer = Date.now()
             // this.lastTime;
 
@@ -83,6 +84,9 @@ class Game {
         // debugger
         let loopTest = requestAnimationFrame(this.gameLoop);
 
+        // this.page.removeEventListener("keydown", this.gameLoop);
+        // this.canvas.removeEventListener("click", this.gameLoop);
+
         // requestAnimationFrame(this.gameLoop)
         this.input.focus();
 
@@ -95,6 +99,7 @@ class Game {
         let deltaTime = now - this.lastTime;  //gap between last time and now
         let randomTime = Math.floor(Math.random() * (2000 - 1000) + 1000);
         if (deltaTime > randomTime) {
+           
             this.populateWords()
             this.lastTime = now;
         }
@@ -102,7 +107,7 @@ class Game {
 
 
         //drawWord
-        // this.startTimer = Date.now();
+
         for (let i = 0; i < this.words.length; i++) {
             this.words[i].y -= this.words[i].speedY;
             for (let text in this.words) {
@@ -119,7 +124,6 @@ class Game {
                     this.input.value = "";
                     this.input.disabled = true;
                     this.endTimer = Date.now();
-                    console.log("Test end game")
                     cancelAnimationFrame(loopTest);
                     this.running = false;
                     this.calculateWPM();
@@ -129,13 +133,8 @@ class Game {
         }  
 
 
-        
-    
-        // this.drawWord();
         this.drawScoreCount();
-        // this.drawWPM();
 
-        // return;
     }
 
 
@@ -144,7 +143,9 @@ class Game {
      
         const word = new Word(this.ctx, this.canvas);
 
-        let x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
+        let x = Math.floor(Math.random() * (1100 - 200)) + 200;
+        // let x = 85
+        // let y = 55
         let y = -10;
         this.words.push({
             x,
@@ -249,7 +250,7 @@ class Game {
     drawScoreCount() {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
-            this.ctx.font = '28px "Fredericka the Great", cursive';
+            this.ctx.font = '30px "Fredericka the Great", cursive';
             this.ctx.fillText('score: ' + this.score.toString(), 70, 40)
         this.ctx.closePath();
     }
@@ -259,8 +260,8 @@ class Game {
         const actualWPM = this.wpm;
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
-            this.ctx.font = '28px "Fredericka the Great", cursive';
-            this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 90, 40)
+            this.ctx.font = '30px "Fredericka the Great", cursive';
+            this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 92, 40)
         this.ctx.closePath();
     }
 
@@ -292,31 +293,34 @@ class Game {
 
 
 
-    gameOver() {
-        // this.page.removeEventListener('keydown', this.play)  //not working
-        if (e.keyCode === 13 || e.button === 0) {
-            window.overInterval = setInterval(this.gameOverAnimate, 100);
+    // gameOver(e) {
+    //     // this.page.removeEventListener('keydown', this.play)  //not working
+    //     // debugger
+    //     if (e.keyCode === 13 || e.button === 0) {
+    //         window.overInterval = setInterval(this.gameOverAnimate, 100);
 
-            this.canvas.removeEventListener("click", this.input.focus());
-            this.input.removeEventListener("keydown", this.handleWord);
-            this.input.removeEventListener("input", this.startTimer);
-            // this.input.value = "";
-            // this.input.disabled = true;
-            // this.input.style.display = "none";  //not working
-        }
-    }
-
+    //         this.canvas.removeEventListener("click", this.input.focus());
+    //         this.input.removeEventListener("keydown", this.handleWord);
+    //         this.input.removeEventListener("input", this.startTimer);
+    //         this.gameLoop()
+    //         // this.canvas.addEventListener("click", this.gameLoop);
+    //         // this.page.addEventListener("keydown", this.gameLoop);
+    //         // this.start()
+    //     }
+    // }
 
     gameOverAnimate() {
         // debugger
+
         this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
         this.gameOverScreen.drawGameOver();
         this.gameOverScreen.fade += .05;
         this.gameOverScreen.drawRestart();
-        this.canvas.addEventListener("click", this.start);
-        this.page.addEventListener("keydown", this.start);
-
+        // this.canvas.addEventListener("click", this.gameOver);
+        // this.page.addEventListener("keydown", this.gameOver);
+        // this.gameOver()
         this.drawWPM();
+
 
         // this.restart()
         // this.page.addEventListener('keydown', this.play);  // not working
