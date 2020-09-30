@@ -195,9 +195,9 @@ var Game = /*#__PURE__*/function () {
         for (var text in this.words) {
           var t = this.words[text];
           this.ctx.beginPath();
-          this.ctx.fillText(t.text, t.x, t.y, 200);
-          this.ctx.fillStyle = "black";
-          this.ctx.font = '23px "Rubik"';
+          this.ctx.fillText(t.text, t.x, t.y, 400);
+          this.ctx.fillStyle = "midnightblue";
+          this.ctx.font = '24px "Livvic", sans-serif';
           this.ctx.closePath();
 
           if (t.y >= 758 && t.text !== "") {
