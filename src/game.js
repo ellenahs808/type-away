@@ -21,12 +21,14 @@ class Game {
             height: 750
         }
 
+        this.running = false;
         this.lastTime = Date.now();
         this.words = [];
         this.confettis = []
         this.score = 0;
-        this.startTimer = Date.now();
-
+        this.startTimer = 0;
+        this.endTimer = 0;
+        this.wpm = 0;
 
         // this.populateWords = this.populateWords.bind(this)
         this.start = this.start.bind(this);
@@ -36,6 +38,7 @@ class Game {
         // this.drawWord = this.drawWord.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.handleWord = this.handleWord.bind(this)
+        this.calculateWPM = this.calculateWPM.bind(this)
     }
     
 
@@ -51,10 +54,16 @@ class Game {
             clearInterval(window.overInterval); 
             this.canvas.className === 'start-screen'
             this.running = true;
-            this.startTimer;
+            this.startTimer = Date.now()
+            // this.lastTime;
+
+            window.requestAnimationFrame(this.gameLoop)
+
             // this.gameLoop();
             // let timestamp = Date.now()
-            requestAnimationFrame(this.gameLoop)
+            // cancelAnimationFrame(this.gameLoop);
+            // this.calculateWPM()
+            // this.drawWPM();
 
             this.input.disabled = false;
             this.input.style.display = 'block';
@@ -73,6 +82,8 @@ class Game {
     gameLoop(timestamp) {  //render
         // debugger
         let loopTest = requestAnimationFrame(this.gameLoop);
+
+        // requestAnimationFrame(this.gameLoop)
         this.input.focus();
 
         this.ctx.clearRect(0, 0, this.container.width, this.container.height)
@@ -88,12 +99,41 @@ class Game {
             this.lastTime = now;
         }
 
+
+
+        //drawWord
+        // this.startTimer = Date.now();
+        for (let i = 0; i < this.words.length; i++) {
+            this.words[i].y -= this.words[i].speedY;
+            for (let text in this.words) {
+            let t = this.words[text];
+            this.ctx.fillText(t.text, t.x, t.y, 200);
+            this.ctx.fillStyle = "black";
+            this.ctx.font = '23px "Rubik"';
+
+                if (t.y >= 758 && t.text !== "") {
+                    this.gameOverAnimate();
+                    this.input.style.display = "none";
+                    this.input.value = "";
+                    this.input.disabled = true;
+                    this.endTimer = Date.now();
+                    console.log("Test end game")
+                    cancelAnimationFrame(loopTest);
+                    this.running = false;
+                    this.calculateWPM();
+                    break;
+                }
+            }
+        }  
+
+
         
     
-        this.drawWord();
+        // this.drawWord();
         this.drawScoreCount();
         this.drawWPM();
 
+        // return;
     }
 
 
@@ -115,28 +155,32 @@ class Game {
     }
 
 
-    drawWord() {
-        // debugger
-        this.input.focus();
+    // drawWord() {
+    //     // debugger
+    //     this.input.focus();
 
-        for (let i = 0; i < this.words.length; i++) {
-            this.words[i].y -= this.words[i].speedY;
-            for (let text in this.words) {
-            let t = this.words[text];
-            this.ctx.fillText(t.text, t.x, t.y, 200);
-            this.ctx.fillStyle = "black";
-            this.ctx.font = '23px "Rubik"';
+    //     for (let i = 0; i < this.words.length; i++) {
+    //         this.words[i].y -= this.words[i].speedY;
+    //         for (let text in this.words) {
+    //         let t = this.words[text];
+    //         this.ctx.fillText(t.text, t.x, t.y, 200);
+    //         this.ctx.fillStyle = "black";
+    //         this.ctx.font = '23px "Rubik"';
 
-                if (t.y >= 758 && t.text !== "") {
-                    this.gameOverAnimate();
-                    this.input.style.display = "none";
-                    this.input.value = "";
-                    this.input.disabled = true;
-                    break;
-                }
-            }
-        }      
-    }
+    //             if (t.y >= 758 && t.text !== "") {
+    //                 this.gameOverAnimate();
+    //                 this.input.style.display = "none";
+    //                 this.input.value = "";
+    //                 this.input.disabled = true;
+    //                 this.endTimer = Date.now();
+    //                 this.ctx.clearRect(0, 0, this.container.width, this.container.height)
+    //                 cancelAnimationFrame(this.drawWord);
+    //                 this.calculateWPM();
+    //                 break;
+    //             }
+    //         }
+    //     }      
+    // }
 
 
     handleWord(e) {
@@ -208,13 +252,29 @@ class Game {
     }
 
     drawWPM() {
+        console.log(this.wpm)
+        const actualWPM = this.wpm;
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
             this.ctx.font = 
-            this.ctx.fillText('WPM: ' + this.startTimer.toString(), 100, 40)
+            this.ctx.fillText('WPM: ' + actualWPM.toString(), 100, 40)
         this.ctx.closePath();
     }
 
+
+    calculateWPM() {
+        // debugger
+        let timeDifference = this.endTimer - this.startTimer;
+        let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        if (minutes > 0) {
+          seconds += minutes * 60;
+        }
+        this.wpm = ((this.score * 60) / seconds).toFixed(2);
+        this.drawWPM()
+
+        
+    }
 
 
 
@@ -253,6 +313,7 @@ class Game {
         this.gameOverScreen.drawRestart();
         this.canvas.addEventListener("click", this.start);
         this.page.addEventListener("keydown", this.start);
+        // this.calculateWPM()
         // this.restart()
         // this.page.addEventListener('keydown', this.play);  // not working
     }

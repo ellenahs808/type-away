@@ -120,11 +120,14 @@ var Game = /*#__PURE__*/function () {
       width: 1200,
       height: 750
     };
+    this.running = false;
     this.lastTime = Date.now();
     this.words = [];
     this.confettis = [];
     this.score = 0;
-    this.startTimer = Date.now(); // this.populateWords = this.populateWords.bind(this)
+    this.startTimer = 0;
+    this.endTimer = 0;
+    this.wpm = 0; // this.populateWords = this.populateWords.bind(this)
 
     this.start = this.start.bind(this);
     this.restart = this.restart.bind(this);
@@ -133,6 +136,7 @@ var Game = /*#__PURE__*/function () {
 
     this.gameLoop = this.gameLoop.bind(this);
     this.handleWord = this.handleWord.bind(this);
+    this.calculateWPM = this.calculateWPM.bind(this);
   }
 
   _createClass(Game, [{
@@ -146,10 +150,14 @@ var Game = /*#__PURE__*/function () {
         clearInterval(window.overInterval);
         this.canvas.className === 'start-screen';
         this.running = true;
-        this.startTimer; // this.gameLoop();
-        // let timestamp = Date.now()
+        this.startTimer = Date.now(); // this.lastTime;
 
-        requestAnimationFrame(this.gameLoop);
+        window.requestAnimationFrame(this.gameLoop); // this.gameLoop();
+        // let timestamp = Date.now()
+        // cancelAnimationFrame(this.gameLoop);
+        // this.calculateWPM()
+        // this.drawWPM();
+
         this.input.disabled = false;
         this.input.style.display = 'block';
         this.input.focus();
@@ -163,7 +171,8 @@ var Game = /*#__PURE__*/function () {
     value: function gameLoop(timestamp) {
       //render
       // debugger
-      var loopTest = requestAnimationFrame(this.gameLoop);
+      var loopTest = requestAnimationFrame(this.gameLoop); // requestAnimationFrame(this.gameLoop)
+
       this.input.focus();
       this.ctx.clearRect(0, 0, this.container.width, this.container.height);
       this.canvas.addEventListener('click', this.input.focus());
@@ -176,31 +185,9 @@ var Game = /*#__PURE__*/function () {
       if (deltaTime > randomTime) {
         this.populateWords();
         this.lastTime = now;
-      }
+      } //drawWord
+      // this.startTimer = Date.now();
 
-      this.drawWord();
-      this.drawScoreCount();
-      this.drawWPM();
-    }
-  }, {
-    key: "populateWords",
-    value: function populateWords() {
-      var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
-      var y = -10;
-      this.words.push({
-        x: x,
-        y: y,
-        text: word.randomizeWord(),
-        speedX: 2,
-        speedY: -(Math.random() * (1.2 - 1.1) + 1.1)
-      });
-    }
-  }, {
-    key: "drawWord",
-    value: function drawWord() {
-      // debugger
-      this.input.focus();
 
       for (var i = 0; i < this.words.length; i++) {
         this.words[i].y -= this.words[i].speedY;
@@ -216,11 +203,58 @@ var Game = /*#__PURE__*/function () {
             this.input.style.display = "none";
             this.input.value = "";
             this.input.disabled = true;
+            this.endTimer = Date.now();
+            console.log("Test end game");
+            cancelAnimationFrame(loopTest);
+            this.running = false;
+            this.calculateWPM();
             break;
           }
         }
-      }
+      } // this.drawWord();
+
+
+      this.drawScoreCount();
+      this.drawWPM(); // return;
     }
+  }, {
+    key: "populateWords",
+    value: function populateWords() {
+      var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
+      var x = Math.floor(Math.random() * (this.container.width - 200)) + 85;
+      var y = -10;
+      this.words.push({
+        x: x,
+        y: y,
+        text: word.randomizeWord(),
+        speedX: 2,
+        speedY: -(Math.random() * (1.2 - 1.1) + 1.1)
+      });
+    } // drawWord() {
+    //     // debugger
+    //     this.input.focus();
+    //     for (let i = 0; i < this.words.length; i++) {
+    //         this.words[i].y -= this.words[i].speedY;
+    //         for (let text in this.words) {
+    //         let t = this.words[text];
+    //         this.ctx.fillText(t.text, t.x, t.y, 200);
+    //         this.ctx.fillStyle = "black";
+    //         this.ctx.font = '23px "Rubik"';
+    //             if (t.y >= 758 && t.text !== "") {
+    //                 this.gameOverAnimate();
+    //                 this.input.style.display = "none";
+    //                 this.input.value = "";
+    //                 this.input.disabled = true;
+    //                 this.endTimer = Date.now();
+    //                 this.ctx.clearRect(0, 0, this.container.width, this.container.height)
+    //                 cancelAnimationFrame(this.drawWord);
+    //                 this.calculateWPM();
+    //                 break;
+    //             }
+    //         }
+    //     }      
+    // }
+
   }, {
     key: "handleWord",
     value: function handleWord(e) {
@@ -289,10 +323,27 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "drawWPM",
     value: function drawWPM() {
+      console.log(this.wpm);
+      var actualWPM = this.wpm;
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = this.ctx.fillText('WPM: ' + this.startTimer.toString(), 100, 40);
+      this.ctx.font = this.ctx.fillText('WPM: ' + actualWPM.toString(), 100, 40);
       this.ctx.closePath();
+    }
+  }, {
+    key: "calculateWPM",
+    value: function calculateWPM() {
+      // debugger
+      var timeDifference = this.endTimer - this.startTimer;
+      var minutes = Math.floor(timeDifference % (1000 * 60 * 60) / (1000 * 60));
+      var seconds = Math.floor(timeDifference % (1000 * 60) / 1000);
+
+      if (minutes > 0) {
+        seconds += minutes * 60;
+      }
+
+      this.wpm = (this.score * 60 / seconds).toFixed(2);
+      this.drawWPM();
     }
   }, {
     key: "restart",
@@ -326,7 +377,8 @@ var Game = /*#__PURE__*/function () {
       this.gameOverScreen.fade += .05;
       this.gameOverScreen.drawRestart();
       this.canvas.addEventListener("click", this.start);
-      this.page.addEventListener("keydown", this.start); // this.restart()
+      this.page.addEventListener("keydown", this.start); // this.calculateWPM()
+      // this.restart()
       // this.page.addEventListener('keydown', this.play);  // not working
     }
   }]);
