@@ -95,16 +95,18 @@ class Game {
         this.input.addEventListener('keydown', this.handleWord)
 
 
+
         let now = Date.now();
         let deltaTime = now - this.lastTime;  //gap between last time and now
         let randomTime = Math.floor(Math.random() * (2000 - 1000) + 1000);
         if (deltaTime > randomTime) {
-           
+           this.ctx.clearRect(0, 0, this.container.width, this.container.height)
             this.populateWords()
             this.lastTime = now;
         }
 
 
+        // this.drawScoreCount();
 
         //drawWord
 
@@ -133,7 +135,7 @@ class Game {
         }  
 
 
-        this.drawScoreCount();
+        // this.drawScoreCount();
 
     }
 
@@ -143,7 +145,7 @@ class Game {
      
         const word = new Word(this.ctx, this.canvas);
 
-        let x = Math.floor(Math.random() * (1100 - 200)) + 200;
+        let x = Math.floor(Math.random() * (1000 -150)) + 150;
         // let x = 85
         // let y = 55
         let y = -10;
@@ -251,7 +253,7 @@ class Game {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
             this.ctx.font = '30px "Fredericka the Great", cursive';
-            this.ctx.fillText('score: ' + this.score.toString(), 70, 40)
+            this.ctx.fillText('score: ' + this.score.toString(), 520, 400)
         this.ctx.closePath();
     }
 
@@ -261,7 +263,7 @@ class Game {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
             this.ctx.font = '30px "Fredericka the Great", cursive';
-            this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 92, 40)
+            this.ctx.fillText('wpm: ' + this.wpm.toString(), 520, 450)
         this.ctx.closePath();
     }
 
@@ -319,6 +321,7 @@ class Game {
         // this.canvas.addEventListener("click", this.gameOver);
         // this.page.addEventListener("keydown", this.gameOver);
         // this.gameOver()
+        this.drawScoreCount();
         this.drawWPM();
 
 

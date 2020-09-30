@@ -186,9 +186,11 @@ var Game = /*#__PURE__*/function () {
       var randomTime = Math.floor(Math.random() * (2000 - 1000) + 1000);
 
       if (deltaTime > randomTime) {
+        this.ctx.clearRect(0, 0, this.container.width, this.container.height);
         this.populateWords();
         this.lastTime = now;
-      } //drawWord
+      } // this.drawScoreCount();
+      //drawWord
 
 
       for (var i = 0; i < this.words.length; i++) {
@@ -214,15 +216,14 @@ var Game = /*#__PURE__*/function () {
             break;
           }
         }
-      }
+      } // this.drawScoreCount();
 
-      this.drawScoreCount();
     }
   }, {
     key: "populateWords",
     value: function populateWords() {
       var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (1100 - 200)) + 200; // let x = 85
+      var x = Math.floor(Math.random() * (1000 - 150)) + 150; // let x = 85
       // let y = 55
 
       var y = -10;
@@ -322,7 +323,7 @@ var Game = /*#__PURE__*/function () {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
       this.ctx.font = '30px "Fredericka the Great", cursive';
-      this.ctx.fillText('score: ' + this.score.toString(), 70, 40);
+      this.ctx.fillText('score: ' + this.score.toString(), 520, 400);
       this.ctx.closePath();
     }
   }, {
@@ -333,7 +334,7 @@ var Game = /*#__PURE__*/function () {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
       this.ctx.font = '30px "Fredericka the Great", cursive';
-      this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 92, 40);
+      this.ctx.fillText('wpm: ' + this.wpm.toString(), 520, 450);
       this.ctx.closePath();
     }
   }, {
@@ -385,6 +386,7 @@ var Game = /*#__PURE__*/function () {
       // this.page.addEventListener("keydown", this.gameOver);
       // this.gameOver()
 
+      this.drawScoreCount();
       this.drawWPM(); // this.restart()
       // this.page.addEventListener('keydown', this.play);  // not working
     }
@@ -429,7 +431,7 @@ var GameOverScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = "rgba(255, 255, 255, ".concat(this.fade);
       this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Game Over', 600, 400);
+      this.ctx.fillText('Game Over', 520, 350);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -437,10 +439,10 @@ var GameOverScreen = /*#__PURE__*/function () {
     key: "drawRestart",
     value: function drawRestart() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = "blueviolet";
+      this.ctx.fillStyle = "khaki";
       this.ctx.textAlign = "center";
       this.ctx.font = '36px "Fredericka the Great", cursive';
-      this.ctx.fillText("click refresh to restart", 600, 500);
+      this.ctx.fillText("click refresh to restart", 520, 520);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -539,7 +541,7 @@ var StartScreen = /*#__PURE__*/function () {
       this.ctx.fillStyle = 'aqua';
       this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText("Type Away", 600, titlePosition);
+      this.ctx.fillText("Type Away", 520, titlePosition);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -547,10 +549,10 @@ var StartScreen = /*#__PURE__*/function () {
     key: "drawStartClick",
     value: function drawStartClick() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = "blueviolet";
+      this.ctx.fillStyle = "khaki";
       this.ctx.font = '38px "Fredericka the Great", cursive';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('click or press enter to start', 600, 500);
+      this.ctx.fillText('click or press enter to start', 520, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }
