@@ -20,9 +20,9 @@ class StartScreen {
     drawStartClick() {
         this.ctx.beginPath();
             this.ctx.fillStyle = "blueviolet";
-            this.ctx.font = '38px "Sirin Stencil"';
+            this.ctx.font = '38px "Fredericka the Great", cursive';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Click to Start', 600, 500);
+            this.ctx.fillText('click or press enter to start', 600, 500);
             this.ctx.fill();
         this.ctx.closePath();
     }

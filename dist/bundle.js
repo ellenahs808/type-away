@@ -194,9 +194,11 @@ var Game = /*#__PURE__*/function () {
 
         for (var text in this.words) {
           var t = this.words[text];
+          this.ctx.beginPath();
           this.ctx.fillText(t.text, t.x, t.y, 200);
           this.ctx.fillStyle = "black";
           this.ctx.font = '23px "Rubik"';
+          this.ctx.closePath();
 
           if (t.y >= 758 && t.text !== "") {
             this.gameOverAnimate();
@@ -318,7 +320,8 @@ var Game = /*#__PURE__*/function () {
     value: function drawScoreCount() {
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = this.ctx.fillText('Score: ' + this.score.toString(), 70, 40);
+      this.ctx.font = '28px "Fredericka the Great", cursive';
+      this.ctx.fillText('score: ' + this.score.toString(), 70, 40);
       this.ctx.closePath();
     }
   }, {
@@ -328,7 +331,8 @@ var Game = /*#__PURE__*/function () {
       var actualWPM = this.wpm;
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
-      this.ctx.font = this.ctx.fillText('WPM: ' + actualWPM.toString(), this.canvas.width - 70, 40);
+      this.ctx.font = '28px "Fredericka the Great", cursive';
+      this.ctx.fillText('wpm: ' + actualWPM.toString(), this.canvas.width - 70, 40);
       this.ctx.closePath();
     }
   }, {
@@ -433,8 +437,8 @@ var GameOverScreen = /*#__PURE__*/function () {
       this.ctx.beginPath();
       this.ctx.fillStyle = "blueviolet";
       this.ctx.textAlign = "center";
-      this.ctx.font = '36px "Sirin Stencil"';
-      this.ctx.fillText("Click Refresh to Restart", 600, 500);
+      this.ctx.font = '36px "Fredericka the Great", cursive';
+      this.ctx.fillText("click refresh to restart", 600, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -542,9 +546,9 @@ var StartScreen = /*#__PURE__*/function () {
     value: function drawStartClick() {
       this.ctx.beginPath();
       this.ctx.fillStyle = "blueviolet";
-      this.ctx.font = '38px "Sirin Stencil"';
+      this.ctx.font = '38px "Fredericka the Great", cursive';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Click to Start', 600, 500);
+      this.ctx.fillText('click or press enter to start', 600, 500);
       this.ctx.fill();
       this.ctx.closePath();
     }

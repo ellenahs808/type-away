@@ -107,9 +107,11 @@ class Game {
             this.words[i].y -= this.words[i].speedY;
             for (let text in this.words) {
             let t = this.words[text];
-            this.ctx.fillText(t.text, t.x, t.y, 200);
-            this.ctx.fillStyle = "black";
-            this.ctx.font = '23px "Rubik"';
+            this.ctx.beginPath();
+                this.ctx.fillText(t.text, t.x, t.y, 200);
+                this.ctx.fillStyle = "black";
+                this.ctx.font = '23px "Rubik"';
+            this.ctx.closePath();
 
                 if (t.y >= 758 && t.text !== "") {
                     this.gameOverAnimate();
@@ -247,8 +249,8 @@ class Game {
     drawScoreCount() {
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
-            this.ctx.font = 
-            this.ctx.fillText('Score: ' + this.score.toString(), 70, 40)
+            this.ctx.font = '28px "Fredericka the Great", cursive';
+            this.ctx.fillText('score: ' + this.score.toString(), 70, 40)
         this.ctx.closePath();
     }
 
@@ -257,8 +259,8 @@ class Game {
         const actualWPM = this.wpm;
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
-            this.ctx.font = 
-            this.ctx.fillText('WPM: ' + actualWPM.toString(), this.canvas.width - 70, 40)
+            this.ctx.font = '28px "Fredericka the Great", cursive';
+            this.ctx.fillText('wpm: ' + actualWPM.toString(), this.canvas.width - 70, 40)
         this.ctx.closePath();
     }
 
