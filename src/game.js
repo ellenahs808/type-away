@@ -57,7 +57,7 @@ class Game {
             this.startTimer = Date.now()
             // this.lastTime;
 
-            window.requestAnimationFrame(this.gameLoop)
+            requestAnimationFrame(this.gameLoop)
 
             // this.gameLoop();
             // let timestamp = Date.now()
@@ -93,7 +93,7 @@ class Game {
 
         let now = Date.now();
         let deltaTime = now - this.lastTime;  //gap between last time and now
-        let randomTime = Math.floor(Math.random() * (3000 - 2000) + 2000);
+        let randomTime = Math.floor(Math.random() * (2000 - 1000) + 1000);
         if (deltaTime > randomTime) {
             this.populateWords()
             this.lastTime = now;
@@ -133,7 +133,7 @@ class Game {
     
         // this.drawWord();
         this.drawScoreCount();
-        this.drawWPM();
+        // this.drawWPM();
 
         // return;
     }
@@ -255,12 +255,12 @@ class Game {
     }
 
     drawWPM() {
-        console.log(this.wpm)
+        // console.log(this.wpm)
         const actualWPM = this.wpm;
         this.ctx.beginPath();
             this.ctx.fillStyle = 'white';
             this.ctx.font = '28px "Fredericka the Great", cursive';
-            this.ctx.fillText('wpm: ' + actualWPM.toString(), this.canvas.width - 70, 40)
+            this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 90, 40)
         this.ctx.closePath();
     }
 
@@ -274,9 +274,8 @@ class Game {
           seconds += minutes * 60;
         }
         this.wpm = ((this.score * 60) / seconds).toFixed(2);
-        this.drawWPM()
+        // this.drawWPM()
 
-        
     }
 
 
@@ -316,7 +315,9 @@ class Game {
         this.gameOverScreen.drawRestart();
         this.canvas.addEventListener("click", this.start);
         this.page.addEventListener("keydown", this.start);
-        // this.calculateWPM()
+
+        this.drawWPM();
+
         // this.restart()
         // this.page.addEventListener('keydown', this.play);  // not working
     }

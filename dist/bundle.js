@@ -152,7 +152,7 @@ var Game = /*#__PURE__*/function () {
         this.running = true;
         this.startTimer = Date.now(); // this.lastTime;
 
-        window.requestAnimationFrame(this.gameLoop); // this.gameLoop();
+        requestAnimationFrame(this.gameLoop); // this.gameLoop();
         // let timestamp = Date.now()
         // cancelAnimationFrame(this.gameLoop);
         // this.calculateWPM()
@@ -180,7 +180,7 @@ var Game = /*#__PURE__*/function () {
       var now = Date.now();
       var deltaTime = now - this.lastTime; //gap between last time and now
 
-      var randomTime = Math.floor(Math.random() * (3000 - 2000) + 2000);
+      var randomTime = Math.floor(Math.random() * (2000 - 1000) + 1000);
 
       if (deltaTime > randomTime) {
         this.populateWords();
@@ -216,8 +216,8 @@ var Game = /*#__PURE__*/function () {
       } // this.drawWord();
 
 
-      this.drawScoreCount();
-      this.drawWPM(); // return;
+      this.drawScoreCount(); // this.drawWPM();
+      // return;
     }
   }, {
     key: "populateWords",
@@ -327,12 +327,12 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "drawWPM",
     value: function drawWPM() {
-      console.log(this.wpm);
+      // console.log(this.wpm)
       var actualWPM = this.wpm;
       this.ctx.beginPath();
       this.ctx.fillStyle = 'white';
       this.ctx.font = '28px "Fredericka the Great", cursive';
-      this.ctx.fillText('wpm: ' + actualWPM.toString(), this.canvas.width - 70, 40);
+      this.ctx.fillText('wpm: ' + this.wpm.toString(), this.canvas.width - 90, 40);
       this.ctx.closePath();
     }
   }, {
@@ -347,8 +347,7 @@ var Game = /*#__PURE__*/function () {
         seconds += minutes * 60;
       }
 
-      this.wpm = (this.score * 60 / seconds).toFixed(2);
-      this.drawWPM();
+      this.wpm = (this.score * 60 / seconds).toFixed(2); // this.drawWPM()
     }
   }, {
     key: "restart",
@@ -382,8 +381,8 @@ var Game = /*#__PURE__*/function () {
       this.gameOverScreen.fade += .05;
       this.gameOverScreen.drawRestart();
       this.canvas.addEventListener("click", this.start);
-      this.page.addEventListener("keydown", this.start); // this.calculateWPM()
-      // this.restart()
+      this.page.addEventListener("keydown", this.start);
+      this.drawWPM(); // this.restart()
       // this.page.addEventListener('keydown', this.play);  // not working
     }
   }]);
