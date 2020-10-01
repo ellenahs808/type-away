@@ -8,12 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
     const input = document.getElementById("typing-form")
-    // let introAudio = document.getElementById("intro-audio");
+    // let gameAudio = document.getElementById("game-audio");
 
 
-    // function playIntroAudio() {
-    //     introAudio.play();
-    //     introAudio.autoplay = true;
+    // window.onload = function () {
+    //   document.getElementById('game-audio').play();
+    // };
+
+    // window.onload = function playAudio() {
+    //     // gameAudio.play();
+    //     // gameAudio.autoplay = true;
+    //     autoplay = "true";
+    //     muted = "false";
     // }
 
     // if (page) {
@@ -69,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gameAudio.pause()
     }
 
-    // let introAudio = document.getElementById('intro-audio')
+    let introAudio = document.getElementById('intro-audio')
     let gameAudio = document.getElementById('game-audio')
     const playBtn = document.getElementById('play-audio')
     const pauseBtn = document.getElementById('pause-audio')

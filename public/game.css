@@ -113,7 +113,7 @@ a > i:hover {
 
 
 
-/* audio not working?*/
+/* audio*/
 
 #clear-game-pause {
     display: none;
@@ -121,4 +121,9 @@ a > i:hover {
 
 #clear-game-play {
     display: none;
+}
+
+
+.clear-music-button {
+    display: none; 
 }
