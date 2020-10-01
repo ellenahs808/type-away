@@ -31,18 +31,19 @@
     <!-- <h1>Type Away</h1> -->
 
     <div class="side-container">
-        <button class="instructions-btn">
+        <button onclick="gameInstructions()" class="instructions-btn">
             <img src="./public/balloon2.gif" alt="balloon" width="110" height="100">
             Instructions
         </button>
-        <p class="instructions">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione repellat delectus fugiat voluptas eius fugit ut voluptates reiciendis!</p>
-        <iframe src="https://giphy.com/embed/lqSDx8SI1916ysr4eq" width="110" height="100" frameBorder="0" class="giphy-embed"
-            allowFullScreen></iframe>
+        <div id="instructions">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione repellat delectus fugiat voluptas eius fugit ut
+            voluptates reiciendis!
+        </div>
 
         <audio id="game-audio" src="https://asoap-dev.s3-us-west-1.amazonaws.com/type-away/game-audio.mp3" autoplay="autoplay" loop="loop"></audio>
-        <p>Melody:</p>
-        <button id="play-audio" class="music-button-styles"><img src="./public/pause-audio.png" alt="" width="110" height="100"></button>
-        <button id="pause-audio" class="clear-music-button music-button-styles"><img src="./public/play.gif" alt="" width="110" height="100"></i></button>
+        <p>🎶</p>
+        <button id="play-audio" class="music-button-styles"><img src="./public/pause-audio.png" alt="" width="150" height="130"></button>
+        <button id="pause-audio" class="clear-music-button music-button-styles"><img src="./public/play.gif" alt="" width="150" height="130"></button>
 
     </div>
 
@@ -52,6 +53,16 @@
         <input id="typing-form" disabled autofocus autocapitalize="none"></input>
     </div>
 
+    <script>
+        function gameInstructions() {
+            var x = document.getElementById('instructions');
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     
 </body>
 

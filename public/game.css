@@ -50,13 +50,19 @@ h1 {
 }
 
 
-.instructions {
-    font-family: "Emilys Candy", cursive;
+.instructions-par {
+  font-family: "Emilys Candy", cursive;
   font-size: 18px;
   color: whitesmoke;
 }
   
-
+#instructions {
+  width: 100%;
+  padding: 50px 0;
+  text-align: center;
+  background-color: lightblue;
+  margin-top: 20px;
+}
 
   
 
@@ -126,4 +132,18 @@ a > i:hover {
 
 .clear-music-button {
     display: none; 
+}
+
+#play-audio {
+  background-color: transparent;
+  display: absolute;
+  border: 0px;
+  outline: none;
+}
+
+#pause-audio {
+  background-color: transparent;
+  display: absolute;
+  border: 0px;
+  outline: none;
 }
