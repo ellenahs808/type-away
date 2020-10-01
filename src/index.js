@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // debugger
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         titlePosition += 6;
-        if (titlePosition >= 400) {
-            titlePosition = 400;
+        if (titlePosition >= 350) {
+            titlePosition = 350;
             startCounter += .5;
             if (startCounter % 10 <= 6) {
                 startScreen.drawStartClick();

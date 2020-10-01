@@ -74,7 +74,7 @@ h1 {
 
 .instructions-div > div {
   border: dotted 1px magenta;
-  /* border-bottom: dashed 1px magenta; */
+  border-radius: 15px;
 }
 
 .instructions-div > h1 {
