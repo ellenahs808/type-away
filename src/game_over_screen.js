@@ -13,7 +13,7 @@ class GameOverScreen {
             this.ctx.fillStyle = `rgba(0, 255, 255, ${this.fade}`;
             this.ctx.font = '80px "Bungee Outline"';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText('Game Over', 520, 350);
+            this.ctx.fillText("It's Ok ♡ Try Again", 520, 360);
             this.ctx.fill();
         this.ctx.closePath();
     }
@@ -24,7 +24,7 @@ class GameOverScreen {
             this.ctx.fillStyle = "khaki";
             this.ctx.textAlign = "center";
             this.ctx.font = '36px "Fredericka the Great", cursive';
-            this.ctx.fillText("click refresh to restart", 520, 520);
+            this.ctx.fillText("click refresh to restart", 520, 540);
             this.ctx.fill();
         this.ctx.closePath();
     }
