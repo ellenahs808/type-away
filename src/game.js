@@ -117,7 +117,7 @@ class Game {
             this.ctx.beginPath();
                 this.ctx.fillText(t.text, t.x, t.y, 400);
                 this.ctx.fillStyle = "midnightblue";
-                this.ctx.font = '24px "Livvic", sans-serif';
+                this.ctx.font = '24px "Arima Madurai", cursive'
             this.ctx.closePath();
 
                 if (t.y >= 758 && t.text !== "") {

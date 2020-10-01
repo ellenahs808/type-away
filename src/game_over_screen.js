@@ -10,7 +10,7 @@ class GameOverScreen {
 
     drawGameOver() {
         this.ctx.beginPath();
-            this.ctx.fillStyle = `rgba(255, 255, 255, ${this.fade}`;
+            this.ctx.fillStyle = `rgba(0, 255, 255, ${this.fade}`;
             this.ctx.font = '80px "Bungee Outline"';
             this.ctx.textAlign = 'center';
             this.ctx.fillText('Game Over', 520, 350);

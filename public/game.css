@@ -16,7 +16,7 @@ h1 {
   /* margin-left: auto;
   margin-right: auto; */
         /* height: 750px; */
-    width: 100%;
+    /* width: 80%; */
 }
 
 .game-container {
@@ -86,19 +86,27 @@ h1 {
   display: flex;
   flex-direction: column;
   font-size: 70px;
-  padding: 0;
-  margin: 0;
-  justify-content: space-evenly;
-  /* color: rgba(94, 24, 160, 0.746); */
-  color: rgb(205, 211, 119);
-}
-
-
-.icons {
   padding: 0 30px;
+  margin: 0;
+  justify-content: space-between;
 }
 
-.fab-fa-github {
-  color: yellow;
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+
+a > i {
+  color: #541a8b;
+}
+
+
+a > i:hover {
+  color: khaki;
+  transition: 0.8s;
+    transition-property: color, transform;
 }
 

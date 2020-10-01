@@ -201,7 +201,7 @@ var Game = /*#__PURE__*/function () {
           this.ctx.beginPath();
           this.ctx.fillText(t.text, t.x, t.y, 400);
           this.ctx.fillStyle = "midnightblue";
-          this.ctx.font = '24px "Livvic", sans-serif';
+          this.ctx.font = '24px "Arima Madurai", cursive';
           this.ctx.closePath();
 
           if (t.y >= 758 && t.text !== "") {
@@ -428,7 +428,7 @@ var GameOverScreen = /*#__PURE__*/function () {
     key: "drawGameOver",
     value: function drawGameOver() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = "rgba(255, 255, 255, ".concat(this.fade);
+      this.ctx.fillStyle = "rgba(0, 255, 255, ".concat(this.fade);
       this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
       this.ctx.fillText('Game Over', 520, 350);
