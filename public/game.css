@@ -20,9 +20,9 @@ h1 {
 }
 
 .game-container {
-    background: rgba(0, 255, 34, 0.075);
+    /* background: rgba(0, 255, 34, 0.075);
     border: 2px solid rgba(137, 43, 226, 0.431);
-    /* display: flex; */
+    display: flex; */
     margin-left: auto;
     margin-right: auto;
     height: 750px;
@@ -33,7 +33,7 @@ h1 {
     background: rgba(0, 255, 34, 0.075);
     background-color: transparent;
     padding: 0 30px;
-    width: 180px;
+    width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -101,12 +101,24 @@ h1 {
 
 a > i {
   color: #541a8b;
+  padding: 80px 0;
 }
 
 
 a > i:hover {
   color: khaki;
-  transition: 0.8s;
-    transition-property: color, transform;
+  transition: 0.5s;
+  transition-property: color, transform;
 }
 
+
+
+/* audio */
+
+#clear-game-pause {
+    display: none;
+}
+
+#clear-game-play {
+    display: none;
+}

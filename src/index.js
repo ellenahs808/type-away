@@ -8,11 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
     const input = document.getElementById("typing-form")
+    // let introAudio = document.getElementById("intro-audio");
+
+
+    // function playIntroAudio() {
+    //     introAudio.play();
+    //     introAudio.autoplay = true;
+    // }
+
+    // if (page) {
+
+    //     document.getElementById("intro-audio").play();
+    // }
+
 
 
     const startScreen = new StartScreen(ctx, canvas);
     const game = new Game(canvas, ctx, page, input);
-
 
 
     let titlePosition = 200;
@@ -31,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 null;
             }
 
+
+
             canvas.addEventListener('click', game.start)
             page.addEventListener('keydown', game.start)
         }
@@ -39,13 +53,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
- 
     if (canvas.className === 'start-screen') {
         input.style.display = 'none';
         window.startInterval = setInterval(titleDrop, 70)
     }
 
+
+    //Audio
+
+    function playAudio() {
+        gameAudio.play()
+    }
+    
+    function pauseAudio() {
+        gameAudio.pause()
+    }
+
+    // let introAudio = document.getElementById('intro-audio')
+    let gameAudio = document.getElementById('game-audio')
+    const playBtn = document.getElementById('play-audio')
+    const pauseBtn = document.getElementById('pause-audio')
+
+    playBtn.addEventListener('click', function(e) {
+        e.preventDefault()
+        playAudio()
+        playBtn.setAttribute('class', 'clear-music-button')
+        pauseBtn.removeAttribute('class', 'clear-music-button')
+    })
+
+    pauseBtn.addEventListener('click', function(e) {
+        e.preventDefault()
+        pauseAudio()
+        pauseBtn.setAttribute('class', 'clear-music-button')
+        playBtn.removeAttribute('class', 'clear-music-button')
+    })
 
 });
 
