@@ -60,11 +60,6 @@ class Game {
 
             requestAnimationFrame(this.gameLoop)
 
-            // this.gameLoop();
-            // let timestamp = Date.now()
-            // cancelAnimationFrame(this.gameLoop);
-            // this.calculateWPM()
-            // this.drawWPM();
 
             this.input.disabled = false;
             this.input.style.display = 'block';
@@ -84,10 +79,6 @@ class Game {
         // debugger
         let loopTest = requestAnimationFrame(this.gameLoop);
 
-        // this.page.removeEventListener("keydown", this.gameLoop);
-        // this.canvas.removeEventListener("click", this.gameLoop);
-
-        // requestAnimationFrame(this.gameLoop)
         this.input.focus();
 
         this.ctx.clearRect(0, 0, this.container.width, this.container.height)
@@ -98,17 +89,13 @@ class Game {
 
         let now = Date.now();
         let deltaTime = now - this.lastTime;  //gap between last time and now
-        let randomTime = Math.floor(Math.random() * (4000 - 2000) + 2000);
+        let randomTime = Math.floor(Math.random() * (3000 - 1050) + 1050);
         if (deltaTime > randomTime) {
            this.ctx.clearRect(0, 0, this.container.width, this.container.height)
             this.populateWords()
             this.lastTime = now;
         }
 
-
-        // this.drawScoreCount();
-
-        //drawWord
 
         for (let i = 0; i < this.words.length; i++) {
             this.words[i].y -= this.words[i].speedY;
@@ -133,10 +120,6 @@ class Game {
                 }
             }
         }  
-
-
-        // this.drawScoreCount();
-
     }
 
 
@@ -154,8 +137,8 @@ class Game {
             y,
             text: word.randomizeWord(),
             speedX: 2,
-            // speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
-            speedY: -0.9
+            speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
+            // speedY: -0.9
         });
 
     }

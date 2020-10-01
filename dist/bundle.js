@@ -153,12 +153,7 @@ var Game = /*#__PURE__*/function () {
 
         this.startTimer = Date.now(); // this.lastTime;
 
-        requestAnimationFrame(this.gameLoop); // this.gameLoop();
-        // let timestamp = Date.now()
-        // cancelAnimationFrame(this.gameLoop);
-        // this.calculateWPM()
-        // this.drawWPM();
-
+        requestAnimationFrame(this.gameLoop);
         this.input.disabled = false;
         this.input.style.display = 'block';
         this.input.focus();
@@ -172,10 +167,7 @@ var Game = /*#__PURE__*/function () {
     value: function gameLoop(timestamp) {
       //render
       // debugger
-      var loopTest = requestAnimationFrame(this.gameLoop); // this.page.removeEventListener("keydown", this.gameLoop);
-      // this.canvas.removeEventListener("click", this.gameLoop);
-      // requestAnimationFrame(this.gameLoop)
-
+      var loopTest = requestAnimationFrame(this.gameLoop);
       this.input.focus();
       this.ctx.clearRect(0, 0, this.container.width, this.container.height);
       this.canvas.addEventListener('click', this.input.focus());
@@ -183,15 +175,13 @@ var Game = /*#__PURE__*/function () {
       var now = Date.now();
       var deltaTime = now - this.lastTime; //gap between last time and now
 
-      var randomTime = Math.floor(Math.random() * (4000 - 2000) + 2000);
+      var randomTime = Math.floor(Math.random() * (3000 - 1050) + 1050);
 
       if (deltaTime > randomTime) {
         this.ctx.clearRect(0, 0, this.container.width, this.container.height);
         this.populateWords();
         this.lastTime = now;
-      } // this.drawScoreCount();
-      //drawWord
-
+      }
 
       for (var i = 0; i < this.words.length; i++) {
         this.words[i].y -= this.words[i].speedY;
@@ -216,8 +206,7 @@ var Game = /*#__PURE__*/function () {
             break;
           }
         }
-      } // this.drawScoreCount();
-
+      }
     }
   }, {
     key: "populateWords",
@@ -232,8 +221,8 @@ var Game = /*#__PURE__*/function () {
         y: y,
         text: word.randomizeWord(),
         speedX: 2,
-        // speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
-        speedY: -0.9
+        speedY: -(Math.random() * (1.0 - 0.9) + 0.9) // speedY: -0.9
+
       });
     } // drawWord() {
     //     // debugger
@@ -420,7 +409,6 @@ var GameOverScreen = /*#__PURE__*/function () {
 
     this.ctx = ctx;
     this.canvas = canvas;
-    this.fade = 0;
     this.endCounter = 0;
   }
 
@@ -428,7 +416,7 @@ var GameOverScreen = /*#__PURE__*/function () {
     key: "drawGameOver",
     value: function drawGameOver() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = "rgba(0, 255, 255, ".concat(this.fade);
+      this.ctx.fillStyle = 'aqua';
       this.ctx.font = '80px "Bungee Outline"';
       this.ctx.textAlign = 'center';
       this.ctx.fillText("It's Ok ♡ Try Again", 520, 360);
