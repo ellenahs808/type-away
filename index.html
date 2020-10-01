@@ -31,19 +31,22 @@
     <!-- <h1>Type Away</h1> -->
 
     <div class="side-container">
-        <button onclick="gameInstructions()" class="instructions-btn">
-            <img src="./public/balloon2.gif" alt="balloon" width="110" height="100">
-            Instructions
-        </button>
-        <div id="instructions">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione repellat delectus fugiat voluptas eius fugit ut
-            voluptates reiciendis!
+        <div id="instructions" class="instructions-div">
+            <h1>Instructions:</h1>
+            <p class="instructions">
+                Welcome to Type Away! A typing game where you can uplift your mood by typing positive words and manifest healing energy. The goal of this game is to accurately type the falling words before it hits the bottom.
+            </p>
+            <hr>
+            <p class="instructions">Press ENTER or SPACE after every words typed.</p>
+        
         </div>
 
-        <audio id="game-audio" src="https://asoap-dev.s3-us-west-1.amazonaws.com/type-away/game-audio.mp3" autoplay="autoplay" loop="loop"></audio>
-        <p>🎶</p>
-        <button id="play-audio" class="music-button-styles"><img src="./public/pause-audio.png" alt="" width="150" height="130"></button>
-        <button id="pause-audio" class="clear-music-button music-button-styles"><img src="./public/play.gif" alt="" width="150" height="130"></button>
+        <div class="audio-div">
+            <p class="music-emoji">Music:</p>
+            <audio id="game-audio" src="https://asoap-dev.s3-us-west-1.amazonaws.com/type-away/game-audio.mp3" autoplay="autoplay" loop="loop"></audio>
+            <button id="play-audio" class="music-button-styles"><img src="./public/pause-audio.png" alt="" width="150" height="130"></button>
+            <button id="pause-audio" class="clear-music-button music-button-styles"><img src="./public/play.gif" alt="" width="150" height="130"></button>
+        </div>
 
     </div>
 
