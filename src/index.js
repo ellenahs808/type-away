@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 null;
             }
 
-
             canvas.addEventListener('click', game.start)
             page.addEventListener('keydown', game.start)
         }
@@ -47,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     //Audio
-
     function playAudio() {
         gameAudio.play()
     }
@@ -56,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
         gameAudio.pause()
     }
 
-    let introAudio = document.getElementById('intro-audio')
     let gameAudio = document.getElementById('game-audio')
     const playBtn = document.getElementById('play-audio')
     const pauseBtn = document.getElementById('pause-audio')
@@ -74,9 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
         pauseBtn.setAttribute('class', 'clear-music-button')
         playBtn.removeAttribute('class', 'clear-music-button')
     })
-
-
-
 
 });
 

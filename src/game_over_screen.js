@@ -3,9 +3,7 @@ class GameOverScreen {
         this.ctx = ctx;
         this.canvas = canvas;
 
-    
         this.endCounter = 0;
-
     }
 
 

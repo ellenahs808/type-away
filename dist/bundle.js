@@ -118,20 +118,18 @@ var Game = /*#__PURE__*/function () {
     this.container = {
       width: 1200,
       height: 750
-    }; // this.running = false;
-
+    };
     this.lastTime = Date.now();
     this.words = [];
     this.confettis = [];
     this.score = 0;
     this.startTimer = 0;
     this.endTimer = 0;
-    this.wpm = 0; // this.populateWords = this.populateWords.bind(this)
-
+    this.wpm = 0;
+    this.populateWords = this.populateWords.bind(this);
     this.start = this.start.bind(this);
     this.restart = this.restart.bind(this);
-    this.gameOver = this.gameOver.bind(this); // this.gameOverAnimate = this.gameOverAnimate.bind(this);
-
+    this.gameOver = this.gameOver.bind(this);
     this.gameLoop = this.gameLoop.bind(this);
     this.handleWord = this.handleWord.bind(this);
     this.calculateWPM = this.calculateWPM.bind(this);
@@ -143,9 +141,9 @@ var Game = /*#__PURE__*/function () {
       // debugger
       if (e.button === 0 || e.keyCode === 13) {
         // debugger
-        this.input.style.display = "block"; // this.input.value = "";
-
-        this.input.disabled = false;
+        // this.input.style.display = "block";
+        // // this.input.value = "";
+        // this.input.disabled = false;
         this.canvas.removeEventListener('click', this.start);
         this.page.removeEventListener('keydown', this.start);
         clearInterval(window.startInterval);
@@ -477,7 +475,6 @@ document.addEventListener("DOMContentLoaded", function () {
     gameAudio.pause();
   }
 
-  var introAudio = document.getElementById('intro-audio');
   var gameAudio = document.getElementById('game-audio');
   var playBtn = document.getElementById('play-audio');
   var pauseBtn = document.getElementById('pause-audio');

@@ -20,7 +20,6 @@ class Game {
             height: 750
         }
 
-        // this.running = false;
         this.lastTime = Date.now();
         this.words = [];
         this.confettis = []
@@ -29,11 +28,10 @@ class Game {
         this.endTimer = 0;
         this.wpm = 0;
 
-        // this.populateWords = this.populateWords.bind(this)
+        this.populateWords = this.populateWords.bind(this)
         this.start = this.start.bind(this);
         this.restart = this.restart.bind(this);
         this.gameOver = this.gameOver.bind(this);
-        // this.gameOverAnimate = this.gameOverAnimate.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.handleWord = this.handleWord.bind(this)
         this.calculateWPM = this.calculateWPM.bind(this)
@@ -48,9 +46,9 @@ class Game {
         if (e.button === 0 || e.keyCode === 13) {
             // debugger
 
-            this.input.style.display = "block";
-            // this.input.value = "";
-            this.input.disabled = false;
+            // this.input.style.display = "block";
+            // // this.input.value = "";
+            // this.input.disabled = false;
 
             this.canvas.removeEventListener('click', this.start)
             this.page.removeEventListener('keydown', this.start);
