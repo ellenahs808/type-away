@@ -141,9 +141,9 @@ var Game = /*#__PURE__*/function () {
       // debugger
       if (e.button === 0 || e.keyCode === 13) {
         // debugger
-        // this.input.style.display = "block";
-        // // this.input.value = "";
-        // this.input.disabled = false;
+        this.input.disabled = false;
+        this.input.style.display = 'block';
+        this.input.focus();
         this.canvas.removeEventListener('click', this.start);
         this.page.removeEventListener('keydown', this.start);
         clearInterval(window.startInterval);
@@ -152,18 +152,12 @@ var Game = /*#__PURE__*/function () {
         this.startTimer = Date.now();
         this.restart();
         requestAnimationFrame(this.gameLoop);
-        this.input.disabled = false;
-        this.input.style.display = 'block';
-        this.input.focus();
       }
-    } // deltaTime gives you the amount of time since the last frame/iteration of the loop
-    // you can use that to calculate an amount of time for a new word to show up.
-    // have some logic somewhere to subtract the delta time from a counter and once it hits 0, generate a new random word.
+    } //render game
 
   }, {
     key: "gameLoop",
     value: function gameLoop() {
-      //render
       // debugger
       var loopTest = requestAnimationFrame(this.gameLoop);
       this.input.focus();
@@ -171,7 +165,8 @@ var Game = /*#__PURE__*/function () {
       this.canvas.addEventListener('click', this.input.focus());
       this.input.addEventListener('keydown', this.handleWord);
       this.canvas.removeEventListener("click", this.gameLoop);
-      this.page.removeEventListener("keydown", this.gameLoop);
+      this.page.removeEventListener("keydown", this.gameLoop); //falling words 
+
       var now = Date.now();
       var deltaTime = now - this.lastTime; //gap between last time and now
 
@@ -240,7 +235,8 @@ var Game = /*#__PURE__*/function () {
         });
         this.input.value = "";
       }
-    } // testThis() {
+    } //confetti bombs
+    // testThis() {
     //     this.createConfettis()
     // }
     // generateRandomColor() {
@@ -322,8 +318,8 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "restart",
     value: function restart() {
-      this.wpm = 0;
       this.score = 0;
+      this.wpm = 0;
     }
   }, {
     key: "gameOver",
@@ -435,6 +431,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var input = document.getElementById("typing-form");
   var startScreen = new _start_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, page, input); // game.testThis();
+  //start-screen
 
   var titlePosition = 200;
   var startCounter = 0;

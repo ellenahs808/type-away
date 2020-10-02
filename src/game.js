@@ -46,9 +46,9 @@ class Game {
         if (e.button === 0 || e.keyCode === 13) {
             // debugger
 
-            // this.input.style.display = "block";
-            // // this.input.value = "";
-            // this.input.disabled = false;
+            this.input.disabled = false;
+            this.input.style.display = 'block';
+            this.input.focus();
 
             this.canvas.removeEventListener('click', this.start)
             this.page.removeEventListener('keydown', this.start);
@@ -61,22 +61,13 @@ class Game {
 
             requestAnimationFrame(this.gameLoop)
 
-
-            this.input.disabled = false;
-            this.input.style.display = 'block';
-            this.input.focus();
         }
         
     }
     
     
-    // deltaTime gives you the amount of time since the last frame/iteration of the loop
-    // you can use that to calculate an amount of time for a new word to show up.
-    // have some logic somewhere to subtract the delta time from a counter and once it hits 0, generate a new random word.
-
-    
-
-    gameLoop() {  //render
+    //render game
+    gameLoop() {  
         // debugger
         let loopTest = requestAnimationFrame(this.gameLoop);
 
@@ -90,6 +81,7 @@ class Game {
         this.page.removeEventListener("keydown", this.gameLoop);
 
 
+        //falling words 
         let now = Date.now();
         let deltaTime = now - this.lastTime;  //gap between last time and now
         let randomTime = Math.floor(Math.random() * (3000 - 1050) + 1050);
@@ -120,8 +112,6 @@ class Game {
                     cancelAnimationFrame(loopTest);
                     break;
                 }
-
-                
             }
         }  
     }
@@ -129,7 +119,6 @@ class Game {
 
 
     populateWords() {
-     
         const word = new Word(this.ctx, this.canvas);
 
         let x = Math.floor(Math.random() * (1000 -150)) + 150;
@@ -141,7 +130,6 @@ class Game {
             speedX: 2,
             speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
         });
-
     }
 
 
@@ -163,7 +151,7 @@ class Game {
         }
     }
     
-
+    //confetti bombs
     // testThis() {
     //     this.createConfettis()
     // }
@@ -225,6 +213,7 @@ class Game {
         this.ctx.closePath();
     }
 
+
     drawWPM() {
         // console.log(this.wpm)
         const actualWPM = this.wpm;
@@ -245,15 +234,13 @@ class Game {
           seconds += minutes * 60;
         }
         this.wpm = ((this.score * 60) / seconds).toFixed(2);
-
     }
 
 
 
     restart() {
-        this.wpm = 0;
         this.score = 0;
-
+        this.wpm = 0;
     }
 
 
@@ -267,7 +254,6 @@ class Game {
         this.canvas.removeEventListener("click", this.input.focus());
         this.input.removeEventListener("keydown", this.handleWord);
         
-
         this.ctx.clearRect(0, 0, this.container.width, this.container.height);
         this.gameOverScreen.drawGameOver();
         this.gameOverScreen.drawRestart();
@@ -276,10 +262,8 @@ class Game {
         this.calculateWPM();
         this.drawWPM();
 
-
         this.words = [];
         this.canvas.addEventListener("click", this.start);
-
 
         //flashing restart doesn't work
         // this.gameOverScreen.endCounter += .5;
@@ -288,23 +272,10 @@ class Game {
         //         this.gameOverScreen.drawRestartClick();
         //     }
         // }
-
     }
 
 
-
-
-
-
-    
-
-
-
-
-
 }
-
-
 
 
 

@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // game.testThis();
 
+
+    //start-screen
     let titlePosition = 200;
     let startCounter = 0;
 
@@ -45,14 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+
     //Audio
     function playAudio() {
         gameAudio.play()
     }
     
+    
     function pauseAudio() {
         gameAudio.pause()
     }
+
 
     let gameAudio = document.getElementById('game-audio')
     const playBtn = document.getElementById('play-audio')
