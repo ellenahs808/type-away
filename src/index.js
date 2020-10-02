@@ -8,30 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("game-canvas");
     const ctx = canvas.getContext("2d");
     const input = document.getElementById("typing-form")
-    // let gameAudio = document.getElementById("game-audio");
-
-
-    // window.onload = function () {
-    //   document.getElementById('game-audio').play();
-    // };
-
-    // window.onload = function playAudio() {
-    //     // gameAudio.play();
-    //     // gameAudio.autoplay = true;
-    //     autoplay = "true";
-    //     muted = "false";
-    // }
-
-    // if (page) {
-
-    //     document.getElementById("intro-audio").play();
-    // }
-
-
+ 
 
     const startScreen = new StartScreen(ctx, canvas);
     const game = new Game(canvas, ctx, page, input);
 
+    // game.testThis();
 
     let titlePosition = 200;
     let startCounter = 0;

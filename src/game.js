@@ -21,7 +21,7 @@ class Game {
             height: 750
         }
 
-        this.running = false;
+        // this.running = false;
         this.lastTime = Date.now();
         this.words = [];
         this.confettis = []
@@ -33,9 +33,8 @@ class Game {
         // this.populateWords = this.populateWords.bind(this)
         this.start = this.start.bind(this);
         this.restart = this.restart.bind(this);
-        // this.gameOver = this.gameOver.bind(this);
+        this.gameOver = this.gameOver.bind(this);
         this.gameOverAnimate = this.gameOverAnimate.bind(this);
-        // this.drawWord = this.drawWord.bind(this);
         this.gameLoop = this.gameLoop.bind(this);
         this.handleWord = this.handleWord.bind(this)
         this.calculateWPM = this.calculateWPM.bind(this)
@@ -49,14 +48,23 @@ class Game {
         // debugger
         if (e.button === 0 || e.keyCode === 13) {
             // debugger
-            this.page.removeEventListener('keydown', this.start);
+
+            this.input.style.display = "block";
+            // this.input.value = "";
+            this.input.disabled = false;
+
             this.canvas.removeEventListener('click', this.start)
+            this.page.removeEventListener('keydown', this.start);
+            // this.canvas.removeEventListener("click", location.reload(true));
+            // this.page.removeEventListener("keydown", location.reload(true));
             clearInterval(window.startInterval);
             clearInterval(window.overInterval); 
             this.canvas.className === 'start-screen'
             // this.running = true;
             this.startTimer = Date.now()
             // this.lastTime;
+            this.restart()
+
 
             requestAnimationFrame(this.gameLoop)
 
@@ -75,7 +83,7 @@ class Game {
 
     
 
-    gameLoop(timestamp) {  //render
+    gameLoop() {  //render
         // debugger
         let loopTest = requestAnimationFrame(this.gameLoop);
 
@@ -85,6 +93,9 @@ class Game {
         this.canvas.addEventListener('click', this.input.focus())
         this.input.addEventListener('keydown', this.handleWord)
 
+        this.canvas.removeEventListener("click", this.gameLoop);
+        this.page.removeEventListener("keydown", this.gameLoop);
+        // window.removeEventListener('click', this.gameLoop)
 
 
         let now = Date.now();
@@ -97,27 +108,30 @@ class Game {
         }
 
 
+        //draw words
         for (let i = 0; i < this.words.length; i++) {
+            // debugger
             this.words[i].y -= this.words[i].speedY;
             for (let text in this.words) {
-            let t = this.words[text];
-            this.ctx.beginPath();
-                this.ctx.fillText(t.text, t.x, t.y, 400);
-                this.ctx.fillStyle = "midnightblue";
-                this.ctx.font = '24px "Arima Madurai", cursive'
-            this.ctx.closePath();
+                let t = this.words[text];
+                this.ctx.beginPath();
+                    this.ctx.fillText(t.text, t.x, t.y, 400);
+                    this.ctx.fillStyle = "midnightblue";
+                    this.ctx.font = '24px "Arima Madurai", cursive'
+                this.ctx.closePath();
 
                 if (t.y >= 758 && t.text !== "") {
-                    this.gameOverAnimate();
-                    this.input.style.display = "none";
-                    this.input.value = "";
-                    this.input.disabled = true;
-                    this.endTimer = Date.now();
+                    // debugger
+                    this.gameOverAnimate()
+                    // this.endTimer = Date.now();
+                    // this.calculateWPM();
+                    clearInterval(window.intervalId); 
                     cancelAnimationFrame(loopTest);
-                    this.running = false;
-                    this.calculateWPM();
+                    // this.gameOver();
                     break;
                 }
+
+                
             }
         }  
     }
@@ -144,32 +158,6 @@ class Game {
     }
 
 
-    // drawWord() {
-    //     // debugger
-    //     this.input.focus();
-
-    //     for (let i = 0; i < this.words.length; i++) {
-    //         this.words[i].y -= this.words[i].speedY;
-    //         for (let text in this.words) {
-    //         let t = this.words[text];
-    //         this.ctx.fillText(t.text, t.x, t.y, 200);
-    //         this.ctx.fillStyle = "black";
-    //         this.ctx.font = '23px "Rubik"';
-
-    //             if (t.y >= 758 && t.text !== "") {
-    //                 this.gameOverAnimate();
-    //                 this.input.style.display = "none";
-    //                 this.input.value = "";
-    //                 this.input.disabled = true;
-    //                 this.endTimer = Date.now();
-    //                 this.ctx.clearRect(0, 0, this.container.width, this.container.height)
-    //                 cancelAnimationFrame(this.drawWord);
-    //                 this.calculateWPM();
-    //                 break;
-    //             }
-    //         }
-    //     }      
-    // }
 
 
     handleWord(e) {
@@ -189,8 +177,17 @@ class Game {
     }
     
 
+    // testThis() {
+    //     this.createConfettis()
+    // }
 
     
+    // generateRandomColor() {
+    //     let colors = ['#99FFCC', '#FFF66', '#FF99FF', '#FF00FF', '#FFB266', '#FF6666', '#66CC00', '#9999FF', '#FFCCCC', '#99FFFF', '#00CCCC', '#FF007F', '#C0C0C0', '#DAA520', '#00FA9A', '#00FFFF', '#48D1CC', '#00BFFF']
+    //     return colors[Math.floor(Math.random() * colors.length)];
+    // }
+
+
 
     // createConfettis() {
     //     const confetti = {
@@ -206,27 +203,28 @@ class Game {
     //       total: 50,
     //     };
 
+
     //     for (let i = 0; i < confetti.total; i++) {
-    //     const c = generateRandomRgbColor();
+    //     const c = this.generateRandomColor();
     //     const alpha =
     //         confetti.lowestAlpha +
     //         Math.random() * (confetti.highestAlpha - confetti.lowestAlpha);
-    //     particles.push({
+    //     this.confettis.push({
     //         x: l.x,
     //         y: l.y,
     //         radius:
-    //         particle.lowestRadius +
+    //         confetti.lowestRadius +
     //         Math.random() *
-    //             (particle.highestRadius - particle.lowestRadius),
+    //             (confetti.highestRadius - confetti.lowestRadius),
     //         color: `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${alpha})`,
     //         speedX:
-    //         particle.lowestSpeedX +
+    //         confetti.lowestSpeedX +
     //         Math.random() *
-    //             (particle.highestSpeedX - particle.lowestSpeedX),
+    //             (confetti.highestSpeedX - confetti.lowestSpeedX),
     //         speedY:
-    //         particle.lowestSpeedY +
+    //         confetti.lowestSpeedY +
     //         Math.random() *
-    //             (particle.highestSpeedY - particle.lowestSpeedY),
+    //             (confetti.highestSpeedY - confetti.lowestSpeedY),
     //     });
     //     }
     // }
@@ -266,51 +264,74 @@ class Game {
 
 
 
-    restart(e) {
-        // if (e.keyCode === 13 || e.button === 0) {
-            this.page.removeEventListener('keydown', this.start)  //not working
-            this.running = false;
-            this.score = 0;
-            this.word = new Word(this.ctx, this.canvas);
+    restart() {
+        this.wpm = 0;
+        this.score = 0;
 
-        // }
     }
 
 
 
-    // gameOver(e) {
-    //     // this.page.removeEventListener('keydown', this.play)  //not working
-    //     // debugger
-    //     if (e.keyCode === 13 || e.button === 0) {
-    //         window.overInterval = setInterval(this.gameOverAnimate, 100);
-
-    //         this.canvas.removeEventListener("click", this.input.focus());
-    //         this.input.removeEventListener("keydown", this.handleWord);
-    //         this.input.removeEventListener("input", this.startTimer);
-    //         this.gameLoop()
-    //         // this.canvas.addEventListener("click", this.gameLoop);
-    //         // this.page.addEventListener("keydown", this.gameLoop);
-    //         // this.start()
-    //     }
-    // }
-
+    gameOver() {
+        // debugger
+        // if (e.keyCode === 65) {
+            this.input.style.display = "none";
+            this.input.value = "";
+            this.input.disabled = true;
+            this.canvas.removeEventListener("click", this.input.focus());
+            this.input.removeEventListener("keydown", this.handleWord);
+            
+            window.overInterval = setInterval(this.gameOverAnimate, 100);
+            // break;
+            
+            // debugger
+            // this.start()
+            // }/
+        }
+        
+        
     gameOverAnimate() {
         // debugger
-
-        this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
+        
+        this.input.style.display = "none";
+        this.input.value = "";
+        this.input.disabled = true;
+        this.canvas.removeEventListener("click", this.input.focus());
+        this.input.removeEventListener("keydown", this.handleWord);
+        
+        // window.overInterval = setInterval(this.gameOverAnimate, 100);
+        
+        
+        this.ctx.clearRect(0, 0, this.container.width, this.container.height);
+        
         this.gameOverScreen.drawGameOver();
-        this.gameOverScreen.fade += .05;
+        // this.gameOverScreen.fade += .05;
         this.gameOverScreen.drawRestart();
-        // this.canvas.addEventListener("click", this.gameOver);
-        // this.page.addEventListener("keydown", this.gameOver);
-        // this.gameOver()
         this.drawScoreCount();
+        this.endTimer = Date.now();
+        this.calculateWPM();
         this.drawWPM();
+        // this.canvas.addEventListener("click", location.reload(true));
+        // this.page.addEventListener("keydown", location.reload(true));
+        this.words = [];
+        this.canvas.addEventListener("click", this.start);
+        this.page.addEventListener("keydown", this.start);
+        // window.addEventListener('click', this.gameLoop)
+        
 
 
         // this.restart()
         // this.page.addEventListener('keydown', this.play);  // not working
     }
+
+
+
+
+
+
+    
+
+
 
 
 

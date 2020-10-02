@@ -119,8 +119,8 @@ var Game = /*#__PURE__*/function () {
     this.container = {
       width: 1200,
       height: 750
-    };
-    this.running = false;
+    }; // this.running = false;
+
     this.lastTime = Date.now();
     this.words = [];
     this.confettis = [];
@@ -130,10 +130,9 @@ var Game = /*#__PURE__*/function () {
     this.wpm = 0; // this.populateWords = this.populateWords.bind(this)
 
     this.start = this.start.bind(this);
-    this.restart = this.restart.bind(this); // this.gameOver = this.gameOver.bind(this);
-
-    this.gameOverAnimate = this.gameOverAnimate.bind(this); // this.drawWord = this.drawWord.bind(this);
-
+    this.restart = this.restart.bind(this);
+    this.gameOver = this.gameOver.bind(this);
+    this.gameOverAnimate = this.gameOverAnimate.bind(this);
     this.gameLoop = this.gameLoop.bind(this);
     this.handleWord = this.handleWord.bind(this);
     this.calculateWPM = this.calculateWPM.bind(this);
@@ -145,14 +144,20 @@ var Game = /*#__PURE__*/function () {
       // debugger
       if (e.button === 0 || e.keyCode === 13) {
         // debugger
-        this.page.removeEventListener('keydown', this.start);
+        this.input.style.display = "block"; // this.input.value = "";
+
+        this.input.disabled = false;
         this.canvas.removeEventListener('click', this.start);
+        this.page.removeEventListener('keydown', this.start); // this.canvas.removeEventListener("click", location.reload(true));
+        // this.page.removeEventListener("keydown", location.reload(true));
+
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
         this.canvas.className === 'start-screen'; // this.running = true;
 
         this.startTimer = Date.now(); // this.lastTime;
 
+        this.restart();
         requestAnimationFrame(this.gameLoop);
         this.input.disabled = false;
         this.input.style.display = 'block';
@@ -164,7 +169,7 @@ var Game = /*#__PURE__*/function () {
 
   }, {
     key: "gameLoop",
-    value: function gameLoop(timestamp) {
+    value: function gameLoop() {
       //render
       // debugger
       var loopTest = requestAnimationFrame(this.gameLoop);
@@ -172,6 +177,9 @@ var Game = /*#__PURE__*/function () {
       this.ctx.clearRect(0, 0, this.container.width, this.container.height);
       this.canvas.addEventListener('click', this.input.focus());
       this.input.addEventListener('keydown', this.handleWord);
+      this.canvas.removeEventListener("click", this.gameLoop);
+      this.page.removeEventListener("keydown", this.gameLoop); // window.removeEventListener('click', this.gameLoop)
+
       var now = Date.now();
       var deltaTime = now - this.lastTime; //gap between last time and now
 
@@ -181,9 +189,11 @@ var Game = /*#__PURE__*/function () {
         this.ctx.clearRect(0, 0, this.container.width, this.container.height);
         this.populateWords();
         this.lastTime = now;
-      }
+      } //draw words
+
 
       for (var i = 0; i < this.words.length; i++) {
+        // debugger
         this.words[i].y -= this.words[i].speedY;
 
         for (var text in this.words) {
@@ -195,14 +205,13 @@ var Game = /*#__PURE__*/function () {
           this.ctx.closePath();
 
           if (t.y >= 758 && t.text !== "") {
-            this.gameOverAnimate();
-            this.input.style.display = "none";
-            this.input.value = "";
-            this.input.disabled = true;
-            this.endTimer = Date.now();
-            cancelAnimationFrame(loopTest);
-            this.running = false;
-            this.calculateWPM();
+            // debugger
+            this.gameOverAnimate(); // this.endTimer = Date.now();
+            // this.calculateWPM();
+
+            clearInterval(window.intervalId);
+            cancelAnimationFrame(loopTest); // this.gameOver();
+
             break;
           }
         }
@@ -224,31 +233,7 @@ var Game = /*#__PURE__*/function () {
         speedY: -(Math.random() * (1.0 - 0.9) + 0.9) // speedY: -0.9
 
       });
-    } // drawWord() {
-    //     // debugger
-    //     this.input.focus();
-    //     for (let i = 0; i < this.words.length; i++) {
-    //         this.words[i].y -= this.words[i].speedY;
-    //         for (let text in this.words) {
-    //         let t = this.words[text];
-    //         this.ctx.fillText(t.text, t.x, t.y, 200);
-    //         this.ctx.fillStyle = "black";
-    //         this.ctx.font = '23px "Rubik"';
-    //             if (t.y >= 758 && t.text !== "") {
-    //                 this.gameOverAnimate();
-    //                 this.input.style.display = "none";
-    //                 this.input.value = "";
-    //                 this.input.disabled = true;
-    //                 this.endTimer = Date.now();
-    //                 this.ctx.clearRect(0, 0, this.container.width, this.container.height)
-    //                 cancelAnimationFrame(this.drawWord);
-    //                 this.calculateWPM();
-    //                 break;
-    //             }
-    //         }
-    //     }      
-    // }
-
+    }
   }, {
     key: "handleWord",
     value: function handleWord(e) {
@@ -268,7 +253,14 @@ var Game = /*#__PURE__*/function () {
         });
         this.input.value = "";
       }
-    } // createConfettis() {
+    } // testThis() {
+    //     this.createConfettis()
+    // }
+    // generateRandomColor() {
+    //     let colors = ['#99FFCC', '#FFF66', '#FF99FF', '#FF00FF', '#FFB266', '#FF6666', '#66CC00', '#9999FF', '#FFCCCC', '#99FFFF', '#00CCCC', '#FF007F', '#C0C0C0', '#DAA520', '#00FA9A', '#00FFFF', '#48D1CC', '#00BFFF']
+    //     return colors[Math.floor(Math.random() * colors.length)];
+    // }
+    // createConfettis() {
     //     const confetti = {
     //       decrease: 0.05,
     //       highestAlpha: 0.8,
@@ -282,26 +274,26 @@ var Game = /*#__PURE__*/function () {
     //       total: 50,
     //     };
     //     for (let i = 0; i < confetti.total; i++) {
-    //     const c = generateRandomRgbColor();
+    //     const c = this.generateRandomColor();
     //     const alpha =
     //         confetti.lowestAlpha +
     //         Math.random() * (confetti.highestAlpha - confetti.lowestAlpha);
-    //     particles.push({
+    //     this.confettis.push({
     //         x: l.x,
     //         y: l.y,
     //         radius:
-    //         particle.lowestRadius +
+    //         confetti.lowestRadius +
     //         Math.random() *
-    //             (particle.highestRadius - particle.lowestRadius),
+    //             (confetti.highestRadius - confetti.lowestRadius),
     //         color: `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${alpha})`,
     //         speedX:
-    //         particle.lowestSpeedX +
+    //         confetti.lowestSpeedX +
     //         Math.random() *
-    //             (particle.highestSpeedX - particle.lowestSpeedX),
+    //             (confetti.highestSpeedX - confetti.lowestSpeedX),
     //         speedY:
-    //         particle.lowestSpeedY +
+    //         confetti.lowestSpeedY +
     //         Math.random() *
-    //             (particle.highestSpeedY - particle.lowestSpeedY),
+    //             (confetti.highestSpeedY - confetti.lowestSpeedY),
     //     });
     //     }
     // }
@@ -342,41 +334,49 @@ var Game = /*#__PURE__*/function () {
     }
   }, {
     key: "restart",
-    value: function restart(e) {
-      // if (e.keyCode === 13 || e.button === 0) {
-      this.page.removeEventListener('keydown', this.start); //not working
-
-      this.running = false;
+    value: function restart() {
+      this.wpm = 0;
       this.score = 0;
-      this.word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas); // }
-    } // gameOver(e) {
-    //     // this.page.removeEventListener('keydown', this.play)  //not working
-    //     // debugger
-    //     if (e.keyCode === 13 || e.button === 0) {
-    //         window.overInterval = setInterval(this.gameOverAnimate, 100);
-    //         this.canvas.removeEventListener("click", this.input.focus());
-    //         this.input.removeEventListener("keydown", this.handleWord);
-    //         this.input.removeEventListener("input", this.startTimer);
-    //         this.gameLoop()
-    //         // this.canvas.addEventListener("click", this.gameLoop);
-    //         // this.page.addEventListener("keydown", this.gameLoop);
-    //         // this.start()
-    //     }
-    // }
-
+    }
+  }, {
+    key: "gameOver",
+    value: function gameOver() {
+      // debugger
+      // if (e.keyCode === 65) {
+      this.input.style.display = "none";
+      this.input.value = "";
+      this.input.disabled = true;
+      this.canvas.removeEventListener("click", this.input.focus());
+      this.input.removeEventListener("keydown", this.handleWord);
+      window.overInterval = setInterval(this.gameOverAnimate, 100); // break;
+      // debugger
+      // this.start()
+      // }/
+    }
   }, {
     key: "gameOverAnimate",
     value: function gameOverAnimate() {
       // debugger
-      this.ctx.clearRect(0, 0, this.container.width, this.canvas.height);
-      this.gameOverScreen.drawGameOver();
-      this.gameOverScreen.fade += .05;
-      this.gameOverScreen.drawRestart(); // this.canvas.addEventListener("click", this.gameOver);
-      // this.page.addEventListener("keydown", this.gameOver);
-      // this.gameOver()
+      this.input.style.display = "none";
+      this.input.value = "";
+      this.input.disabled = true;
+      this.canvas.removeEventListener("click", this.input.focus());
+      this.input.removeEventListener("keydown", this.handleWord); // window.overInterval = setInterval(this.gameOverAnimate, 100);
 
+      this.ctx.clearRect(0, 0, this.container.width, this.container.height);
+      this.gameOverScreen.drawGameOver(); // this.gameOverScreen.fade += .05;
+
+      this.gameOverScreen.drawRestart();
       this.drawScoreCount();
-      this.drawWPM(); // this.restart()
+      this.endTimer = Date.now();
+      this.calculateWPM();
+      this.drawWPM(); // this.canvas.addEventListener("click", location.reload(true));
+      // this.page.addEventListener("keydown", location.reload(true));
+
+      this.words = [];
+      this.canvas.addEventListener("click", this.start);
+      this.page.addEventListener("keydown", this.start); // window.addEventListener('click', this.gameLoop)
+      // this.restart()
       // this.page.addEventListener('keydown', this.play);  // not working
     }
   }]);
@@ -461,22 +461,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var page = document.getElementById("page");
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
-  var input = document.getElementById("typing-form"); // let gameAudio = document.getElementById("game-audio");
-  // window.onload = function () {
-  //   document.getElementById('game-audio').play();
-  // };
-  // window.onload = function playAudio() {
-  //     // gameAudio.play();
-  //     // gameAudio.autoplay = true;
-  //     autoplay = "true";
-  //     muted = "false";
-  // }
-  // if (page) {
-  //     document.getElementById("intro-audio").play();
-  // }
-
+  var input = document.getElementById("typing-form");
   var startScreen = new _start_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
-  var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, page, input);
+  var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, ctx, page, input); // game.testThis();
+
   var titlePosition = 200;
   var startCounter = 0;
 
@@ -611,7 +599,7 @@ var Words = /*#__PURE__*/function () {
   function Words(ctx, canvas) {
     _classCallCheck(this, Words);
 
-    this.words = ['able', 'abundance', 'accelerate', 'accept', 'ace', 'achieve', 'active', 'adorable', 'advance', 'adventure', 'alight', 'alive', 'always', 'amaze', 'amuse', 'aspire', 'ascend', 'attain', 'attraction', 'awake', 'aware', 'awesome', 'beaming', 'beauty', 'believe', 'bliss', 'bounty', 'brave', 'bravo', 'bubbly', 'blessing', 'blessed', 'blissful', 'bloom', 'balance', 'blossom', 'balanced', 'brilliant', 'beloved', 'best', 'better', 'bold', 'boldness', 'bright', 'breezy', 'brilliance', 'bravery', 'belonging', 'breathtaking', 'blazing', 'beauty', 'benevolent', 'befriend', 'best', 'buddy', 'calm', 'capable', 'care', 'charm', 'cheers', 'chirp', 'classy', 'clean', 'clear', 'comfort', 'comic', 'confirm', 'confidence', 'celebrate', 'content', 'cool', 'cosy', 'courage', 'creative', 'cuddly', 'cushy', 'cute', 'constant', 'champion', 'caring', 'certainty', 'clarity', 'connection', 'carefree', 'clever', 'credible', 'curious', 'delicate', 'delicious', 'delight', 'dreamy', 'dynamic', 'dazzling', 'delight', 'divine', 'do', 'daring', 'deserving', 'decent', 'desire', 'devoted', 'drive', 'diversity', 'dependable', 'dedication', 'discovery', 'earnest', 'easy', 'ecstatic', 'effective', 'efficient', 'effortless', 'elegant', 'enchanting', 'energetic', 'energized', 'engaging', 'essential', 'esteemed', 'ethical', 'excellent', 'exciting', 'exquisite', 'empathy', 'ease', 'easily', 'education', 'empower', 'encourage', 'enable', 'elated', 'engaged', 'energy', 'educated', 'elegance', 'effective', 'excited', 'enjoy', 'endurance', 'experience', 'expertise', 'enjoyment', 'eager', 'elevate', 'evolve', 'expression', 'empowering', 'enchanted', 'ecstatic', 'equal', 'exemplary', 'earnest', 'enduring', 'expansive', 'exuberant ', 'endearing', 'fabulous', 'fair', 'familiar', 'fantastic', 'favorable', 'fitting', 'free', 'fresh', 'flourish', 'fortunate', 'friendly', 'fun', 'funny', 'flowing', 'faith', 'faithful', 'favorite', 'family ', 'focus', 'fulfilled', 'forgiving ', 'fancy', 'fearless', 'festive', 'fit', 'fortitude', 'freedom', 'generous', 'genius', 'genuine', 'giving', 'glow', 'glowing', 'good', 'gorgeous', 'graceful', 'great', 'grin', 'growing', 'genius', 'gift', 'genial', 'generate', 'giddy', 'glad', 'growth', 'guidance', 'guide', 'give', 'giving', 'good', 'goodness', 'grand', 'great', 'goddess', 'gorgeous', 'grounded', 'glory', 'grow', 'gratitude', 'gratitude', 'goodwill', 'gentle', 'happy', 'heal', 'healing', 'healthy', 'heart', 'heartfelt', 'hearty', 'heavenly', 'honest', 'honor', 'hug', 'hope', 'humble', 'happily', 'honesty', 'harmony', 'health', 'hopeful', 'hope', 'healthy', 'humor', 'hero', 'holy', 'harness', 'holiness', 'honor', 'helpful', 'holistic', 'humorous', 'handsome', 'hilarious', 'idea', 'ideal', 'imagine', 'impressive', 'independent', 'innovate', 'instant', 'intuitive', 'inventive', 'inspire', 'inspiration', 'improve', 'influence', 'insight', 'integrity', 'intention', 'intrepid', 'innocence', 'intense', 'intimacy', 'investment', 'invincible', 'incredible', 'ingenious', 'insightful', 'inspiring', 'impartial', 'jovial', 'joy', 'jubilant', 'joyful', 'joyous', 'jolly', 'justice', 'just', 'kind', 'kindness', 'knowing', 'kiss', 'keen', 'kiss', 'keep', 'king', 'laugh', 'light', 'legendary', 'learned', 'lively', 'lovely', 'lucid', 'lucky', 'luminous', 'like', 'love', 'leader', 'loving', 'liberty', 'luxury', 'life', 'lesson', 'logical', 'lovable', 'loyal', 'manifest', 'merit', 'moving', 'more', 'mercy', 'modest', 'mindful', 'magic', 'memorable', 'memories', 'miracle', 'majestic', 'natural', 'nice', 'now', 'nurture', 'noble', 'namaste', 'nourish', 'neat', 'nirvana', 'nourish', 'new', 'one', 'open', 'optimist', 'open', 'onwards', 'overcome', 'oneness', 'outgoing', 'original', 'opportunity', 'positive', 'paradise', 'pleasant', 'poised', 'polished', 'powerful', 'prepared', 'productive', 'progress', 'prominent', 'protected', 'proud', 'passion', 'persistent', 'peace', 'prosper', 'precision', 'proactive', 'punctual', 'patience', 'power', 'playful', 'play', 'pleased', 'pleasing', 'purpose', 'prepared', 'present', 'polite', 'possible', 'priceless', 'progress', 'privacy', 'privilege', 'patient', 'persuasive', 'protective', 'passionate', 'queen', 'quality', 'ready', 'refined', 'refreshing', 'rejoice', 'relax', 'respect', 'reliable', 'remarkable', 'restored', 'reward', 'rewarding', 'right', 'robust', 'recommend', 'relieve', 'relieved', 'refreshed', 'resource', 'reliable', 'responsible', 'renewed', 'resilient', 'reverence', 'romance', 'rainbow', 'risk', 'revived', 'revelation', 'rest', 'rested', 'righteous', 'respectful', 'resolute', 'receptive', 'safe', 'secure', 'simple', 'simplify', 'skilled', 'skillful', 'smile', 'soulful', 'sparkle', 'special', 'spirited', 'spiritual', 'stupendous', 'stunning', 'success', 'successful', 'sunny', 'superb', 'supportive', 'sacred', 'selfless', 'serene', 'serenity', 'security', 'soulful', 'service', 'still', 'surprise', 'soul', 'shelter', 'space', 'save', 'sincere', 'strive', 'splendid', 'supreme', 'smart', 'shine', 'sublime', 'sunny', 'strong', 'strength', 'sentimental', 'shift', 'synergy', 'stretch', 'stellar', 'superb', 'supportive', 'steadfast', 'sensitive', 'steady', 'spunky', 'sensible', 'selective', 'trust', 'true', 'thrill', 'thrive', 'tranquil', 'transform', 'truth', 'tact', 'teach', 'team', 'thankful', 'tender', 'timely', 'tough', 'talented', 'thoughtful', 'uplift', 'up', 'ultimate', 'useful', 'unity', 'unique', 'valued', 'vibrant', 'victory', 'variety', 'virtue', 'versatile', 'welcome', 'well', 'whole', 'wholesome', 'willing', 'wonder', 'wow', 'worthy', 'warm', 'win', 'wise', 'wellness', 'yes', 'yummy', 'youth', 'youthful', 'zeal', 'zest', 'zing'];
+    this.words = ['able', 'abundance', 'accelerate', 'accept', 'ace', 'achieve', 'active', 'adorable', 'advance', 'adventure', 'alight', 'alive', 'always', 'amaze', 'amuse', 'aspire', 'ascend', 'attain', 'attraction', 'awake', 'aware', 'awesome', 'beaming', 'beauty', 'believe', 'bliss', 'bounty', 'brave', 'bravo', 'bubbly', 'blessing', 'blessed', 'blissful', 'bloom', 'balance', 'blossom', 'balanced', 'brilliant', 'beloved', 'best', 'better', 'bold', 'boldness', 'bright', 'breezy', 'brilliance', 'bravery', 'belonging', 'breathtaking', 'blazing', 'beauty', 'benevolent', 'befriend', 'best', 'buddy', 'calm', 'capable', 'care', 'charm', 'cheers', 'chirp', 'classy', 'clean', 'clear', 'comfort', 'comic', 'confirm', 'confidence', 'celebrate', 'content', 'cool', 'cosy', 'courage', 'creative', 'cuddly', 'cushy', 'cute', 'constant', 'champion', 'caring', 'certainty', 'clarity', 'connection', 'carefree', 'clever', 'credible', 'curious', 'delicate', 'delicious', 'delight', 'dreamy', 'dynamic', 'dazzling', 'delight', 'divine', 'do', 'daring', 'deserving', 'decent', 'desire', 'devoted', 'drive', 'diversity', 'dependable', 'dedication', 'discovery', 'earnest', 'easy', 'ecstatic', 'effective', 'efficient', 'effortless', 'elegant', 'enchanting', 'energetic', 'energized', 'engaging', 'essential', 'esteemed', 'ethical', 'excellent', 'exciting', 'exquisite', 'empathy', 'ease', 'easily', 'empower', 'encourage', 'enable', 'elated', 'engaged', 'energy', 'educated', 'elegance', 'effective', 'excited', 'enjoy', 'endurance', 'experience', 'expertise', 'enjoyment', 'eager', 'elevate', 'evolve', 'expression', 'empowering', 'enchanted', 'ecstatic', 'equal', 'exemplary', 'earnest', 'enduring', 'expansive', 'exuberant ', 'endearing', 'fabulous', 'fair', 'familiar', 'fantastic', 'favorable', 'fitting', 'free', 'fresh', 'flourish', 'fortunate', 'friendly', 'fun', 'funny', 'flowing', 'faith', 'faithful', 'favorite', 'family ', 'focus', 'fulfilled', 'forgiving ', 'fancy', 'fearless', 'festive', 'fit', 'fortitude', 'freedom', 'generous', 'genius', 'genuine', 'giving', 'glow', 'glowing', 'good', 'gorgeous', 'grace', 'graceful', 'great', 'grin', 'growing', 'genius', 'gift', 'genial', 'generate', 'giddy', 'glad', 'growth', 'guidance', 'guide', 'give', 'giving', 'good', 'goodness', 'grand', 'great', 'goddess', 'gorgeous', 'grounded', 'glory', 'grow', 'gratitude', 'gratitude', 'goodwill', 'gentle', 'happy', 'heal', 'healing', 'healthy', 'heart', 'heartfelt', 'hearty', 'heavenly', 'honest', 'honor', 'hug', 'hope', 'humble', 'happily', 'honesty', 'harmony', 'health', 'hopeful', 'hope', 'healthy', 'humor', 'hero', 'holy', 'harness', 'holiness', 'honor', 'helpful', 'holistic', 'humorous', 'handsome', 'hilarious', 'idea', 'ideal', 'imagine', 'impressive', 'independent', 'innovate', 'instant', 'intuitive', 'inventive', 'inspire', 'inspiration', 'improve', 'influence', 'insight', 'integrity', 'intention', 'intrepid', 'innocence', 'intense', 'intimacy', 'investment', 'invincible', 'incredible', 'ingenious', 'insightful', 'inspiring', 'impartial', 'jovial', 'joy', 'jubilant', 'joyful', 'joyous', 'jolly', 'kind', 'kindness', 'knowing', 'kiss', 'keen', 'kiss', 'keep', 'king', 'laugh', 'light', 'legendary', 'learned', 'lively', 'lovely', 'lucid', 'lucky', 'luminous', 'like', 'love', 'leader', 'loving', 'liberty', 'luxury', 'life', 'lesson', 'logical', 'lovable', 'loyal', 'manifest', 'merit', 'moving', 'more', 'mercy', 'modest', 'mindful', 'magic', 'memorable', 'memories', 'miracle', 'majestic', 'natural', 'nice', 'now', 'nurture', 'noble', 'namaste', 'nourish', 'neat', 'nirvana', 'nourish', 'new', 'one', 'open', 'optimist', 'open', 'onwards', 'overcome', 'oneness', 'outgoing', 'original', 'opportunity', 'positive', 'paradise', 'pleasant', 'poised', 'polished', 'powerful', 'prepared', 'productive', 'progress', 'prominent', 'protected', 'proud', 'passion', 'persistent', 'peace', 'prosper', 'precision', 'proactive', 'punctual', 'patience', 'power', 'playful', 'play', 'pleased', 'pleasing', 'purpose', 'prepared', 'present', 'polite', 'possible', 'priceless', 'progress', 'privacy', 'privilege', 'patient', 'persuasive', 'protective', 'passionate', 'queen', 'quality', 'ready', 'refined', 'refreshing', 'rejoice', 'relax', 'respect', 'reliable', 'remarkable', 'restored', 'reward', 'rewarding', 'right', 'robust', 'recommend', 'relieve', 'relieved', 'refreshed', 'resource', 'reliable', 'responsible', 'renewed', 'resilient', 'reverence', 'romance', 'rainbow', 'revived', 'revelation', 'rest', 'rested', 'righteous', 'respectful', 'resolute', 'receptive', 'safe', 'secure', 'simple', 'simplify', 'skilled', 'skillful', 'smile', 'soulful', 'sparkle', 'special', 'spirited', 'spiritual', 'stupendous', 'stunning', 'success', 'successful', 'sunny', 'superb', 'supportive', 'sacred', 'selfless', 'serene', 'serenity', 'security', 'soulful', 'service', 'still', 'surprise', 'sunshine', 'soul', 'shelter', 'space', 'save', 'sincere', 'strive', 'splendid', 'supreme', 'smart', 'shine', 'sublime', 'sunny', 'strong', 'strength', 'sentimental', 'shift', 'synergy', 'stretch', 'stellar', 'superb', 'supportive', 'steadfast', 'sensitive', 'steady', 'spunky', 'sensible', 'selective', 'trust', 'true', 'thrill', 'thrive', 'tranquil', 'transform', 'truth', 'tact', 'teach', 'team', 'thankful', 'tender', 'timely', 'tough', 'talented', 'thoughtful', 'uplift', 'up', 'ultimate', 'useful', 'unity', 'unique', 'valued', 'vibrant', 'victory', 'variety', 'virtue', 'versatile', 'welcome', 'well', 'whole', 'wholesome', 'willing', 'wonder', 'wow', 'worthy', 'warm', 'win', 'wise', 'wellness', 'yes', 'yummy', 'youth', 'youthful', 'zeal', 'zest', 'zing'];
     this.ctx = ctx;
     this.canvas = canvas;
   }
