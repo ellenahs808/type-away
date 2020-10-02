@@ -130,8 +130,8 @@ var Game = /*#__PURE__*/function () {
 
     this.start = this.start.bind(this);
     this.restart = this.restart.bind(this);
-    this.gameOver = this.gameOver.bind(this);
-    this.gameOverAnimate = this.gameOverAnimate.bind(this);
+    this.gameOver = this.gameOver.bind(this); // this.gameOverAnimate = this.gameOverAnimate.bind(this);
+
     this.gameLoop = this.gameLoop.bind(this);
     this.handleWord = this.handleWord.bind(this);
     this.calculateWPM = this.calculateWPM.bind(this);
@@ -173,8 +173,7 @@ var Game = /*#__PURE__*/function () {
       this.canvas.addEventListener('click', this.input.focus());
       this.input.addEventListener('keydown', this.handleWord);
       this.canvas.removeEventListener("click", this.gameLoop);
-      this.page.removeEventListener("keydown", this.gameLoop); // window.removeEventListener('click', this.gameLoop)
-
+      this.page.removeEventListener("keydown", this.gameLoop);
       var now = Date.now();
       var deltaTime = now - this.lastTime; //gap between last time and now
 
@@ -201,11 +200,9 @@ var Game = /*#__PURE__*/function () {
 
           if (t.y >= 758 && t.text !== "") {
             // debugger
-            this.gameOverAnimate(); // this.endTimer = Date.now();
-            // this.calculateWPM();
-
-            clearInterval(window.intervalId); // this.gameOver();
-
+            this.gameOver();
+            clearInterval(window.intervalId);
+            this.gameOverScreen.endCounter = 0;
             cancelAnimationFrame(loopTest);
             break;
           }
@@ -216,9 +213,7 @@ var Game = /*#__PURE__*/function () {
     key: "populateWords",
     value: function populateWords() {
       var word = new _words__WEBPACK_IMPORTED_MODULE_0__["default"](this.ctx, this.canvas);
-      var x = Math.floor(Math.random() * (1000 - 150)) + 150; // let x = 85
-      // let y = 55
-
+      var x = Math.floor(Math.random() * (1000 - 150)) + 150;
       var y = -10;
       this.words.push({
         x: x,
@@ -324,7 +319,7 @@ var Game = /*#__PURE__*/function () {
         seconds += minutes * 60;
       }
 
-      this.wpm = (this.score * 60 / seconds).toFixed(2); // this.drawWPM()
+      this.wpm = (this.score * 60 / seconds).toFixed(2);
     }
   }, {
     key: "restart",
@@ -336,42 +331,26 @@ var Game = /*#__PURE__*/function () {
     key: "gameOver",
     value: function gameOver() {
       // debugger
-      // if (e.keyCode === 65) {
       this.input.style.display = "none";
       this.input.value = "";
       this.input.disabled = true;
       this.canvas.removeEventListener("click", this.input.focus());
       this.input.removeEventListener("keydown", this.handleWord);
-      window.overInterval = setInterval(this.gameOverAnimate, 100); // break;
-      // debugger
-      // this.start()
-      // }/
-    }
-  }, {
-    key: "gameOverAnimate",
-    value: function gameOverAnimate() {
-      // debugger
-      this.input.style.display = "none";
-      this.input.value = "";
-      this.input.disabled = true;
-      this.canvas.removeEventListener("click", this.input.focus());
-      this.input.removeEventListener("keydown", this.handleWord); // window.overInterval = setInterval(this.gameOverAnimate, 100);
-
       this.ctx.clearRect(0, 0, this.container.width, this.container.height);
-      this.gameOverScreen.drawGameOver(); // this.gameOverScreen.fade += .05;
-
+      this.gameOverScreen.drawGameOver();
       this.gameOverScreen.drawRestart();
       this.drawScoreCount();
       this.endTimer = Date.now();
       this.calculateWPM();
-      this.drawWPM(); // this.canvas.addEventListener("click", location.reload(true));
-      // this.page.addEventListener("keydown", location.reload(true));
-
+      this.drawWPM();
       this.words = [];
-      this.canvas.addEventListener("click", this.start); // this.page.addEventListener("keydown", this.start);
-      // window.addEventListener('click', this.gameLoop)
-      // this.restart()
-      // this.page.addEventListener('keydown', this.play);  // not working
+      this.canvas.addEventListener("click", this.start); //flashing restart doesn't work
+      // this.gameOverScreen.endCounter += .5;
+      // if (this.gameOverScreen.endCounter >= 1.0) {
+      //     if (this.gameOverScreen.endCounter % 10 >= 5) {
+      //         this.gameOverScreen.drawRestartClick();
+      //     }
+      // }
     }
   }]);
 
@@ -402,8 +381,7 @@ var GameOverScreen = /*#__PURE__*/function () {
     _classCallCheck(this, GameOverScreen);
 
     this.ctx = ctx;
-    this.canvas = canvas; // this.fade = 0;
-
+    this.canvas = canvas;
     this.endCounter = 0;
   }
 
@@ -422,8 +400,7 @@ var GameOverScreen = /*#__PURE__*/function () {
     key: "drawRestart",
     value: function drawRestart() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = "khaki"; // this.ctx.fillStyle = `rgba(240, 230, 140, ${this.fade}`;
-
+      this.ctx.fillStyle = "khaki";
       this.ctx.textAlign = "center";
       this.ctx.font = '36px "Fredericka the Great", cursive';
       this.ctx.fillText("click to restart", 520, 540);
