@@ -113,8 +113,7 @@ var Game = /*#__PURE__*/function () {
     this.canvas = canvas;
     this.ctx = ctx;
     this.page = page;
-    this.input = input; // this.wordList = wordList;
-
+    this.input = input;
     this.gameOverScreen = new _game_over_screen__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
     this.container = {
       width: 1200,
@@ -148,15 +147,11 @@ var Game = /*#__PURE__*/function () {
 
         this.input.disabled = false;
         this.canvas.removeEventListener('click', this.start);
-        this.page.removeEventListener('keydown', this.start); // this.canvas.removeEventListener("click", location.reload(true));
-        // this.page.removeEventListener("keydown", location.reload(true));
-
+        this.page.removeEventListener('keydown', this.start);
         clearInterval(window.startInterval);
         clearInterval(window.overInterval);
-        this.canvas.className === 'start-screen'; // this.running = true;
-
-        this.startTimer = Date.now(); // this.lastTime;
-
+        this.canvas.className === 'start-screen';
+        this.startTimer = Date.now();
         this.restart();
         requestAnimationFrame(this.gameLoop);
         this.input.disabled = false;
@@ -209,9 +204,9 @@ var Game = /*#__PURE__*/function () {
             this.gameOverAnimate(); // this.endTimer = Date.now();
             // this.calculateWPM();
 
-            clearInterval(window.intervalId);
-            cancelAnimationFrame(loopTest); // this.gameOver();
+            clearInterval(window.intervalId); // this.gameOver();
 
+            cancelAnimationFrame(loopTest);
             break;
           }
         }
@@ -230,8 +225,7 @@ var Game = /*#__PURE__*/function () {
         y: y,
         text: word.randomizeWord(),
         speedX: 2,
-        speedY: -(Math.random() * (1.0 - 0.9) + 0.9) // speedY: -0.9
-
+        speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
       });
     }
   }, {
@@ -374,8 +368,8 @@ var Game = /*#__PURE__*/function () {
       // this.page.addEventListener("keydown", location.reload(true));
 
       this.words = [];
-      this.canvas.addEventListener("click", this.start);
-      this.page.addEventListener("keydown", this.start); // window.addEventListener('click', this.gameLoop)
+      this.canvas.addEventListener("click", this.start); // this.page.addEventListener("keydown", this.start);
+      // window.addEventListener('click', this.gameLoop)
       // this.restart()
       // this.page.addEventListener('keydown', this.play);  // not working
     }
@@ -408,7 +402,8 @@ var GameOverScreen = /*#__PURE__*/function () {
     _classCallCheck(this, GameOverScreen);
 
     this.ctx = ctx;
-    this.canvas = canvas;
+    this.canvas = canvas; // this.fade = 0;
+
     this.endCounter = 0;
   }
 
@@ -427,10 +422,11 @@ var GameOverScreen = /*#__PURE__*/function () {
     key: "drawRestart",
     value: function drawRestart() {
       this.ctx.beginPath();
-      this.ctx.fillStyle = "khaki";
+      this.ctx.fillStyle = "khaki"; // this.ctx.fillStyle = `rgba(240, 230, 140, ${this.fade}`;
+
       this.ctx.textAlign = "center";
       this.ctx.font = '36px "Fredericka the Great", cursive';
-      this.ctx.fillText("click refresh to restart", 520, 540);
+      this.ctx.fillText("click to restart", 520, 540);
       this.ctx.fill();
       this.ctx.closePath();
     }
@@ -599,7 +595,7 @@ var Words = /*#__PURE__*/function () {
   function Words(ctx, canvas) {
     _classCallCheck(this, Words);
 
-    this.words = ['able', 'abundance', 'accelerate', 'accept', 'ace', 'achieve', 'active', 'adorable', 'advance', 'adventure', 'alight', 'alive', 'always', 'amaze', 'amuse', 'aspire', 'ascend', 'attain', 'attraction', 'awake', 'aware', 'awesome', 'beaming', 'beauty', 'believe', 'bliss', 'bounty', 'brave', 'bravo', 'bubbly', 'blessing', 'blessed', 'blissful', 'bloom', 'balance', 'blossom', 'balanced', 'brilliant', 'beloved', 'best', 'better', 'bold', 'boldness', 'bright', 'breezy', 'brilliance', 'bravery', 'belonging', 'breathtaking', 'blazing', 'beauty', 'benevolent', 'befriend', 'best', 'buddy', 'calm', 'capable', 'care', 'charm', 'cheers', 'chirp', 'classy', 'clean', 'clear', 'comfort', 'comic', 'confirm', 'confidence', 'celebrate', 'content', 'cool', 'cosy', 'courage', 'creative', 'cuddly', 'cushy', 'cute', 'constant', 'champion', 'caring', 'certainty', 'clarity', 'connection', 'carefree', 'clever', 'credible', 'curious', 'delicate', 'delicious', 'delight', 'dreamy', 'dynamic', 'dazzling', 'delight', 'divine', 'do', 'daring', 'deserving', 'decent', 'desire', 'devoted', 'drive', 'diversity', 'dependable', 'dedication', 'discovery', 'earnest', 'easy', 'ecstatic', 'effective', 'efficient', 'effortless', 'elegant', 'enchanting', 'energetic', 'energized', 'engaging', 'essential', 'esteemed', 'ethical', 'excellent', 'exciting', 'exquisite', 'empathy', 'ease', 'easily', 'empower', 'encourage', 'enable', 'elated', 'engaged', 'energy', 'educated', 'elegance', 'effective', 'excited', 'enjoy', 'endurance', 'experience', 'expertise', 'enjoyment', 'eager', 'elevate', 'evolve', 'expression', 'empowering', 'enchanted', 'ecstatic', 'equal', 'exemplary', 'earnest', 'enduring', 'expansive', 'exuberant ', 'endearing', 'fabulous', 'fair', 'familiar', 'fantastic', 'favorable', 'fitting', 'free', 'fresh', 'flourish', 'fortunate', 'friendly', 'fun', 'funny', 'flowing', 'faith', 'faithful', 'favorite', 'family ', 'focus', 'fulfilled', 'forgiving ', 'fancy', 'fearless', 'festive', 'fit', 'fortitude', 'freedom', 'generous', 'genius', 'genuine', 'giving', 'glow', 'glowing', 'good', 'gorgeous', 'grace', 'graceful', 'great', 'grin', 'growing', 'genius', 'gift', 'genial', 'generate', 'giddy', 'glad', 'growth', 'guidance', 'guide', 'give', 'giving', 'good', 'goodness', 'grand', 'great', 'goddess', 'gorgeous', 'grounded', 'glory', 'grow', 'gratitude', 'gratitude', 'goodwill', 'gentle', 'happy', 'heal', 'healing', 'healthy', 'heart', 'heartfelt', 'hearty', 'heavenly', 'honest', 'honor', 'hug', 'hope', 'humble', 'happily', 'honesty', 'harmony', 'health', 'hopeful', 'hope', 'healthy', 'humor', 'hero', 'holy', 'harness', 'holiness', 'honor', 'helpful', 'holistic', 'humorous', 'handsome', 'hilarious', 'idea', 'ideal', 'imagine', 'impressive', 'independent', 'innovate', 'instant', 'intuitive', 'inventive', 'inspire', 'inspiration', 'improve', 'influence', 'insight', 'integrity', 'intention', 'intrepid', 'innocence', 'intense', 'intimacy', 'investment', 'invincible', 'incredible', 'ingenious', 'insightful', 'inspiring', 'impartial', 'jovial', 'joy', 'jubilant', 'joyful', 'joyous', 'jolly', 'kind', 'kindness', 'knowing', 'kiss', 'keen', 'kiss', 'keep', 'king', 'laugh', 'light', 'legendary', 'learned', 'lively', 'lovely', 'lucid', 'lucky', 'luminous', 'like', 'love', 'leader', 'loving', 'liberty', 'luxury', 'life', 'lesson', 'logical', 'lovable', 'loyal', 'manifest', 'merit', 'moving', 'more', 'mercy', 'modest', 'mindful', 'magic', 'memorable', 'memories', 'miracle', 'majestic', 'natural', 'nice', 'now', 'nurture', 'noble', 'namaste', 'nourish', 'neat', 'nirvana', 'nourish', 'new', 'one', 'open', 'optimist', 'open', 'onwards', 'overcome', 'oneness', 'outgoing', 'original', 'opportunity', 'positive', 'paradise', 'pleasant', 'poised', 'polished', 'powerful', 'prepared', 'productive', 'progress', 'prominent', 'protected', 'proud', 'passion', 'persistent', 'peace', 'prosper', 'precision', 'proactive', 'punctual', 'patience', 'power', 'playful', 'play', 'pleased', 'pleasing', 'purpose', 'prepared', 'present', 'polite', 'possible', 'priceless', 'progress', 'privacy', 'privilege', 'patient', 'persuasive', 'protective', 'passionate', 'queen', 'quality', 'ready', 'refined', 'refreshing', 'rejoice', 'relax', 'respect', 'reliable', 'remarkable', 'restored', 'reward', 'rewarding', 'right', 'robust', 'recommend', 'relieve', 'relieved', 'refreshed', 'resource', 'reliable', 'responsible', 'renewed', 'resilient', 'reverence', 'romance', 'rainbow', 'revived', 'revelation', 'rest', 'rested', 'righteous', 'respectful', 'resolute', 'receptive', 'safe', 'secure', 'simple', 'simplify', 'skilled', 'skillful', 'smile', 'soulful', 'sparkle', 'special', 'spirited', 'spiritual', 'stupendous', 'stunning', 'success', 'successful', 'sunny', 'superb', 'supportive', 'sacred', 'selfless', 'serene', 'serenity', 'security', 'soulful', 'service', 'still', 'surprise', 'sunshine', 'soul', 'shelter', 'space', 'save', 'sincere', 'strive', 'splendid', 'supreme', 'smart', 'shine', 'sublime', 'sunny', 'strong', 'strength', 'sentimental', 'shift', 'synergy', 'stretch', 'stellar', 'superb', 'supportive', 'steadfast', 'sensitive', 'steady', 'spunky', 'sensible', 'selective', 'trust', 'true', 'thrill', 'thrive', 'tranquil', 'transform', 'truth', 'tact', 'teach', 'team', 'thankful', 'tender', 'timely', 'tough', 'talented', 'thoughtful', 'uplift', 'up', 'ultimate', 'useful', 'unity', 'unique', 'valued', 'vibrant', 'victory', 'variety', 'virtue', 'versatile', 'welcome', 'well', 'whole', 'wholesome', 'willing', 'wonder', 'wow', 'worthy', 'warm', 'win', 'wise', 'wellness', 'yes', 'yummy', 'youth', 'youthful', 'zeal', 'zest', 'zing'];
+    this.words = ['able', 'abundance', 'accelerate', 'accept', 'ace', 'achieve', 'active', 'adorable', 'advance', 'adventure', 'alight', 'alive', 'always', 'amaze', 'amuse', 'aspire', 'ascend', 'attain', 'attraction', 'awake', 'aware', 'awesome', 'beaming', 'beauty', 'believe', 'bliss', 'bounty', 'brave', 'bravo', 'bubbly', 'blessing', 'blessed', 'blissful', 'bloom', 'balance', 'blossom', 'balanced', 'brilliant', 'beloved', 'best', 'better', 'bold', 'boldness', 'bright', 'breezy', 'brilliance', 'bravery', 'belonging', 'breathtaking', 'blazing', 'beauty', 'benevolent', 'befriend', 'best', 'buddy', 'calm', 'capable', 'care', 'charm', 'cheers', 'chirp', 'classy', 'clean', 'clear', 'comfort', 'comic', 'confirm', 'confidence', 'celebrate', 'content', 'cool', 'cosy', 'courage', 'creative', 'cuddly', 'cushy', 'cute', 'constant', 'champion', 'caring', 'certainty', 'clarity', 'connection', 'carefree', 'clever', 'credible', 'curious', 'delicate', 'delicious', 'delight', 'dreamy', 'dynamic', 'dazzling', 'delight', 'divine', 'do', 'daring', 'deserving', 'decent', 'desire', 'devoted', 'drive', 'diversity', 'dependable', 'dedication', 'discovery', 'earnest', 'easy', 'ecstatic', 'effective', 'efficient', 'effortless', 'elegant', 'enchanting', 'energetic', 'energized', 'engaging', 'essential', 'esteemed', 'ethical', 'excellent', 'exciting', 'exquisite', 'empathy', 'ease', 'easily', 'empower', 'encourage', 'enable', 'elated', 'engaged', 'energy', 'educated', 'elegance', 'effective', 'excited', 'enjoy', 'endurance', 'experience', 'expertise', 'enjoyment', 'eager', 'elevate', 'evolve', 'expression', 'empowering', 'enchanted', 'ecstatic', 'equal', 'exemplary', 'earnest', 'enduring', 'expansive', 'exuberant ', 'endearing', 'fabulous', 'fair', 'familiar', 'fantastic', 'favorable', 'fitting', 'free', 'fresh', 'flourish', 'fortunate', 'friendly', 'fun', 'funny', 'flowing', 'faith', 'faithful', 'favorite', 'family ', 'focus', 'fulfilled', 'forgiving ', 'fancy', 'fearless', 'festive', 'fit', 'fortitude', 'freedom', 'generous', 'genius', 'genuine', 'giving', 'glow', 'glowing', 'good', 'gorgeous', 'grace', 'graceful', 'great', 'grin', 'growing', 'genius', 'gift', 'genial', 'generate', 'giddy', 'glad', 'growth', 'guidance', 'guide', 'give', 'giving', 'good', 'goodness', 'grand', 'great', 'goddess', 'gorgeous', 'grounded', 'glory', 'grow', 'gratitude', 'gratitude', 'goodwill', 'gentle', 'happy', 'heal', 'healing', 'healthy', 'heart', 'heartfelt', 'hearty', 'heavenly', 'honest', 'honor', 'hug', 'hope', 'humble', 'happily', 'honesty', 'harmony', 'health', 'hopeful', 'hope', 'healthy', 'humor', 'hero', 'holy', 'harness', 'holiness', 'honor', 'helpful', 'holistic', 'humorous', 'handsome', 'hilarious', 'idea', 'ideal', 'imagine', 'impressive', 'independent', 'innovate', 'instant', 'intuitive', 'inventive', 'inspire', 'inspiration', 'improve', 'influence', 'insight', 'integrity', 'intention', 'intrepid', 'innocence', 'intense', 'intimacy', 'investment', 'invincible', 'incredible', 'ingenious', 'insightful', 'inspiring', 'impartial', 'jovial', 'joy', 'jubilant', 'joyful', 'joyous', 'jolly', 'kind', 'kindness', 'knowing', 'kiss', 'keen', 'kiss', 'keep', 'king', 'laugh', 'light', 'legendary', 'learned', 'lively', 'lovely', 'lucid', 'lucky', 'luminous', 'like', 'love', 'leader', 'loving', 'liberty', 'luxury', 'life', 'lesson', 'logical', 'lovable', 'loyal', 'manifest', 'merit', 'moving', 'more', 'mercy', 'modest', 'mindful', 'magic', 'memorable', 'memories', 'miracle', 'majestic', 'natural', 'nice', 'now', 'nurture', 'noble', 'namaste', 'nourish', 'neat', 'nirvana', 'nourish', 'new', 'one', 'open', 'optimist', 'open', 'onwards', 'overcome', 'oneness', 'outgoing', 'original', 'opportunity', 'positive', 'paradise', 'pleasant', 'poised', 'polished', 'powerful', 'prepared', 'productive', 'progress', 'prominent', 'protected', 'proud', 'passion', 'persistent', 'peace', 'prosper', 'precision', 'proactive', 'punctual', 'patience', 'power', 'playful', 'play', 'pleased', 'pleasing', 'purpose', 'prepared', 'present', 'polite', 'possible', 'priceless', 'progress', 'privacy', 'patient', 'persuasive', 'protective', 'passionate', 'queen', 'quality', 'ready', 'refined', 'refreshing', 'rejoice', 'relax', 'respect', 'reliable', 'remarkable', 'restored', 'reward', 'rewarding', 'right', 'robust', 'recommend', 'relieve', 'relieved', 'refreshed', 'resource', 'reliable', 'responsible', 'renewed', 'resilient', 'reverence', 'romance', 'rainbow', 'revived', 'revelation', 'rest', 'rested', 'righteous', 'respectful', 'resolute', 'receptive', 'safe', 'secure', 'simple', 'simplify', 'skilled', 'skillful', 'smile', 'soulful', 'sparkle', 'special', 'spirited', 'spiritual', 'stupendous', 'stunning', 'success', 'successful', 'sunny', 'superb', 'supportive', 'sacred', 'selfless', 'serene', 'serenity', 'security', 'soulful', 'service', 'still', 'surprise', 'sunshine', 'soul', 'shelter', 'space', 'save', 'sincere', 'strive', 'splendid', 'supreme', 'smart', 'shine', 'sublime', 'sunny', 'strong', 'strength', 'sentimental', 'shift', 'synergy', 'stretch', 'stellar', 'superb', 'supportive', 'steadfast', 'sensitive', 'steady', 'spunky', 'sensible', 'selective', 'trust', 'true', 'thrill', 'thrive', 'tranquil', 'transform', 'truth', 'tact', 'teach', 'team', 'thankful', 'tender', 'timely', 'tough', 'talented', 'thoughtful', 'uplift', 'up', 'ultimate', 'useful', 'unity', 'unique', 'valued', 'vibrant', 'victory', 'variety', 'virtue', 'versatile', 'welcome', 'well', 'whole', 'wholesome', 'willing', 'wonder', 'wow', 'worthy', 'warm', 'win', 'wise', 'wellness', 'yes', 'yummy', 'youth', 'youthful', 'zeal', 'zest', 'zing'];
     this.ctx = ctx;
     this.canvas = canvas;
   }

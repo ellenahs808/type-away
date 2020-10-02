@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-
             canvas.addEventListener('click', game.start)
             page.addEventListener('keydown', game.start)
         }

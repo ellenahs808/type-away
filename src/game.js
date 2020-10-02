@@ -9,8 +9,7 @@ class Game {
         this.canvas = canvas;
         this.ctx = ctx;
         this.page = page;
-        this.input = input;
-        // this.wordList = wordList;
+        this.input = input
 
 
         this.gameOverScreen = new GameOverScreen(ctx, canvas);
@@ -55,14 +54,10 @@ class Game {
 
             this.canvas.removeEventListener('click', this.start)
             this.page.removeEventListener('keydown', this.start);
-            // this.canvas.removeEventListener("click", location.reload(true));
-            // this.page.removeEventListener("keydown", location.reload(true));
             clearInterval(window.startInterval);
             clearInterval(window.overInterval); 
             this.canvas.className === 'start-screen'
-            // this.running = true;
             this.startTimer = Date.now()
-            // this.lastTime;
             this.restart()
 
 
@@ -126,8 +121,8 @@ class Game {
                     // this.endTimer = Date.now();
                     // this.calculateWPM();
                     clearInterval(window.intervalId); 
-                    cancelAnimationFrame(loopTest);
                     // this.gameOver();
+                    cancelAnimationFrame(loopTest);
                     break;
                 }
 
@@ -152,7 +147,6 @@ class Game {
             text: word.randomizeWord(),
             speedX: 2,
             speedY: -(Math.random() * (1.0 - 0.9) + 0.9)
-            // speedY: -0.9
         });
 
     }
@@ -315,7 +309,7 @@ class Game {
         // this.page.addEventListener("keydown", location.reload(true));
         this.words = [];
         this.canvas.addEventListener("click", this.start);
-        this.page.addEventListener("keydown", this.start);
+        // this.page.addEventListener("keydown", this.start);
         // window.addEventListener('click', this.gameLoop)
         
 
