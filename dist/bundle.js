@@ -235,52 +235,7 @@ var Game = /*#__PURE__*/function () {
         });
         this.input.value = "";
       }
-    } //confetti bombs
-    // testThis() {
-    //     this.createConfettis()
-    // }
-    // generateRandomColor() {
-    //     let colors = ['#99FFCC', '#FFF66', '#FF99FF', '#FF00FF', '#FFB266', '#FF6666', '#66CC00', '#9999FF', '#FFCCCC', '#99FFFF', '#00CCCC', '#FF007F', '#C0C0C0', '#DAA520', '#00FA9A', '#00FFFF', '#48D1CC', '#00BFFF']
-    //     return colors[Math.floor(Math.random() * colors.length)];
-    // }
-    // createConfettis() {
-    //     const confetti = {
-    //       decrease: 0.05,
-    //       highestAlpha: 0.8,
-    //       highestRadius: 5,
-    //       highestSpeedX: 5,
-    //       highestSpeedY: 5,
-    //       lowestAlpha: 0.4,
-    //       lowestRadius: 2,
-    //       lowestSpeedX: -5,
-    //       lowestSpeedY: -5,
-    //       total: 50,
-    //     };
-    //     for (let i = 0; i < confetti.total; i++) {
-    //     const c = this.generateRandomColor();
-    //     const alpha =
-    //         confetti.lowestAlpha +
-    //         Math.random() * (confetti.highestAlpha - confetti.lowestAlpha);
-    //     this.confettis.push({
-    //         x: l.x,
-    //         y: l.y,
-    //         radius:
-    //         confetti.lowestRadius +
-    //         Math.random() *
-    //             (confetti.highestRadius - confetti.lowestRadius),
-    //         color: `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${alpha})`,
-    //         speedX:
-    //         confetti.lowestSpeedX +
-    //         Math.random() *
-    //             (confetti.highestSpeedX - confetti.lowestSpeedX),
-    //         speedY:
-    //         confetti.lowestSpeedY +
-    //         Math.random() *
-    //             (confetti.highestSpeedY - confetti.lowestSpeedY),
-    //     });
-    //     }
-    // }
-
+    }
   }, {
     key: "drawScoreCount",
     value: function drawScoreCount() {
