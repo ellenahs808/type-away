@@ -8,3 +8,7 @@ Press enter to play. The objective is to finish typing all words that are presen
 ## Technologies
 * Javascript
 * HTML5 Canvas
+
+![Main](demo/type-away-gif.gif)
+
+User can login, sign up and logout securely. A demo login is available for demonstration purposes. 
