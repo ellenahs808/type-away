@@ -10,6 +10,7 @@ A Javascript type-based game that tests a user's capabilities in type accuracy a
 ## Technologies
 * Javascript
 * HTML5 Canvas
+* CSS3
 
 ![Main](demo/type-away-gif.gif)
 
