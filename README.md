@@ -1,6 +1,6 @@
 # Type Away
 
-A type-based game that tests the user's capabilities in type accuracy and speed.
+A Javascript type-based game that tests a user's capabilities in type accuracy and speed.
 
 [<img src="demo/play-button.png">](https://ellenahs808.github.io/type-away/)
 
